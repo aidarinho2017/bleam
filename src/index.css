@@ -165,7 +165,7 @@
   
   .glow-effect::before {
     content: '';
-    @apply absolute inset-0 rounded-inherit bg-gradient-to-r from-primary/20 to-accent/20 blur-xl -z-10;
+    @apply absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/20 to-accent/20 blur-xl -z-10;
   }
   
   .text-gradient {
