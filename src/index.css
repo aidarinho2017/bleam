@@ -1,42 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Bleam Design System - Dark theme with purple/blue accents */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark theme base colors */
+    --background: 240 10% 3.9%;
+    --background-secondary: 240 6% 6.5%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 6% 6.5%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 6% 6.5%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Purple/Blue accent system */
+    --primary: 248 53% 58%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 253 91% 68%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 248 53% 58%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 248 53% 58%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom Bleam colors */
+    --bleam-purple: 248 53% 58%;
+    --bleam-blue: 217 91% 60%;
+    --bleam-dark: 240 10% 3.9%;
+    --bleam-darker: 240 15% 2%;
+    --bleam-light: 240 6% 6.5%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--bleam-purple)), hsl(var(--bleam-blue)));
+    --gradient-radial: radial-gradient(ellipse at center, hsl(var(--bleam-purple) / 0.15), transparent 70%);
+    --gradient-hero: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--bleam-darker)) 100%);
+    
+    /* Shadows and glows */
+    --shadow-glow: 0 0 50px hsl(var(--bleam-purple) / 0.3);
+    --shadow-card: 0 4px 24px hsl(var(--bleam-darker) / 0.4);
+    --shadow-button: 0 4px 14px hsl(var(--bleam-purple) / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +125,94 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+    background: var(--gradient-hero);
+  }
+}
+
+@layer components {
+  /* Bleam component styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium px-6 py-3 rounded-xl;
+    @apply transition-all duration-300 hover:shadow-[var(--shadow-button)] hover:scale-105;
+    @apply border border-primary/20 backdrop-blur-sm;
+  }
+  
+  .btn-secondary {
+    @apply bg-card/50 backdrop-blur-sm border border-border text-foreground font-medium px-6 py-3 rounded-xl;
+    @apply transition-all duration-300 hover:bg-card/80 hover:border-primary/50;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-foreground/80 font-medium px-4 py-2 rounded-lg;
+    @apply transition-all duration-300 hover:text-foreground hover:bg-card/30;
+  }
+  
+  .card-glass {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl;
+    @apply shadow-[var(--shadow-card)] transition-all duration-300;
+  }
+  
+  .input-field {
+    @apply bg-input/50 border border-border text-foreground placeholder:text-muted-foreground;
+    @apply rounded-xl px-4 py-3 transition-all duration-300;
+    @apply focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none;
+  }
+  
+  .glow-effect {
+    @apply relative;
+  }
+  
+  .glow-effect::before {
+    content: '';
+    @apply absolute inset-0 rounded-inherit bg-gradient-to-r from-primary/20 to-accent/20 blur-xl -z-10;
+  }
+  
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.8s ease-out forwards;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
   }
 }
