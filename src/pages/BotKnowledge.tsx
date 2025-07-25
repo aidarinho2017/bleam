@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Upload, FileText, Database, Trash2, Edit, Save, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Upload, FileText, Database, Trash2, Edit, Save, X, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -196,6 +197,14 @@ const BotKnowledge = () => {
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          <div className="flex items-center mb-6">
+            <Link to="/dashboard">
+              <Button variant="outline" size="sm" className="btn-secondary">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Dashboard
+              </Button>
+            </Link>
+          </div>
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gradient mb-4">
               Bot Knowledge Management

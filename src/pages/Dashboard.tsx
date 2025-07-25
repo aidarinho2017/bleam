@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Bot, LogOut, Plus, BarChart3, Settings, Users, Send, MessageSquare, QrCode, Play, Square, Brain } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import { authAPI } from '@/lib/auth';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
 import { useToast } from '@/hooks/use-toast';
@@ -20,6 +22,8 @@ const Dashboard = () => {
   const [webhookUrl, setWebhookUrl] = useState('');
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -34,6 +38,16 @@ const Dashboard = () => {
     
     // Load connected bots
     loadBots();
+    
+    // Setup WebSocket connection for QR codes
+    setupWebSocket();
+    
+    // Cleanup WebSocket on unmount
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
   }, [navigate]);
 
   const loadBots = async () => {
@@ -46,6 +60,43 @@ const Dashboard = () => {
       setWhatsAppSessions(whatsappData);
     } catch (error) {
       console.error('Failed to load bots:', error);
+    }
+  };
+
+  const setupWebSocket = () => {
+    try {
+      const ws = new WebSocket('ws://localhost:8080/ws/qr');
+      wsRef.current = ws;
+      
+      ws.onopen = () => {
+        console.log('WebSocket connected for QR codes');
+      };
+      
+      ws.onmessage = (event) => {
+        try {
+          const qrData = JSON.parse(event.data);
+          if (qrData.qrCode) {
+            setQrCode(qrData.qrCode);
+            setShowQrModal(true);
+            toast({
+              title: 'QR Code Generated',
+              description: 'Scan with WhatsApp to connect your bot'
+            });
+          }
+        } catch (error) {
+          console.error('Error parsing QR data:', error);
+        }
+      };
+      
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+      
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+      };
+    } catch (error) {
+      console.error('Failed to setup WebSocket:', error);
     }
   };
 
@@ -97,12 +148,11 @@ const Dashboard = () => {
   const handleConnectWhatsApp = async () => {
     setLoading(true);
     try {
-      const result = await botPlatformsAPI.connectWhatsApp();
-      setQrCode(result.qrCode);
+      await botPlatformsAPI.connectWhatsApp();
       
       toast({
-        title: 'Success',
-        description: 'QR Code generated! Scan with WhatsApp to connect.'
+        title: 'WhatsApp Bot Created',
+        description: 'Generating QR code... Please wait.'
       });
     } catch (error: any) {
       toast({
@@ -138,13 +188,6 @@ const Dashboard = () => {
     }
   };
 
-  const stats = [
-    { label: 'Active Bots', value: '3', icon: Bot },
-    { label: 'Messages Today', value: '1,247', icon: BarChart3 },
-    { label: 'Conversations', value: '89', icon: Users },
-    { label: 'Response Rate', value: '98%', icon: Settings },
-  ];
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -171,31 +214,6 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div 
-                key={stat.label}
-                className="card-glass p-6 animate-slide-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-2 rounded-lg bg-primary/20">
-                    <Icon className="w-5 h-5 text-primary" />
-                  </div>
-                </div>
-                <div className="text-2xl font-bold text-foreground mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {stat.label}
-                </div>
-              </div>
-            );
-          })}
-        </div>
 
         {/* Main Dashboard Content */}
         <div className="grid lg:grid-cols-3 gap-8">
@@ -325,16 +343,6 @@ const Dashboard = () => {
                   {loading ? 'Generating QR...' : 'Generate QR Code'}
                 </Button>
 
-                {qrCode && (
-                  <div className="bg-card/50 rounded-lg p-4 text-center">
-                    <div className="w-32 h-32 mx-auto bg-white rounded-lg flex items-center justify-center mb-3">
-                      <QrCode className="w-16 h-16 text-gray-600" />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Scan this QR code with WhatsApp to connect your bot
-                    </p>
-                  </div>
-                )}
               </div>
 
               {/* Connected WhatsApp Sessions */}
@@ -384,6 +392,32 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+
+      {/* QR Code Modal */}
+      <Dialog open={showQrModal} onOpenChange={setShowQrModal}>
+        <DialogContent className="card-glass max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-foreground text-center">Scan QR Code</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col items-center space-y-4">
+            {qrCode && (
+              <div className="p-4 bg-white rounded-lg glow-effect">
+                <QRCodeSVG value={qrCode} size={200} />
+              </div>
+            )}
+            <p className="text-sm text-muted-foreground text-center">
+              Open WhatsApp on your phone and scan this QR code to connect your bot
+            </p>
+            <Button 
+              onClick={() => setShowQrModal(false)}
+              variant="outline"
+              className="btn-secondary"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
