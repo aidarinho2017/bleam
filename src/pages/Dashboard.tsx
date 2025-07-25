@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Bot, LogOut, Plus, BarChart3, Settings, Users, Send, MessageSquare, QrCode, Play, Square, Brain } from 'lucide-react';
-import { QRCodeSVG } from 'qrcode.react';
+import QRCode from 'react-qr-code';
 import { authAPI } from '@/lib/auth';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
 import { useToast } from '@/hooks/use-toast';
@@ -402,7 +402,7 @@ const Dashboard = () => {
           <div className="flex flex-col items-center space-y-4">
             {qrCode && (
               <div className="p-4 bg-white rounded-lg glow-effect">
-                <QRCodeSVG value={qrCode} size={200} />
+                <QRCode value={qrCode} size={200} />
               </div>
             )}
             <p className="text-sm text-muted-foreground text-center">
