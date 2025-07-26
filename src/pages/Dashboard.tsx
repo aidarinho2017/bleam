@@ -288,7 +288,7 @@ const Dashboard = () => {
                           <Bot className="w-4 h-4 text-blue-400 mr-3" />
                           <div>
                             <p className="text-sm font-medium text-foreground">
-                              {bot.name || `Bot ${bot.token.slice(0, 10)}...`}
+                              {bot.name || `Bot ${bot.token?.slice(0, 10) || 'Unknown'}...`}
                             </p>
                             <Badge variant={bot.status === 'ACTIVE' ? 'default' : 'secondary'} className="text-xs">
                               {bot.status}
@@ -356,7 +356,7 @@ const Dashboard = () => {
                           <MessageSquare className="w-4 h-4 text-green-400 mr-3" />
                           <div>
                             <p className="text-sm font-medium text-foreground">
-                              {session.nickname || `Session ${session.id.slice(0, 8)}...`}
+                              {session.nickname || `Session ${session.id?.slice(0, 8) || 'Unknown'}...`}
                             </p>
                             <Badge variant={session.status === 'ACTIVE' ? 'default' : 'secondary'} className="text-xs">
                               {session.status}
