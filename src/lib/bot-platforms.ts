@@ -60,7 +60,7 @@ export const botPlatformsAPI = {
   },
 
   // Bot control APIs
-  startBot: async (platformType: 'telegram' | 'whatsapp') => {
+  startBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP') => {
     try {
       const response = await axios.post(`${API_BASE_URL}/${platformType}/start`);
       return { success: true, data: response.data };
@@ -69,7 +69,7 @@ export const botPlatformsAPI = {
     }
   },
 
-  stopBot: async (platformType: 'telegram' | 'whatsapp') => {
+  stopBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP') => {
     try {
       const response = await axios.post(`${API_BASE_URL}/${platformType}/stop`);
       return { success: true, data: response.data };

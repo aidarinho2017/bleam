@@ -1,11 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Bot, LogOut, Plus, BarChart3, Settings, Users, Send, MessageSquare, QrCode, Play, Square, Brain } from 'lucide-react';
-import QRCode from 'react-qr-code';
+import { Bot, LogOut, BarChart3, Settings, Send, MessageSquare, Play, Square, Brain } from 'lucide-react';
 import { authAPI } from '@/lib/auth';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
 import { useToast } from '@/hooks/use-toast';
@@ -20,10 +18,8 @@ const Dashboard = () => {
   const [whatsappSessions, setWhatsAppSessions] = useState<WhatsAppSession[]>([]);
   const [telegramToken, setTelegramToken] = useState('');
   const [webhookUrl, setWebhookUrl] = useState('');
-  const [qrCode, setQrCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showQrModal, setShowQrModal] = useState(false);
-  const wsRef = useRef<WebSocket | null>(null);
+  const [whatsappCreated, setWhatsappCreated] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -38,16 +34,6 @@ const Dashboard = () => {
     
     // Load connected bots
     loadBots();
-    
-    // Setup WebSocket connection for QR codes
-    setupWebSocket();
-    
-    // Cleanup WebSocket on unmount
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
   }, [navigate]);
 
   const loadBots = async () => {
@@ -63,40 +49,26 @@ const Dashboard = () => {
     }
   };
 
-  const setupWebSocket = () => {
+  const handleCreateWhatsApp = async () => {
+    setLoading(true);
     try {
-      const ws = new WebSocket('ws://localhost:8080/ws/qr');
-      wsRef.current = ws;
+      await botPlatformsAPI.connectWhatsApp();
       
-      ws.onopen = () => {
-        console.log('WebSocket connected for QR codes');
-      };
+      toast({
+        title: 'WhatsApp Bot Created',
+        description: 'WhatsApp bot has been created successfully!'
+      });
       
-      ws.onmessage = (event) => {
-        try {
-          const qrData = JSON.parse(event.data);
-          if (qrData.qrCode) {
-            setQrCode(qrData.qrCode);
-            setShowQrModal(true);
-            toast({
-              title: 'QR Code Generated',
-              description: 'Scan with WhatsApp to connect your bot'
-            });
-          }
-        } catch (error) {
-          console.error('Error parsing QR data:', error);
-        }
-      };
-      
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-      
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-      };
-    } catch (error) {
-      console.error('Failed to setup WebSocket:', error);
+      setWhatsappCreated(true);
+      loadBots();
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -145,32 +117,14 @@ const Dashboard = () => {
     }
   };
 
-  const handleConnectWhatsApp = async () => {
-    setLoading(true);
-    try {
-      await botPlatformsAPI.connectWhatsApp();
-      
-      toast({
-        title: 'WhatsApp Bot Created',
-        description: 'Generating QR code... Please wait.'
-      });
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive'
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleToggleBot = async (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => {
     try {
+      const platformType = type === 'whatsapp' ? 'WHATSAPP' : type;
       if (action === 'start') {
-        await botPlatformsAPI.startBot(type);
+        await botPlatformsAPI.startBot(platformType);
       } else {
-        await botPlatformsAPI.stopBot(type);
+        await botPlatformsAPI.stopBot(platformType);
       }
       
       toast({
@@ -333,16 +287,39 @@ const Dashboard = () => {
 
               {/* WhatsApp Connection */}
               <div className="bg-card/30 rounded-lg p-4 mb-6">
-                <h3 className="text-sm font-medium text-foreground mb-3">Connect New WhatsApp Bot</h3>
-                <Button 
-                  onClick={handleConnectWhatsApp}
-                  disabled={loading}
-                  className="btn-primary mb-4"
-                >
-                  <QrCode className="w-4 h-4 mr-2" />
-                  {loading ? 'Generating QR...' : 'Generate QR Code'}
-                </Button>
-
+                <h3 className="text-sm font-medium text-foreground mb-3">WhatsApp Bot Management</h3>
+                {!whatsappCreated && whatsappSessions.length === 0 && (
+                  <Button 
+                    onClick={handleCreateWhatsApp}
+                    disabled={loading}
+                    className="btn-primary mb-4"
+                  >
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
+                  </Button>
+                )}
+                
+                {(whatsappCreated || whatsappSessions.length > 0) && (
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => handleToggleBot('whatsapp', 'start')}
+                      disabled={loading}
+                      className="btn-primary"
+                    >
+                      <Play className="w-4 h-4 mr-2" />
+                      Start WhatsApp Bot
+                    </Button>
+                    <Button 
+                      onClick={() => handleToggleBot('whatsapp', 'stop')}
+                      disabled={loading}
+                      variant="outline"
+                      className="btn-secondary"
+                    >
+                      <Square className="w-4 h-4 mr-2" />
+                      Stop WhatsApp Bot
+                    </Button>
+                  </div>
+                )}
               </div>
 
               {/* Connected WhatsApp Sessions */}
@@ -393,31 +370,6 @@ const Dashboard = () => {
         </div>
       </main>
 
-      {/* QR Code Modal */}
-      <Dialog open={showQrModal} onOpenChange={setShowQrModal}>
-        <DialogContent className="card-glass max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-foreground text-center">Scan QR Code</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col items-center space-y-4">
-            {qrCode && (
-              <div className="p-4 bg-white rounded-lg glow-effect">
-                <QRCode value={qrCode} size={200} />
-              </div>
-            )}
-            <p className="text-sm text-muted-foreground text-center">
-              Open WhatsApp on your phone and scan this QR code to connect your bot
-            </p>
-            <Button 
-              onClick={() => setShowQrModal(false)}
-              variant="outline"
-              className="btn-secondary"
-            >
-              Close
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
