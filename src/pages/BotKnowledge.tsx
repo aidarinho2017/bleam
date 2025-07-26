@@ -49,7 +49,7 @@ const BotKnowledge = () => {
     setIsLoading(true);
     try {
       await botKnowledgeAPI.createKnowledge({
-        sourceType: 'TEXT',
+        sourceType: 'MANUAL_INPUT',
         content: textContent
       });
       toast({
