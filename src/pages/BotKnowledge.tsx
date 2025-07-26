@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Upload, FileText, Database, Trash2, Edit, Save, X, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from '@/hooks/use-toast';
 import { botKnowledgeAPI } from '@/lib/bot-knowledge';
 import * as XLSX from 'xlsx';
@@ -16,7 +15,6 @@ const BotKnowledge = () => {
   const [editContent, setEditContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [activeTab, setActiveTab] = useState('paste');
 
   const fetchKnowledge = useCallback(async () => {
     try {
@@ -215,96 +213,10 @@ const BotKnowledge = () => {
             </p>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              <TabsTrigger value="paste" className="flex items-center gap-2">
-                <FileText className="w-4 h-4" />
-                Paste Text
-              </TabsTrigger>
-              <TabsTrigger value="upload" className="flex items-center gap-2">
-                <Upload className="w-4 h-4" />
-                Upload File
-              </TabsTrigger>
-              <TabsTrigger value="manage" className="flex items-center gap-2">
-                <Database className="w-4 h-4" />
-                Uploaded Knowledge
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="paste" className="space-y-6">
-              <div className="glass-card p-6">
-                <h3 className="text-xl font-semibold mb-4">Paste Your Content</h3>
-                <p className="text-muted-foreground mb-6">
-                  Enter or paste the text content you want your bot to learn from
-                </p>
-                
-                <Textarea
-                  placeholder="Paste your content here... (e.g., FAQ, product descriptions, company information)"
-                  value={textContent}
-                  onChange={(e) => setTextContent(e.target.value)}
-                  className="min-h-[300px] glow-border resize-none"
-                />
-                
-                <div className="flex justify-end mt-6">
-                  <Button 
-                    onClick={handleTextSubmit}
-                    disabled={isLoading || !textContent.trim()}
-                    className="glow-effect"
-                  >
-                    {isLoading ? 'Uploading...' : 'Upload Knowledge'}
-                  </Button>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="upload" className="space-y-6">
-              <div className="glass-card p-6">
-                <h3 className="text-xl font-semibold mb-4">Upload File</h3>
-                <p className="text-muted-foreground mb-6">
-                  Upload a .txt or .xlsx file containing your bot's knowledge base
-                </p>
-                
-                <div
-                  className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 cursor-pointer hover:border-primary/50 ${
-                    isDragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
-                  }`}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  onClick={() => document.getElementById('file-input')?.click()}
-                >
-                  <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                  <h4 className="text-lg font-medium mb-2">
-                    {isDragOver ? 'Drop your file here' : 'Choose file or drag and drop'}
-                  </h4>
-                  <p className="text-muted-foreground">
-                    Supports .txt and .xlsx files (max 10MB)
-                  </p>
-                  <input
-                    id="file-input"
-                    type="file"
-                    accept=".txt,.xlsx"
-                    onChange={handleFileSelect}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                </div>
-
-                {uploadedContent && (
-                  <div className="mt-6">
-                    <h4 className="text-lg font-medium mb-3">File Preview:</h4>
-                    <div className="bg-secondary/10 rounded-lg p-4 max-h-60 overflow-y-auto">
-                      <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-                        {uploadedContent.slice(0, 1000)}
-                        {uploadedContent.length > 1000 && '...'}
-                      </pre>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="manage" className="space-y-6">
-              <div className="glass-card p-6">
+          <div className="glass-card p-6">
+            {existingKnowledge ? (
+              // CRUD Section - Show when knowledge exists
+              <div>
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h3 className="text-xl font-semibold">Knowledge Base Management</h3>
@@ -312,7 +224,7 @@ const BotKnowledge = () => {
                       View, edit, and manage your bot's knowledge base
                     </p>
                   </div>
-                  {existingKnowledge && !isEditing && (
+                  {!isEditing && (
                     <div className="flex gap-2">
                       <Button variant="outline" onClick={handleEdit}>
                         <Edit className="w-4 h-4 mr-2" />
@@ -326,84 +238,154 @@ const BotKnowledge = () => {
                   )}
                 </div>
 
-                {existingKnowledge ? (
+                {isEditing ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Database className="w-5 h-5 text-primary" />
+                      <h4 className="text-lg font-medium">Editing Knowledge Content</h4>
+                    </div>
+                    <Textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      className="min-h-[300px] glow-border"
+                      placeholder="Update your bot's knowledge content..."
+                    />
+                    <div className="flex gap-2 justify-end">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setIsEditing(false)}
+                        disabled={isLoading}
+                      >
+                        <X className="w-4 h-4 mr-2" />
+                        Cancel
+                      </Button>
+                      <Button 
+                        onClick={handleSaveEdit}
+                        disabled={isLoading || !editContent.trim()}
+                        className="glow-effect"
+                      >
+                        <Save className="w-4 h-4 mr-2" />
+                        {isLoading ? 'Updating...' : 'Update Knowledge'}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
                   <div>
-                    {isEditing ? (
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-2 mb-4">
-                          <Database className="w-5 h-5 text-primary" />
-                          <h4 className="text-lg font-medium">Editing Knowledge Content</h4>
-                        </div>
-                        <Textarea
-                          value={editContent}
-                          onChange={(e) => setEditContent(e.target.value)}
-                          className="min-h-[300px] glow-border"
-                          placeholder="Update your bot's knowledge content..."
-                        />
-                        <div className="flex gap-2 justify-end">
-                          <Button 
-                            variant="outline" 
-                            onClick={() => setIsEditing(false)}
-                            disabled={isLoading}
-                          >
-                            <X className="w-4 h-4 mr-2" />
-                            Cancel
-                          </Button>
-                          <Button 
-                            onClick={handleSaveEdit}
-                            disabled={isLoading || !editContent.trim()}
-                            className="glow-effect"
-                          >
-                            <Save className="w-4 h-4 mr-2" />
-                            {isLoading ? 'Updating...' : 'Update Knowledge'}
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="flex items-center gap-2 mb-4">
-                          <Database className="w-5 h-5 text-primary" />
-                          <h4 className="text-lg font-medium">Current Knowledge Content</h4>
-                          <span className="text-sm text-muted-foreground">
-                            ({existingKnowledge.length} characters)
-                          </span>
-                        </div>
-                        <div className="bg-secondary/10 rounded-lg p-4 max-h-96 overflow-y-auto border">
-                          <pre className="text-sm whitespace-pre-wrap leading-relaxed">
-                            {existingKnowledge}
+                    <div className="flex items-center gap-2 mb-4">
+                      <Database className="w-5 h-5 text-primary" />
+                      <h4 className="text-lg font-medium">Current Knowledge Content</h4>
+                      <span className="text-sm text-muted-foreground">
+                        ({existingKnowledge.length} characters)
+                      </span>
+                    </div>
+                    <div className="bg-secondary/10 rounded-lg p-4 max-h-96 overflow-y-auto border">
+                      <pre className="text-sm whitespace-pre-wrap leading-relaxed">
+                        {existingKnowledge}
+                      </pre>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Upload/Create Section - Show when no knowledge exists
+              <div>
+                <div className="text-center mb-8">
+                  <h3 className="text-xl font-semibold mb-4">Create Your Bot's Knowledge Base</h3>
+                  <p className="text-muted-foreground">
+                    Upload a file or paste content to get started with your bot's knowledge base
+                  </p>
+                </div>
+
+                <div className="space-y-8">
+                  {/* File Upload Section */}
+                  <div>
+                    <h4 className="text-lg font-medium mb-4 flex items-center gap-2">
+                      <Upload className="w-5 h-5" />
+                      Upload File
+                    </h4>
+                    <p className="text-muted-foreground mb-4">
+                      Upload a .txt or .xlsx file containing your bot's knowledge base
+                    </p>
+                    
+                    <div
+                      className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 cursor-pointer hover:border-primary/50 ${
+                        isDragOver ? 'border-primary bg-primary/5' : 'border-muted-foreground/30'
+                      }`}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      onClick={() => document.getElementById('file-input')?.click()}
+                    >
+                      <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                      <h5 className="text-lg font-medium mb-2">
+                        {isDragOver ? 'Drop your file here' : 'Choose file or drag and drop'}
+                      </h5>
+                      <p className="text-muted-foreground">
+                        Supports .txt and .xlsx files (max 10MB)
+                      </p>
+                      <input
+                        id="file-input"
+                        type="file"
+                        accept=".txt,.xlsx"
+                        onChange={handleFileSelect}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                    </div>
+
+                    {uploadedContent && (
+                      <div className="mt-6">
+                        <h5 className="text-lg font-medium mb-3">File Preview:</h5>
+                        <div className="bg-secondary/10 rounded-lg p-4 max-h-60 overflow-y-auto">
+                          <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
+                            {uploadedContent.slice(0, 1000)}
+                            {uploadedContent.length > 1000 && '...'}
                           </pre>
                         </div>
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Database className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                    <h4 className="text-lg font-medium mb-2">No Knowledge Base Found</h4>
-                    <p className="text-muted-foreground mb-6">
-                      Create your first knowledge entry using the tabs above to get started
+
+                  {/* Divider */}
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-muted-foreground/20" />
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="bg-background px-4 text-muted-foreground">OR</span>
+                    </div>
+                  </div>
+
+                  {/* Text Input Section */}
+                  <div>
+                    <h4 className="text-lg font-medium mb-4 flex items-center gap-2">
+                      <FileText className="w-5 h-5" />
+                      Paste Your Content
+                    </h4>
+                    <p className="text-muted-foreground mb-4">
+                      Enter or paste the text content you want your bot to learn from
                     </p>
-                    <div className="flex gap-3 justify-center">
+                    
+                    <Textarea
+                      placeholder="Paste your content here... (e.g., FAQ, product descriptions, company information)"
+                      value={textContent}
+                      onChange={(e) => setTextContent(e.target.value)}
+                      className="min-h-[300px] glow-border resize-none"
+                    />
+                    
+                    <div className="flex justify-end mt-6">
                       <Button 
-                        variant="outline" 
-                        onClick={() => setActiveTab('paste')}
+                        onClick={handleTextSubmit}
+                        disabled={isLoading || !textContent.trim()}
+                        className="glow-effect"
                       >
-                        <FileText className="w-4 h-4 mr-2" />
-                        Add Text Content
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => setActiveTab('upload')}
-                      >
-                        <Upload className="w-4 h-4 mr-2" />
-                        Upload File
+                        {isLoading ? 'Uploading...' : 'Upload Knowledge'}
                       </Button>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
-            </TabsContent>
-          </Tabs>
+            )}
+          </div>
         </div>
       </div>
     </div>
