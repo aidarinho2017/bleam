@@ -4,7 +4,7 @@ import { authAPI } from './auth';
 const API_BASE_URL = 'http://localhost:8080/api/bot-knowledge';
 
 export interface BotKnowledgeData {
-  sourceType: 'TEXT' | 'FILE';
+  sourceType: 'MANUAL_INPUT' | 'FILE';
   content: string;
 }
 

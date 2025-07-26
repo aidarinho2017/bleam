@@ -16,6 +16,7 @@ const BotKnowledge = () => {
   const [editContent, setEditContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [activeTab, setActiveTab] = useState('paste');
 
   const fetchKnowledge = useCallback(async () => {
     try {
@@ -214,7 +215,7 @@ const BotKnowledge = () => {
             </p>
           </div>
 
-          <Tabs defaultValue="paste" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-8">
               <TabsTrigger value="paste" className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
@@ -306,16 +307,16 @@ const BotKnowledge = () => {
               <div className="glass-card p-6">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h3 className="text-xl font-semibold">Current Knowledge Base</h3>
+                    <h3 className="text-xl font-semibold">Knowledge Base Management</h3>
                     <p className="text-muted-foreground">
-                      View and manage your bot's existing knowledge
+                      View, edit, and manage your bot's knowledge base
                     </p>
                   </div>
                   {existingKnowledge && !isEditing && (
                     <div className="flex gap-2">
                       <Button variant="outline" onClick={handleEdit}>
                         <Edit className="w-4 h-4 mr-2" />
-                        Edit
+                        Update
                       </Button>
                       <Button variant="destructive" onClick={handleDelete}>
                         <Trash2 className="w-4 h-4 mr-2" />
@@ -329,47 +330,75 @@ const BotKnowledge = () => {
                   <div>
                     {isEditing ? (
                       <div className="space-y-4">
+                        <div className="flex items-center gap-2 mb-4">
+                          <Database className="w-5 h-5 text-primary" />
+                          <h4 className="text-lg font-medium">Editing Knowledge Content</h4>
+                        </div>
                         <Textarea
                           value={editContent}
                           onChange={(e) => setEditContent(e.target.value)}
                           className="min-h-[300px] glow-border"
+                          placeholder="Update your bot's knowledge content..."
                         />
                         <div className="flex gap-2 justify-end">
                           <Button 
                             variant="outline" 
                             onClick={() => setIsEditing(false)}
+                            disabled={isLoading}
                           >
                             <X className="w-4 h-4 mr-2" />
                             Cancel
                           </Button>
                           <Button 
                             onClick={handleSaveEdit}
-                            disabled={isLoading}
+                            disabled={isLoading || !editContent.trim()}
                             className="glow-effect"
                           >
                             <Save className="w-4 h-4 mr-2" />
-                            {isLoading ? 'Saving...' : 'Save Changes'}
+                            {isLoading ? 'Updating...' : 'Update Knowledge'}
                           </Button>
                         </div>
                       </div>
                     ) : (
-                      <div className="bg-secondary/10 rounded-lg p-4 max-h-96 overflow-y-auto">
-                        <pre className="text-sm whitespace-pre-wrap">
-                          {existingKnowledge}
-                        </pre>
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <Database className="w-5 h-5 text-primary" />
+                          <h4 className="text-lg font-medium">Current Knowledge Content</h4>
+                          <span className="text-sm text-muted-foreground">
+                            ({existingKnowledge.length} characters)
+                          </span>
+                        </div>
+                        <div className="bg-secondary/10 rounded-lg p-4 max-h-96 overflow-y-auto border">
+                          <pre className="text-sm whitespace-pre-wrap leading-relaxed">
+                            {existingKnowledge}
+                          </pre>
+                        </div>
                       </div>
                     )}
                   </div>
                 ) : (
                   <div className="text-center py-12">
                     <Database className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                    <h4 className="text-lg font-medium mb-2">No Knowledge Uploaded</h4>
+                    <h4 className="text-lg font-medium mb-2">No Knowledge Base Found</h4>
                     <p className="text-muted-foreground mb-6">
-                      Get started by uploading some content for your bot to learn from
+                      Create your first knowledge entry using the tabs above to get started
                     </p>
-                    <Button variant="outline">
-                      Upload Your First Knowledge
-                    </Button>
+                    <div className="flex gap-3 justify-center">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setActiveTab('paste')}
+                      >
+                        <FileText className="w-4 h-4 mr-2" />
+                        Add Text Content
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setActiveTab('upload')}
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Upload File
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
