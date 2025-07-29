@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
 import { Bot, LogOut, BarChart3, Settings, Send, MessageSquare, Play, Square, Brain } from 'lucide-react';
 import { authAPI } from '@/lib/auth';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
@@ -20,6 +21,7 @@ const Dashboard = () => {
   const [webhookUrl, setWebhookUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [whatsappCreated, setWhatsappCreated] = useState(false);
+  const [whatsappRunning, setWhatsappRunning] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -182,10 +184,12 @@ const Dashboard = () => {
                     Manage Bot Knowledge
                   </Button>
                 </Link>
-                <Button variant="outline" className="w-full btn-secondary justify-start">
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  View Analytics
-                </Button>
+                <Link to="/session-viewer">
+                  <Button variant="outline" className="w-full btn-secondary justify-start">
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    View Analytics
+                  </Button>
+                </Link>
                 <Button variant="outline" className="w-full btn-secondary justify-start">
                   <Settings className="w-4 h-4 mr-2" />
                   Settings
@@ -288,6 +292,7 @@ const Dashboard = () => {
               {/* WhatsApp Connection */}
               <div className="bg-card/30 rounded-lg p-4 mb-6">
                 <h3 className="text-sm font-medium text-foreground mb-3">WhatsApp Bot Management</h3>
+                
                 {!whatsappCreated && whatsappSessions.length === 0 && (
                   <Button 
                     onClick={handleCreateWhatsApp}
@@ -299,27 +304,22 @@ const Dashboard = () => {
                   </Button>
                 )}
                 
-                {(whatsappCreated || whatsappSessions.length > 0) && (
-                  <div className="flex gap-2">
-                    <Button 
-                      onClick={() => handleToggleBot('whatsapp', 'start')}
-                      disabled={loading}
-                      className="btn-primary"
-                    >
-                      <Play className="w-4 h-4 mr-2" />
-                      Start WhatsApp Bot
-                    </Button>
-                    <Button 
-                      onClick={() => handleToggleBot('whatsapp', 'stop')}
-                      disabled={loading}
-                      variant="outline"
-                      className="btn-secondary"
-                    >
-                      <Square className="w-4 h-4 mr-2" />
-                      Stop WhatsApp Bot
-                    </Button>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-sm font-medium text-foreground">Bot Status</span>
+                    <Switch
+                      checked={whatsappRunning}
+                      onCheckedChange={async (checked) => {
+                        setWhatsappRunning(checked);
+                        await handleToggleBot('whatsapp', checked ? 'start' : 'stop');
+                      }}
+                      disabled={loading || (!whatsappCreated && whatsappSessions.length === 0)}
+                    />
+                    <span className="text-sm text-muted-foreground">
+                      {whatsappRunning ? 'Running' : 'Stopped'}
+                    </span>
                   </div>
-                )}
+                </div>
               </div>
 
               {/* Connected WhatsApp Sessions */}
