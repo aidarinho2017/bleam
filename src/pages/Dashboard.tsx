@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,9 @@ import { Bot, LogOut, BarChart3, Settings, Send, MessageSquare, Play, Square, Br
 import { authAPI } from '@/lib/auth';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
 import { useToast } from '@/hooks/use-toast';
+import QRCode from 'react-qr-code';
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -22,6 +25,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [whatsappCreated, setWhatsappCreated] = useState(false);
   const [whatsappRunning, setWhatsappRunning] = useState(false);
+  const [qrCode, setQrCode] = useState<string>('');
+  const stompClientRef = useRef<Client | null>(null);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -36,7 +41,42 @@ const Dashboard = () => {
     
     // Load connected bots
     loadBots();
+    
+    // Initialize WebSocket connection
+    initializeWebSocket();
+    
+    // Cleanup WebSocket on unmount
+    return () => {
+      if (stompClientRef.current) {
+        stompClientRef.current.deactivate();
+      }
+    };
   }, [navigate]);
+
+  const initializeWebSocket = () => {
+    const socket = new SockJS('http://localhost:8080/ws');
+    const stompClient = new Client({
+      webSocketFactory: () => socket,
+      onConnect: (frame) => {
+        console.log('Connected to WebSocket:', frame);
+        // Subscribe to the user's QR queue
+        stompClient.subscribe('/user/queue/qr', (message) => {
+          const qrCode = message.body;
+          console.log('Received QR code:', qrCode);
+          setQrCode(qrCode);
+        });
+      },
+      onDisconnect: () => {
+        console.log('Disconnected from WebSocket');
+      },
+      onStompError: (frame) => {
+        console.error('WebSocket error:', frame);
+      }
+    });
+    
+    stompClient.activate();
+    stompClientRef.current = stompClient;
+  };
 
   const loadBots = async () => {
     try {
@@ -293,17 +333,17 @@ const Dashboard = () => {
               <div className="bg-card/30 rounded-lg p-4 mb-6">
                 <h3 className="text-sm font-medium text-foreground mb-3">WhatsApp Bot Management</h3>
                 
-                {!whatsappCreated && whatsappSessions.length === 0 && (
-                  <Button 
-                    onClick={handleCreateWhatsApp}
-                    disabled={loading}
-                    className="btn-primary mb-4"
-                  >
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
-                  </Button>
-                )}
+                {/* Create WhatsApp Bot - Always visible */}
+                <Button 
+                  onClick={handleCreateWhatsApp}
+                  disabled={loading}
+                  className="btn-primary mb-4"
+                >
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
+                </Button>
                 
+                {/* Bot Status Switch - Always visible */}
                 <div className="flex items-center justify-between mt-4">
                   <div className="flex items-center space-x-3">
                     <span className="text-sm font-medium text-foreground">Bot Status</span>
@@ -312,14 +352,34 @@ const Dashboard = () => {
                       onCheckedChange={async (checked) => {
                         setWhatsappRunning(checked);
                         await handleToggleBot('whatsapp', checked ? 'start' : 'stop');
+                        // Clear QR code when stopping
+                        if (!checked) {
+                          setQrCode('');
+                        }
                       }}
-                      disabled={loading || (!whatsappCreated && whatsappSessions.length === 0)}
                     />
                     <span className="text-sm text-muted-foreground">
                       {whatsappRunning ? 'Running' : 'Stopped'}
                     </span>
                   </div>
                 </div>
+
+                {/* QR Code Display - Show when bot is running and QR is available */}
+                {whatsappRunning && qrCode && (
+                  <div className="mt-6 p-4 bg-background rounded-lg border border-border">
+                    <h4 className="text-sm font-medium text-foreground mb-3">Scan QR Code to Connect WhatsApp</h4>
+                    <div className="flex justify-center">
+                      <QRCode 
+                        value={qrCode} 
+                        size={200}
+                        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      Open WhatsApp on your phone and scan this QR code to connect your account
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Connected WhatsApp Sessions */}
