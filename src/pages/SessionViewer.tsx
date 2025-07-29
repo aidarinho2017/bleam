@@ -129,11 +129,25 @@ const SessionViewer = () => {
         )}
 
         {!loading && viewState === 'platforms' && (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-foreground">Select Platform</h2>
-            <PlatformList platforms={platforms} onPlatformClick={loadSessions} />
-          </div>
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-foreground">Select Platform</h2>
+              <div className="flex gap-4">
+                <Button
+                    onClick={() => loadSessions('TELEGRAM')}
+                    className="bg-blue-500 hover:bg-blue-600 text-white"
+                >
+                  Telegram
+                </Button>
+                <Button
+                    onClick={() => loadSessions('WHATSAPP')}
+                    className="bg-green-500 hover:bg-green-600 text-white"
+                >
+                  WhatsApp
+                </Button>
+              </div>
+            </div>
         )}
+
 
         {!loading && viewState === 'sessions' && (
           <SessionList
