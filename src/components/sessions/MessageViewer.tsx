@@ -4,7 +4,7 @@ import { Message } from '@/lib/sessions';
 
 interface MessageViewerProps {
   messages: Message[];
-  sessionId: string;
+  sessionId: number | null;
   onBack: () => void;
 }
 
@@ -20,7 +20,7 @@ export const MessageViewer = ({ messages, sessionId, onBack }: MessageViewerProp
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Sessions
         </Button>
-        <h2 className="text-2xl font-bold text-foreground">Session {sessionId.slice(0, 8)}...</h2>
+        <h2 className="text-2xl font-bold text-foreground">Session {sessionId}</h2>
       </div>
 
       <div className="card-glass p-6 max-h-[600px] overflow-y-auto">
@@ -36,29 +36,29 @@ export const MessageViewer = ({ messages, sessionId, onBack }: MessageViewerProp
               <div
                 key={message.id}
                 className={`flex items-start space-x-3 ${
-                  message.sender === 'bot' ? 'flex-row' : 'flex-row-reverse space-x-reverse'
+                  message.sender === 'BOT' ? 'flex-row' : 'flex-row-reverse space-x-reverse'
                 }`}
               >
                 <div className={`p-2 rounded-lg ${
-                  message.sender === 'bot' 
+                  message.sender === 'BOT' 
                     ? 'bg-primary/20' 
                     : 'bg-accent/20'
                 }`}>
-                  {message.sender === 'bot' ? (
+                  {message.sender === 'BOT' ? (
                     <Bot className="w-4 h-4 text-primary" />
                   ) : (
                     <User className="w-4 h-4 text-accent" />
                   )}
                 </div>
                 <div className={`max-w-[70%] ${
-                  message.sender === 'bot' ? 'text-left' : 'text-right'
+                  message.sender === 'BOT' ? 'text-left' : 'text-right'
                 }`}>
                   <div className={`rounded-lg p-3 ${
-                    message.sender === 'bot'
+                    message.sender === 'BOT'
                       ? 'bg-card/30 text-foreground'
                       : 'bg-primary text-primary-foreground'
                   }`}>
-                    <p className="text-sm">{message.content}</p>
+                    <p className="text-sm">{message.text}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
                     {formatTimestamp(message.timestamp)}

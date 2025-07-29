@@ -6,14 +6,18 @@ import { Session } from '@/lib/sessions';
 interface SessionListProps {
   sessions: Session[];
   platformType: string;
-  onSessionClick: (sessionId: string) => void;
+  onSessionClick: (sessionId: number) => void;
   onBack: () => void;
 }
 
 export const SessionList = ({ sessions, platformType, onSessionClick, onBack }: SessionListProps) => {
-  const formatLastMessage = (timestamp?: string) => {
-    if (!timestamp) return 'No messages';
-    return new Date(timestamp).toLocaleDateString();
+  const formatDate = (timestamp: string) => {
+    return new Date(timestamp).toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   return (
@@ -36,8 +40,8 @@ export const SessionList = ({ sessions, platformType, onSessionClick, onBack }: 
         <div className="grid gap-4">
           {sessions.map((session) => (
             <div
-              key={session.sessionId}
-              onClick={() => onSessionClick(session.sessionId)}
+              key={session.id}
+              onClick={() => onSessionClick(session.id)}
               className="card-glass p-4 cursor-pointer transition-all hover:scale-[1.02] hover:bg-card/30"
             >
               <div className="flex items-center justify-between">
@@ -47,17 +51,18 @@ export const SessionList = ({ sessions, platformType, onSessionClick, onBack }: 
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground">
-                      {session.nickname || `Session ${session.sessionId.slice(0, 8)}...`}
+                      Session ID: {session.id}
                     </h4>
+                    <p className="text-sm text-muted-foreground">
+                      User: {session.chatUserId}
+                    </p>
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                       <Clock className="w-3 h-3" />
-                      <span>Last message: {formatLastMessage(session.lastMessageAt)}</span>
+                      <span>Start: {formatDate(session.startedAt)}</span>
+                      {session.endedAt && <span>• End: {formatDate(session.endedAt)}</span>}
                     </div>
                   </div>
                 </div>
-                <Badge variant={session.status === 'ACTIVE' ? 'default' : 'secondary'}>
-                  {session.status}
-                </Badge>
               </div>
             </div>
           ))}

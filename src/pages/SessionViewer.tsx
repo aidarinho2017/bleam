@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Bot } from 'lucide-react';
 import { authAPI } from '@/lib/auth';
-import { sessionsAPI, Platform, Session, Message } from '@/lib/sessions';
-import { PlatformList } from '@/components/sessions/PlatformList';
+import { sessionsAPI, Session, Message } from '@/lib/sessions';
 import { SessionList } from '@/components/sessions/SessionList';
 import { MessageViewer } from '@/components/sessions/MessageViewer';
 import { useToast } from '@/hooks/use-toast';
@@ -16,11 +15,10 @@ const SessionViewer = () => {
   const { toast } = useToast();
   
   const [viewState, setViewState] = useState<ViewState>('platforms');
-  const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedPlatform, setSelectedPlatform] = useState<string>('');
-  const [selectedSession, setSelectedSession] = useState<string>('');
+  const [selectedSession, setSelectedSession] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,24 +26,7 @@ const SessionViewer = () => {
       navigate('/login');
       return;
     }
-    loadPlatforms();
   }, [navigate]);
-
-  const loadPlatforms = async () => {
-    setLoading(true);
-    try {
-      const data = await sessionsAPI.getPlatforms();
-      setPlatforms(data);
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive'
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const loadSessions = async (platformType: string) => {
     setLoading(true);
@@ -65,10 +46,10 @@ const SessionViewer = () => {
     }
   };
 
-  const loadMessages = async (sessionId: string) => {
+  const loadMessages = async (sessionId: number) => {
     setLoading(true);
     try {
-      const data = await sessionsAPI.getMessages(sessionId);
+      const data = await sessionsAPI.getMessages(sessionId.toString());
       setMessages(data);
       setSelectedSession(sessionId);
       setViewState('messages');
@@ -92,7 +73,7 @@ const SessionViewer = () => {
   const handleBackToSessions = () => {
     setViewState('sessions');
     setMessages([]);
-    setSelectedSession('');
+    setSelectedSession(null);
   };
 
   return (
