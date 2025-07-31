@@ -27,6 +27,8 @@ const Dashboard = () => {
   const [whatsappRunning, setWhatsappRunning] = useState(false);
   const [qrCode, setQrCode] = useState<string>('');
   const stompClientRef = useRef<Client | null>(null);
+  const [connectionStatus, setConnectionStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
+
 
   useEffect(() => {
     // Check if user is authenticated
@@ -40,7 +42,7 @@ const Dashboard = () => {
     setUsername('User');
     
     // Load connected bots
-    loadBots();
+    loadBots()
     
     // Initialize WebSocket connection
     initializeWebSocket();
@@ -54,26 +56,32 @@ const Dashboard = () => {
   }, [navigate]);
 
   const initializeWebSocket = () => {
+    setConnectionStatus('connecting');
     const socket = new SockJS('http://localhost:8080/ws');
     const stompClient = new Client({
       webSocketFactory: () => socket,
       onConnect: (frame) => {
         console.log('Connected to WebSocket:', frame);
-        // Subscribe to the user's QR queue
+        setConnectionStatus('connected');
+
         stompClient.subscribe('/user/queue/qr', (message) => {
+          console.log("Message from backend:", message.body);
           const qrCode = message.body;
-          console.log('Received QR code:', qrCode);
+          console.log("QR message received:", message.body);
           setQrCode(qrCode);
         });
       },
       onDisconnect: () => {
+        setConnectionStatus('disconnected');
         console.log('Disconnected from WebSocket');
       },
-      onStompError: (frame) => {
-        console.error('WebSocket error:', frame);
-      }
+      // Add debug logging
+      debug: (str) => console.log('STOMP:', str),
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
     });
-    
+
     stompClient.activate();
     stompClientRef.current = stompClient;
   };
@@ -168,6 +176,7 @@ const Dashboard = () => {
       } else {
         await botPlatformsAPI.stopBot(platformType);
       }
+
       
       toast({
         title: 'Success',
