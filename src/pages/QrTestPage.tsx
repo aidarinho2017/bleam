@@ -69,8 +69,8 @@ const QrTestPage = () => {
                     <div className="flex justify-center">
                         <QRCodeCanvas
                             value={qrCode}
-                            size={200}
-                            style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+                            size={100} // Should match container size
+                            style={{ width: '100%', height: '100%' }}
                         />
                     </div>
                     <p className="text-xs text-muted-foreground mt-2 text-center">

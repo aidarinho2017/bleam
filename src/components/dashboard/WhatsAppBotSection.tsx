@@ -77,8 +77,8 @@ export const WhatsAppBotSection = ({
             <div className="flex justify-center">
               <QRCodeCanvas
                 value={qrCode}
-                size={200}
-                style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+                size={100}
+                style={{ height: 'auto', maxWidth: '300', width: '300px' }}
               />
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
