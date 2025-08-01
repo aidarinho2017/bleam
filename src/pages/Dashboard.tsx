@@ -52,24 +52,32 @@ const Dashboard = () => {
   }, [navigate]);
 
   const initializeWebSocket = () => {
-    const socket = new SockJS('http://localhost:8080/ws');
+    const token = localStorage.getItem('auth_token');
+    if (!token) return;
+
+    const socketUrl = `http://localhost:8080/ws?access_token=${encodeURIComponent(token)}`;
+    const socket = new SockJS(socketUrl);
+
     const stompClient = new Client({
       webSocketFactory: () => socket,
-      onConnect: (frame) => {
-        console.log('Connected to WebSocket:', frame);
-        // Subscribe to the user's QR queue
+      onConnect: () => {
+        console.log('Connected to WebSocket');
         stompClient.subscribe('/user/queue/qr', (message) => {
           const qrCode = message.body;
           console.log('Received QR code:', qrCode);
           setQrCode(qrCode);
         });
       },
+      onStompError: (frame) => {
+        console.error('STOMP error:', frame.headers['message']);
+      },
       onDisconnect: () => {
         console.log('Disconnected from WebSocket');
       },
-      onStompError: (frame) => {
-        console.error('WebSocket error:', frame);
-      }
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      debug: (str) => console.log('[WS DEBUG]:', str),
     });
 
     stompClient.activate();

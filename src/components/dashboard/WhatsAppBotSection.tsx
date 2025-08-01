@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { MessageSquare, Play, Square } from 'lucide-react';
 import { WhatsAppSession } from '@/lib/bot-platforms';
-import QRCode from 'react-qr-code';
+import { QRCodeCanvas } from 'qrcode.react';
 
 interface WhatsAppBotSectionProps {
   whatsappSessions: WhatsAppSession[];
@@ -75,10 +75,10 @@ export const WhatsAppBotSection = ({
           <div className="mt-6 p-4 bg-background rounded-lg border border-border">
             <h4 className="text-sm font-medium text-foreground mb-3">Scan QR Code to Connect WhatsApp</h4>
             <div className="flex justify-center">
-              <QRCode 
-                value={qrCode} 
+              <QRCodeCanvas
+                value={qrCode}
                 size={200}
-                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
               />
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
