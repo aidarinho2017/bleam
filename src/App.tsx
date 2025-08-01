@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import BotKnowledge from "./pages/BotKnowledge";
 import SessionViewer from "./pages/SessionViewer";
 import NotFound from "./pages/NotFound";
+import QrTestPage from "@/pages/QrTestPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/bot-knowledge" element={<BotKnowledge />} />
           <Route path="/session-viewer" element={<SessionViewer />} />
+          <Route path="/qr-test" element={<QrTestPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

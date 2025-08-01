@@ -14,7 +14,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [username, setUsername] = useState('');
-  
+
   // Bot management state
   const [telegramBots, setTelegramBots] = useState<TelegramBot[]>([]);
   const [whatsappSessions, setWhatsAppSessions] = useState<WhatsAppSession[]>([]);
@@ -25,8 +25,6 @@ const Dashboard = () => {
   const [whatsappRunning, setWhatsappRunning] = useState(false);
   const [qrCode, setQrCode] = useState<string>('');
   const stompClientRef = useRef<Client | null>(null);
-  const [connectionStatus, setConnectionStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
-
 
   useEffect(() => {
     // Check if user is authenticated
@@ -38,13 +36,13 @@ const Dashboard = () => {
     // For now, we'll extract username from token or use placeholder
     // In a real app, you'd decode the JWT or make an API call
     setUsername('User');
-    
+
     // Load connected bots
-    loadBots()
-    
+    loadBots();
+
     // Initialize WebSocket connection
     initializeWebSocket();
-    
+
     // Cleanup WebSocket on unmount
     return () => {
       if (stompClientRef.current) {
@@ -54,30 +52,24 @@ const Dashboard = () => {
   }, [navigate]);
 
   const initializeWebSocket = () => {
-    setConnectionStatus('connecting');
     const socket = new SockJS('http://localhost:8080/ws');
     const stompClient = new Client({
       webSocketFactory: () => socket,
       onConnect: (frame) => {
         console.log('Connected to WebSocket:', frame);
-        setConnectionStatus('connected');
-
+        // Subscribe to the user's QR queue
         stompClient.subscribe('/user/queue/qr', (message) => {
-          console.log("Message from backend:", message.body);
           const qrCode = message.body;
-          console.log("QR message received:", message.body);
+          console.log('Received QR code:', qrCode);
           setQrCode(qrCode);
         });
       },
       onDisconnect: () => {
-        setConnectionStatus('disconnected');
         console.log('Disconnected from WebSocket');
       },
-      // Add debug logging
-      debug: (str) => console.log('STOMP:', str),
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
+      onStompError: (frame) => {
+        console.error('WebSocket error:', frame);
+      }
     });
 
     stompClient.activate();
@@ -101,12 +93,12 @@ const Dashboard = () => {
     setLoading(true);
     try {
       await botPlatformsAPI.connectWhatsApp();
-      
+
       toast({
         title: 'WhatsApp Bot Created',
         description: 'WhatsApp bot has been created successfully!'
       });
-      
+
       setWhatsappCreated(true);
       loadBots();
     } catch (error: any) {
@@ -145,12 +137,12 @@ const Dashboard = () => {
         apiToken: telegramToken,
         webhookUrl: webhookUrl
       });
-      
+
       toast({
         title: 'Success',
         description: 'Telegram bot connected successfully!'
       });
-      
+
       setTelegramToken('');
       setWebhookUrl('');
       loadBots();
@@ -174,13 +166,15 @@ const Dashboard = () => {
       } else {
         await botPlatformsAPI.stopBot(platformType);
       }
+      if (type === 'whatsapp') {
+        initializeWebSocket();
+      }
 
-      
       toast({
         title: 'Success',
         description: `${type} bot ${action}ed successfully!`
       });
-      
+
       loadBots();
     } catch (error: any) {
       toast({
