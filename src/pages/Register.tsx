@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
     confirmPassword: ''
   });
@@ -22,10 +22,10 @@ const Register = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     
-    if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
-    } else if (formData.username.length < 3) {
-      newErrors.username = 'Username must be at least 3 characters';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
     }
     
     if (!formData.password) {
@@ -56,7 +56,7 @@ const Register = () => {
     setIsLoading(true);
     try {
       await authAPI.register({
-        username: formData.username,
+        email: formData.email,
         password: formData.password
       });
       
@@ -157,11 +157,12 @@ const Register = () => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <FormField
-              label="Username"
-              placeholder="Choose a username"
-              value={formData.username}
-              onChange={(value) => setFormData({ ...formData, username: value })}
-              error={errors.username}
+              label="Email"
+              type="email"
+              placeholder="Enter your email address"
+              value={formData.email}
+              onChange={(value) => setFormData({ ...formData, email: value })}
+              error={errors.email}
               required
             />
 

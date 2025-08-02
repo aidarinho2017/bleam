@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -21,8 +21,10 @@ const Login = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     
-    if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
     }
     
     if (!formData.password) {
@@ -93,11 +95,12 @@ const Login = () => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <FormField
-              label="Username"
-              placeholder="Enter your username"
-              value={formData.username}
-              onChange={(value) => setFormData({ ...formData, username: value })}
-              error={errors.username}
+              label="Email"
+              type="email"
+              placeholder="Enter your email address"
+              value={formData.email}
+              onChange={(value) => setFormData({ ...formData, email: value })}
+              error={errors.email}
               required
             />
 

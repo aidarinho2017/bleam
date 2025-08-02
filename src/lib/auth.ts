@@ -3,12 +3,12 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8080/api/auth';
 
 export interface RegisterData {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface LoginData {
-  username: string;
+  email: string;
   password: string;
 }
 
