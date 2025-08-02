@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bot, ArrowLeft, Loader2, Check } from 'lucide-react';
 import FormField from '@/components/ui/form-field';
+import GoogleSignInButton from '@/components/ui/google-signin-button';
 import { authAPI } from '@/lib/auth';
 import { useToast } from '@/hooks/use-toast';
 
@@ -254,6 +255,19 @@ const Register = () => {
               )}
             </Button>
           </form>
+
+          {/* Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+            </div>
+          </div>
+
+          {/* Google Sign-In */}
+          <GoogleSignInButton className="w-full" disabled={isLoading} />
 
           {/* Sign in link */}
           <p className="text-center text-sm text-muted-foreground mt-6">

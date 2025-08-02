@@ -50,6 +50,24 @@ export const authAPI = {
   isAuthenticated: () => {
     const token = localStorage.getItem('auth_token');
     return !!token;
+  },
+
+  googleSignIn: async (credential: string) => {
+    try {
+      // Send the Google credential to your backend
+      const response = await axios.post(`${API_BASE_URL}/google`, {
+        credential: credential
+      });
+      
+      const token = response.data;
+      
+      // Store token in localStorage
+      localStorage.setItem('auth_token', token);
+      
+      return { success: true, token };
+    } catch (error: any) {
+      throw new Error(error.response?.data || 'Google sign-in failed');
+    }
   }
 };
 
