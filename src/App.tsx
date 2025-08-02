@@ -11,6 +11,7 @@ import BotKnowledge from "./pages/BotKnowledge";
 import SessionViewer from "./pages/SessionViewer";
 import NotFound from "./pages/NotFound";
 import QrTestPage from "@/pages/QrTestPage.tsx";
+import OAuth2Success from "./pages/OAuth2Success";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/bot-knowledge" element={<BotKnowledge />} />
           <Route path="/session-viewer" element={<SessionViewer />} />
           <Route path="/qr-test" element={<QrTestPage />} />
+          <Route path="/oauth2/success" element={<OAuth2Success />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
