@@ -72,8 +72,8 @@ export const authAPI = {
 
   forgotPassword: async (email: string) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/forgot-password`, null, {
-        params: { email }
+      const response = await axios.post(`${API_BASE_URL}/forgot-password`, {
+        email
       });
       return { success: true, message: response.data };
     } catch (error: any) {
@@ -81,10 +81,25 @@ export const authAPI = {
     }
   },
 
+  validateResetToken: async (token: string) => {
+    try {
+      await axios.get(`${API_BASE_URL}/validate-reset-token`, {
+        params: { token }
+      });
+      return { success: true };
+    } catch (error: any) {
+      if (error.response?.status === 410) {
+        throw new Error('Reset link has expired or is invalid');
+      }
+      throw new Error(error.response?.data || 'Invalid reset token');
+    }
+  },
+
   resetPassword: async (token: string, newPassword: string) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/reset-password`, null, {
-        params: { token, newPassword }
+      const response = await axios.post(`${API_BASE_URL}/reset-password`, {
+        token,
+        newPassword
       });
       return { success: true, message: response.data };
     } catch (error: any) {

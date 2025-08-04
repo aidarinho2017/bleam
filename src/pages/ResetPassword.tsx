@@ -18,21 +18,43 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordReset, setIsPasswordReset] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [isValidatingToken, setIsValidatingToken] = useState(true);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   
   const { toast } = useToast();
 
   useEffect(() => {
-    const resetToken = searchParams.get('token');
-    if (!resetToken) {
-      toast({
-        title: 'Invalid reset link',
-        description: 'This password reset link is invalid or has expired.',
-        variant: 'destructive',
-      });
-      navigate('/login');
-    } else {
+    const validateToken = async () => {
+      const resetToken = searchParams.get('token');
+      if (!resetToken) {
+        toast({
+          title: 'Invalid reset link',
+          description: 'This password reset link is invalid or has expired.',
+          variant: 'destructive',
+        });
+        navigate('/login');
+        return;
+      }
+
       setToken(resetToken);
-    }
+      setIsValidatingToken(true);
+
+      try {
+        await authAPI.validateResetToken(resetToken);
+        setIsTokenValid(true);
+      } catch (error: any) {
+        toast({
+          title: 'Invalid reset link',
+          description: error.message,
+          variant: 'destructive',
+        });
+        navigate('/login');
+      } finally {
+        setIsValidatingToken(false);
+      }
+    };
+
+    validateToken();
   }, [searchParams, navigate, toast]);
 
   const validateForm = () => {
@@ -151,43 +173,51 @@ const ResetPassword = () => {
             </p>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <FormField
-              label="New Password"
-              type="password"
-              placeholder="Enter your new password"
-              value={formData.password}
-              onChange={(value) => setFormData({ ...formData, password: value })}
-              error={errors.password}
-              required
-            />
+          {/* Loading state while validating token */}
+          {isValidatingToken ? (
+            <div className="text-center py-8">
+              <Loader2 className="w-8 h-8 mx-auto mb-4 animate-spin text-primary" />
+              <p className="text-muted-foreground">Validating reset link...</p>
+            </div>
+          ) : isTokenValid ? (
+            /* Form */
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <FormField
+                label="New Password"
+                type="password"
+                placeholder="Enter your new password"
+                value={formData.password}
+                onChange={(value) => setFormData({ ...formData, password: value })}
+                error={errors.password}
+                required
+              />
 
-            <FormField
-              label="Confirm New Password"
-              type="password"
-              placeholder="Confirm your new password"
-              value={formData.confirmPassword}
-              onChange={(value) => setFormData({ ...formData, confirmPassword: value })}
-              error={errors.confirmPassword}
-              required
-            />
+              <FormField
+                label="Confirm New Password"
+                type="password"
+                placeholder="Confirm your new password"
+                value={formData.confirmPassword}
+                onChange={(value) => setFormData({ ...formData, confirmPassword: value })}
+                error={errors.confirmPassword}
+                required
+              />
 
-            <Button 
-              type="submit" 
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Resetting password...
-                </>
-              ) : (
-                'Reset password'
-              )}
-            </Button>
-          </form>
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Resetting password...
+                  </>
+                ) : (
+                  'Reset password'
+                )}
+              </Button>
+            </form>
+          ) : null}
 
           {/* Back to login */}
           <p className="text-center text-sm text-muted-foreground mt-6">
