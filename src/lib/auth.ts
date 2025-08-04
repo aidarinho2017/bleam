@@ -68,6 +68,28 @@ export const authAPI = {
     } catch (error: any) {
       throw new Error(error.response?.data || 'Google sign-in failed');
     }
+  },
+
+  forgotPassword: async (email: string) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/forgot-password`, null, {
+        params: { email }
+      });
+      return { success: true, message: response.data };
+    } catch (error: any) {
+      throw new Error(error.response?.data || 'Failed to send reset email');
+    }
+  },
+
+  resetPassword: async (token: string, newPassword: string) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/reset-password`, null, {
+        params: { token, newPassword }
+      });
+      return { success: true, message: response.data };
+    } catch (error: any) {
+      throw new Error(error.response?.data || 'Failed to reset password');
+    }
   }
 };
 
