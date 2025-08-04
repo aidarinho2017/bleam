@@ -6,6 +6,7 @@ import FormField from '@/components/ui/form-field';
 import GoogleSignInButton from '@/components/ui/google-signin-button';
 import { authAPI } from '@/lib/auth';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -129,14 +130,17 @@ const Register = () => {
       {/* Right side - Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
-          {/* Back to home */}
-          <Link 
-            to="/" 
-            className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to home
-          </Link>
+          {/* Header with back button and theme toggle */}
+          <div className="flex items-center justify-between mb-8">
+            <Link 
+              to="/" 
+              className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to home
+            </Link>
+            <ThemeToggle />
+          </div>
 
           {/* Header */}
           <div className="text-center mb-8">

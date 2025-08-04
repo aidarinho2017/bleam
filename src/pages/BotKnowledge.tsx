@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { botKnowledgeAPI } from '@/lib/bot-knowledge';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import * as XLSX from 'xlsx';
 
 const BotKnowledge = () => {
@@ -196,13 +197,14 @@ const BotKnowledge = () => {
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center mb-6">
+          <div className="flex items-center justify-between mb-6">
             <Link to="/dashboard">
               <Button variant="outline" size="sm" className="btn-secondary">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Dashboard
               </Button>
             </Link>
+            <ThemeToggle />
           </div>
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gradient mb-4">

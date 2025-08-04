@@ -8,9 +8,74 @@
 
 @layer base {
   :root {
+    /* Light theme base colors - White and Blue design */
+    --background: 0 0% 100%;
+    --background-secondary: 220 14% 96%;
+    --foreground: 222 22% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 22% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 22% 10%;
+
+    /* Blue accent system for light theme */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 217 91% 70%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 22% 10%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Custom Bleam colors for light theme */
+    --bleam-purple: 248 53% 58%;
+    --bleam-blue: 217 91% 60%;
+    --bleam-dark: 0 0% 100%;
+    --bleam-darker: 220 14% 96%;
+    --bleam-light: 220 13% 91%;
+    
+    /* Light theme gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--bleam-blue)), hsl(var(--accent)));
+    --gradient-radial: radial-gradient(ellipse at center, hsl(var(--bleam-blue) / 0.1), transparent 70%);
+    --gradient-hero: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--bleam-darker)) 100%);
+    
+    /* Light theme shadows */
+    --shadow-glow: 0 0 50px hsl(var(--bleam-blue) / 0.2);
+    --shadow-card: 0 4px 24px hsl(var(--bleam-blue) / 0.1);
+    --shadow-button: 0 4px 14px hsl(var(--bleam-blue) / 0.3);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 22% 10%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 222 22% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .dark {
     /* Dark theme base colors */
     --background: 240 10% 3.9%;
-    --background-secondary: 240 6% 6.5%;
     --foreground: 0 0% 98%;
 
     --card: 240 6% 6.5%;
@@ -19,10 +84,8 @@
     --popover: 240 6% 6.5%;
     --popover-foreground: 0 0% 98%;
 
-    /* Purple/Blue accent system */
     --primary: 248 53% 58%;
     --primary-foreground: 0 0% 98%;
-    --primary-glow: 253 91% 68%;
 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -40,82 +103,31 @@
     --input: 240 3.7% 15.9%;
     --ring: 248 53% 58%;
 
-    --radius: 0.75rem;
-
-    /* Custom Bleam colors */
+    /* Dark theme custom colors */
     --bleam-purple: 248 53% 58%;
     --bleam-blue: 217 91% 60%;
     --bleam-dark: 240 10% 3.9%;
     --bleam-darker: 240 15% 2%;
     --bleam-light: 240 6% 6.5%;
     
-    /* Gradients */
+    /* Dark theme gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--bleam-purple)), hsl(var(--bleam-blue)));
     --gradient-radial: radial-gradient(ellipse at center, hsl(var(--bleam-purple) / 0.15), transparent 70%);
     --gradient-hero: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--bleam-darker)) 100%);
     
-    /* Shadows and glows */
+    /* Dark theme shadows */
     --shadow-glow: 0 0 50px hsl(var(--bleam-purple) / 0.3);
     --shadow-card: 0 4px 24px hsl(var(--bleam-darker) / 0.4);
     --shadow-button: 0 4px 14px hsl(var(--bleam-purple) / 0.4);
-    
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 248 53% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 248 53% 58%;
   }
 }
 

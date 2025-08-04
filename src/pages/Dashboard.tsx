@@ -9,6 +9,7 @@ import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { TelegramBotSection } from '@/components/dashboard/TelegramBotSection';
 import { WhatsAppBotSection } from '@/components/dashboard/WhatsAppBotSection';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -209,10 +210,13 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <Button onClick={handleLogout} variant="outline" className="btn-secondary">
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+            <div className="flex items-center space-x-2">
+              <ThemeToggle />
+              <Button onClick={handleLogout} variant="outline" className="btn-secondary">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>

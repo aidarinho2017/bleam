@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bot, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +46,7 @@ const Navigation = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             <Link to="/login">
               <Button variant="ghost" className="btn-ghost">
                 Login
@@ -84,6 +86,9 @@ const Navigation = () => {
               </div>
             )}
             <div className="flex flex-col space-y-2 px-4 pt-4 border-t border-border/50">
+              <div className="flex justify-center mb-2">
+                <ThemeToggle />
+              </div>
               <Link to="/login" onClick={() => setIsOpen(false)}>
                 <Button variant="ghost" className="w-full btn-ghost">
                   Login
