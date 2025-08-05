@@ -57,11 +57,14 @@ const Dashboard = () => {
     const token = localStorage.getItem('auth_token');
     if (!token) return;
 
-    const socketUrl = `${API_ENDPOINTS.WEBSOCKET}?access_token=${encodeURIComponent(token)}`;
+    const socketUrl = API_ENDPOINTS.WEBSOCKET;
     const socket = new SockJS(socketUrl);
 
     const stompClient = new Client({
       webSocketFactory: () => socket,
+      connectHeaders: {
+        Authorization: `Bearer ${token}`
+      },
       onConnect: () => {
         console.log('Connected to WebSocket');
         stompClient.subscribe('/user/queue/qr', (message) => {
