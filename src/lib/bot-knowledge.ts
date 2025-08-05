@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { authAPI } from './auth';
+import { API_ENDPOINTS } from '@/config/api';
 
-const API_BASE_URL = 'http://localhost:8080/api/bot-knowledge';
+const API_BASE_URL = API_ENDPOINTS.BOT_KNOWLEDGE;
 
 export interface BotKnowledgeData {
   sourceType: 'MANUAL_INPUT' | 'FILE';

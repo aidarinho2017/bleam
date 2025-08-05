@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Bot, LogOut, BarChart3, Settings, Brain } from 'lucide-react';
 import { authAPI } from '@/lib/auth';
+import { API_ENDPOINTS } from '@/config/api';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
 import { useToast } from '@/hooks/use-toast';
 import { Client } from '@stomp/stompjs';
@@ -56,7 +57,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('auth_token');
     if (!token) return;
 
-    const socketUrl = `http://localhost:8080/ws?access_token=${encodeURIComponent(token)}`;
+    const socketUrl = `${API_ENDPOINTS.WEBSOCKET}?access_token=${encodeURIComponent(token)}`;
     const socket = new SockJS(socketUrl);
 
     const stompClient = new Client({

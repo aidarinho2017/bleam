@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QRCodeCanvas } from 'qrcode.react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { API_ENDPOINTS } from '@/config/api';
 
 const QrTestPage = () => {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ const QrTestPage = () => {
     const initializeWebSocket = (token: string) => {
         setConnectionStatus('connecting');
 
-        const socketUrl = `http://localhost:8080/ws?access_token=${encodeURIComponent(token)}`;
+        const socketUrl = `${API_ENDPOINTS.WEBSOCKET}?access_token=${encodeURIComponent(token)}`;
         const socket = new SockJS(socketUrl);
 
         const stompClient = new Client({

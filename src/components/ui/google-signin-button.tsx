@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { API_ENDPOINTS } from '@/config/api';
 
 interface GoogleSignInButtonProps {
   onSuccess?: () => void;
@@ -6,12 +7,10 @@ interface GoogleSignInButtonProps {
   className?: string;
 }
 
-const API_BASE_URL = 'http://localhost:8080';
-
 const GoogleSignInButton = ({ disabled, className }: GoogleSignInButtonProps) => {
   const handleClick = () => {
     // Redirect to backend OAuth endpoint
-    window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
+    window.location.href = API_ENDPOINTS.OAUTH_GOOGLE;
   };
 
   return (
