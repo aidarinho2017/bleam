@@ -61,7 +61,7 @@ export const TelegramBotSection = ({
       </div>
 
       {/* Connected Telegram Bots */}
-      {telegramBots.length > 0 && (
+      {Array.isArray(telegramBots) && telegramBots.length > 0 && (
         <div>
           <h3 className="text-sm font-medium text-foreground mb-3">Connected Bots</h3>
           <div className="grid gap-3">

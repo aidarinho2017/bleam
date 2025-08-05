@@ -89,7 +89,7 @@ export const WhatsAppBotSection = ({
       </div>
 
       {/* Connected WhatsApp Sessions */}
-      {whatsappSessions.length > 0 && (
+      {Array.isArray(whatsappSessions) && whatsappSessions.length > 0 && (
         <div>
           <h3 className="text-sm font-medium text-foreground mb-3">Connected Sessions</h3>
           <div className="grid gap-3">

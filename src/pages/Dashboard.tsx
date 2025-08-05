@@ -92,10 +92,15 @@ const Dashboard = () => {
         botPlatformsAPI.getTelegramBots(),
         botPlatformsAPI.getWhatsAppSessions()
       ]);
-      setTelegramBots(telegramData);
-      setWhatsAppSessions(whatsappData);
+      
+      // Ensure we always set arrays, even if API returns null/undefined
+      setTelegramBots(Array.isArray(telegramData) ? telegramData : []);
+      setWhatsAppSessions(Array.isArray(whatsappData) ? whatsappData : []);
     } catch (error) {
       console.error('Failed to load bots:', error);
+      // Reset to empty arrays on error
+      setTelegramBots([]);
+      setWhatsAppSessions([]);
     }
   };
 
