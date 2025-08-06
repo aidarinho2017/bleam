@@ -3,6 +3,17 @@ import { API_ENDPOINTS } from '@/config/api';
 
 const API_BASE_URL = API_ENDPOINTS.BOT_PLATFORMS;
 
+// Create axios instance with authentication
+const createAuthenticatedRequest = () => {
+  const token = localStorage.getItem('auth_token');
+  return axios.create({
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    }
+  });
+};
+
 export interface TelegramBotData {
   apiToken: string;
   webhookUrl: string;
@@ -25,7 +36,8 @@ export const botPlatformsAPI = {
   // Telegram APIs
   connectTelegram: async (data: TelegramBotData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/telegram`, data);
+      const api = createAuthenticatedRequest();
+      const response = await api.post(`${API_BASE_URL}/telegram`, data);
       return { success: true, data: response.data };
     } catch (error: any) {
       throw new Error(error.response?.data || 'Failed to connect Telegram bot');
@@ -34,7 +46,8 @@ export const botPlatformsAPI = {
 
   getTelegramBots: async (): Promise<TelegramBot[]> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/telegram-ids`);
+      const api = createAuthenticatedRequest();
+      const response = await api.get(`${API_BASE_URL}/telegram-ids`);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data || 'Failed to fetch Telegram bots');
@@ -44,7 +57,8 @@ export const botPlatformsAPI = {
   // WhatsApp APIs
   connectWhatsApp: async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/whatsapp`);
+      const api = createAuthenticatedRequest();
+      const response = await api.post(`${API_BASE_URL}/whatsapp`);
       return { success: true, qrCode: response.data };
     } catch (error: any) {
       throw new Error(error.response?.data || 'Failed to connect WhatsApp bot');
@@ -53,7 +67,8 @@ export const botPlatformsAPI = {
 
   getWhatsAppSessions: async (): Promise<WhatsAppSession[]> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/whatsapp-ids`);
+      const api = createAuthenticatedRequest();
+      const response = await api.get(`${API_BASE_URL}/whatsapp-ids`);
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data || 'Failed to fetch WhatsApp sessions');
@@ -63,7 +78,8 @@ export const botPlatformsAPI = {
   // Bot control APIs
   startBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP') => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/${platformType}/start`);
+      const api = createAuthenticatedRequest();
+      const response = await api.post(`${API_BASE_URL}/${platformType}/start`);
       return { success: true, data: response.data };
     } catch (error: any) {
       throw new Error(error.response?.data || `Failed to start ${platformType} bot`);
@@ -72,7 +88,8 @@ export const botPlatformsAPI = {
 
   stopBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP') => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/${platformType}/stop`);
+      const api = createAuthenticatedRequest();
+      const response = await api.post(`${API_BASE_URL}/${platformType}/stop`);
       return { success: true, data: response.data };
     } catch (error: any) {
       throw new Error(error.response?.data || `Failed to stop ${platformType} bot`);
