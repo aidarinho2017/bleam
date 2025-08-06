@@ -1,6 +1,6 @@
 // Centralized API configuration
 // Change this URL to point to your backend server
-export const API_BASE_URL = 'https://a96eb52880c9.ngrok-free.app';
+export const API_BASE_URL = 'https://0a875952f50b.ngrok-free.app';
 
 // Derived URLs for different API endpoints
 export const API_ENDPOINTS = {
