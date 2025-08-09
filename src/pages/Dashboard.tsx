@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Bot, LogOut, BarChart3, Settings, Brain } from 'lucide-react';
+import { Bot, LogOut, BarChart3, Settings, Brain, Users } from 'lucide-react';
 import { authAPI } from '@/lib/auth';
 import { API_ENDPOINTS } from '@/config/api';
 import { botPlatformsAPI, TelegramBot, WhatsAppSession } from '@/lib/bot-platforms';
@@ -250,6 +250,12 @@ const Dashboard = () => {
                   <Button variant="outline" className="w-full btn-secondary justify-start">
                     <BarChart3 className="w-4 h-4 mr-2" />
                     View Analytics
+                  </Button>
+                </Link>
+                <Link to="/contacts">
+                  <Button variant="outline" className="w-full btn-secondary justify-start">
+                    <Users className="w-4 h-4 mr-2" />
+                    Contacts CRM
                   </Button>
                 </Link>
                 <Button variant="outline" className="w-full btn-secondary justify-start">

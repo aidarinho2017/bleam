@@ -14,6 +14,7 @@ import QrTestPage from "@/pages/QrTestPage.tsx";
 import OAuth2Success from "./pages/OAuth2Success";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Contacts from "./pages/Contacts";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,9 @@ const App = () => (
           <Route path="/session-viewer" element={<SessionViewer />} />
           <Route path="/qr-test" element={<QrTestPage />} />
           <Route path="/oauth2/success" element={<OAuth2Success />} />
+          <Route path="/contacts" element={<Contacts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
