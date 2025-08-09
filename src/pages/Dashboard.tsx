@@ -57,7 +57,17 @@ const Dashboard = () => {
     const token = localStorage.getItem('auth_token');
     if (!token) return;
 
-    const socketUrl = API_ENDPOINTS.WEBSOCKET;
+    const baseUrl = API_ENDPOINTS.WEBSOCKET;
+
+    // If the app runs over HTTPS but the WS URL is HTTP (insecure), skip to avoid browser SecurityError.
+    // This keeps localhost (HTTP) working while preventing errors on hosted HTTPS previews.
+    if (window.location.protocol === 'https:' && baseUrl.startsWith('http://')) {
+      console.warn('Skipping insecure SockJS connection from HTTPS page. Run locally (http://localhost) to test.');
+      return;
+    }
+
+    // Pass token in query for backends expecting it at handshake time
+    const socketUrl = `${baseUrl}?access_token=${encodeURIComponent(token)}`;
     const socket = new SockJS(socketUrl);
 
     const stompClient = new Client({
