@@ -10,130 +10,13 @@ import SearchBar from "@/components/contacts/SearchBar";
 import ContactsTable, { SortDir, SortKey } from "@/components/contacts/ContactsTable";
 import ContactDetailsDialog from "@/components/contacts/ContactDetailsDialog";
 import ContactForm from "@/components/contacts/ContactForm";
-import { Contact } from "@/components/contacts/types";
+import { Contact, CatalogueItem, PurchaseRecord } from "@/components/contacts/types";
 import { cn } from "@/lib/utils";
+import CatalogueTable from "@/components/catalogue/CatalogueTable";
+import PurchasesTable from "@/components/purchases/PurchasesTable";
+import { mockContacts, mockCatalogue, mockSales } from "@/components/contacts/mockData";
 
-const mockContacts: Contact[] = [
-  {
-    id: "1",
-    name: "Айдос Бек",
-    phone: "+7 701 123 4567",
-    email: "aidos.bek@example.kz",
-    lastActivity: new Date().toISOString(),
-    purchaseHistory: [
-      { product: "Samruk Pro", quantity: 1, date: new Date().toISOString() },
-      { product: "Kaspi Premium", quantity: 2, date: new Date().toISOString() },
-    ],
-    notes: "VIP клиент, предпочитает WhatsApp",
-  },
-  {
-    id: "2",
-    name: "Алтынай Салым",
-    phone: "+7 777 555 2211",
-    email: "altynai.s@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 2).toISOString(),
-    purchaseHistory: [],
-  },
-  {
-    id: "3",
-    name: "Жанар Куат",
-    phone: "+7 702 987 6543",
-    email: "zhanar.k@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 3).toISOString(),
-    purchaseHistory: [
-      { product: "Beeline+", quantity: 1, date: new Date().toISOString() },
-      { product: "Halyk Gold", quantity: 1, date: new Date().toISOString() },
-      { product: "Kcell Business", quantity: 3, date: new Date().toISOString() },
-      { product: "Magnum Club", quantity: 1, date: new Date().toISOString() },
-    ],
-  },
-  {
-    id: "4",
-    name: "Нурсултан Ерлан",
-    phone: "+7 705 111 2233",
-    email: "nursultan.y@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 10).toISOString(),
-    purchaseHistory: [
-      { product: "Air Astana Miles", quantity: 1, date: new Date().toISOString() },
-    ],
-  },
-  {
-    id: "5",
-    name: "Айгерим Тас",
-    phone: "+7 706 333 5566",
-    email: "aigerim.t@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 1).toISOString(),
-    purchaseHistory: [
-      { product: "Kaspi Red", quantity: 1, date: new Date().toISOString() },
-      { product: "Yandex Go Pro", quantity: 2, date: new Date().toISOString() },
-    ],
-  },
-  {
-    id: "6",
-    name: "Еркебулан Саин",
-    phone: "+7 707 444 7788",
-    email: "erkebulan.s@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 6).toISOString(),
-    purchaseHistory: [],
-  },
-  {
-    id: "7",
-    name: "Динара Аман",
-    phone: "+7 708 999 0001",
-    email: "dinara.a@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 15).toISOString(),
-    purchaseHistory: [
-      { product: "KazMunaiGaz Bonus", quantity: 4, date: new Date().toISOString() },
-    ],
-  },
-  {
-    id: "8",
-    name: "Рустем Нур",
-    phone: "+7 747 222 3344",
-    email: "rustem.n@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 5).toISOString(),
-    purchaseHistory: [
-      { product: "Forte Gold", quantity: 2, date: new Date().toISOString() },
-    ],
-  },
-  {
-    id: "9",
-    name: "Меруерт Жан",
-    phone: "+7 771 112 2233",
-    email: "meruert.j@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 20).toISOString(),
-    purchaseHistory: [],
-  },
-  {
-    id: "10",
-    name: "Ернар Али",
-    phone: "+7 775 555 6677",
-    email: "ernar.a@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 8).toISOString(),
-    purchaseHistory: [
-      { product: "Kaspi Gold", quantity: 1, date: new Date().toISOString() },
-      { product: "Zerta CRM", quantity: 1, date: new Date().toISOString() },
-    ],
-  },
-  {
-    id: "11",
-    name: "Санжар Омир",
-    phone: "+7 700 321 2323",
-    email: "sanzhar.o@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 4).toISOString(),
-    purchaseHistory: [],
-  },
-  {
-    id: "12",
-    name: "Аружан Тал",
-    phone: "+7 776 909 1010",
-    email: "aruzhan.t@example.kz",
-    lastActivity: new Date(Date.now() - 86400000 * 12).toISOString(),
-    purchaseHistory: [
-      { product: "Halyk Black", quantity: 1, date: new Date().toISOString() },
-    ],
-  },
-];
+// mock data moved to separate module
 
 const PAGE_SIZE = 10;
 
@@ -149,6 +32,47 @@ const ContactsPage = () => {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Contact | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Clothing shop state
+  const [catalogue, setCatalogue] = useState(mockCatalogue);
+  const [sales, setSales] = useState(mockSales);
+
+  // Update contact from details dialog
+  const onUpdateContact = (updated: Contact) => {
+    setContacts(prev => prev.map(c => c.id === updated.id ? updated : c));
+    setSelected(updated);
+    toast({ title: "Contact updated" });
+  };
+
+  // Catalogue CRUD
+  const createItem = (data: Omit<CatalogueItem, "id">) => {
+    const id = `SKU-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    setCatalogue(prev => [{ id, ...data }, ...prev]);
+    toast({ title: "Тауар қосылды" });
+  };
+  const updateItem = (item: CatalogueItem) => {
+    setCatalogue(prev => prev.map(i => i.id === item.id ? item : i));
+    toast({ title: "Тауар жаңартылды" });
+  };
+  const deleteItem = (id: string) => {
+    setCatalogue(prev => prev.filter(i => i.id !== id));
+    toast({ title: "Тауар өшірілді" });
+  };
+
+  // Sales CRUD
+  const createSale = (data: Omit<PurchaseRecord, "id">) => {
+    const id = `SALE-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    setSales(prev => [{ id, ...data }, ...prev]);
+    toast({ title: "Сату қосылды" });
+  };
+  const updateSale = (rec: PurchaseRecord) => {
+    setSales(prev => prev.map(s => s.id === rec.id ? rec : s));
+    toast({ title: "Сату жаңартылды" });
+  };
+  const deleteSale = (id: string) => {
+    setSales(prev => prev.filter(s => s.id !== id));
+    toast({ title: "Сату өшірілді" });
+  };
 
   useEffect(() => {
     // reset to page 1 when search changes
@@ -274,10 +198,26 @@ const ContactsPage = () => {
           onDelete={handleDelete}
           deletingId={deletingId}
         />
+
+        <section className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <CatalogueTable
+            items={catalogue}
+            onCreate={createItem}
+            onUpdate={updateItem}
+            onDelete={deleteItem}
+          />
+          <PurchasesTable
+            sales={sales}
+            catalogue={catalogue}
+            onCreate={createSale}
+            onUpdate={updateSale}
+            onDelete={deleteSale}
+          />
+        </section>
       </main>
 
       {/* Details Dialog */}
-      <ContactDetailsDialog open={detailsOpen} onOpenChange={setDetailsOpen} contact={selected} />
+      <ContactDetailsDialog open={detailsOpen} onOpenChange={setDetailsOpen} contact={selected} onUpdateContact={onUpdateContact} />
 
       {/* Add/Edit Dialog */}
       <Dialog open={formOpen} onOpenChange={setFormOpen}>

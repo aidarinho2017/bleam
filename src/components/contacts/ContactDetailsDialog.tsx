@@ -8,18 +8,40 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Contact } from "./types";
+import { Button } from "@/components/ui/button";
+import { Contact, Purchase } from "./types";
 import { format } from "date-fns";
+import { Pencil, Trash2, Plus } from "lucide-react";
+import ContactPurchaseForm from "./ContactPurchaseForm";
 
 interface Props {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   contact?: Contact | null;
+  onUpdateContact?: (c: Contact) => void;
 }
 
-const ContactDetailsDialog = ({ open, onOpenChange, contact }: Props) => {
+const ContactDetailsDialog = ({ open, onOpenChange, contact, onUpdateContact }: Props) => {
+  const [formOpen, setFormOpen] = React.useState(false);
+  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
+
   if (!contact) return null;
   const totalPurchases = contact.purchaseHistory.length;
+
+  const handleAdd = () => { setEditingIndex(null); setFormOpen(true); };
+  const handleEdit = (idx: number) => { setEditingIndex(idx); setFormOpen(true); };
+  const handleDelete = (idx: number) => {
+    if (!onUpdateContact) return;
+    const next = contact.purchaseHistory.filter((_, i) => i !== idx);
+    onUpdateContact({ ...contact, purchaseHistory: next });
+  };
+  const submit = (data: Purchase) => {
+    if (!onUpdateContact) return;
+    const list = [...contact.purchaseHistory];
+    if (editingIndex === null) list.unshift(data); else list[editingIndex] = data;
+    onUpdateContact({ ...contact, purchaseHistory: list });
+    setFormOpen(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -53,14 +75,19 @@ const ContactDetailsDialog = ({ open, onOpenChange, contact }: Props) => {
               <Badge variant="secondary">{totalPurchases}</Badge>
             </div>
           </section>
+
           {contact.notes && (
             <section>
               <p className="text-sm text-muted-foreground mb-1">Notes</p>
               <p className="text-sm">{contact.notes}</p>
             </section>
           )}
+
           <section>
-            <h4 className="text-sm font-semibold mb-2">Purchase History</h4>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-semibold">Purchase History</h4>
+              <Button size="sm" onClick={handleAdd}><Plus className="h-4 w-4 mr-2" />Add Purchase</Button>
+            </div>
             <div className="rounded-md border">
               <Table>
                 <TableHeader>
@@ -68,12 +95,13 @@ const ContactDetailsDialog = ({ open, onOpenChange, contact }: Props) => {
                     <TableHead>Product</TableHead>
                     <TableHead>Quantity</TableHead>
                     <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {contact.purchaseHistory.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={3} className="text-center text-muted-foreground">
+                      <TableCell colSpan={4} className="text-center text-muted-foreground">
                         No purchases yet.
                       </TableCell>
                     </TableRow>
@@ -83,12 +111,28 @@ const ContactDetailsDialog = ({ open, onOpenChange, contact }: Props) => {
                         <TableCell className="font-medium">{p.product}</TableCell>
                         <TableCell>{p.quantity}</TableCell>
                         <TableCell>{format(new Date(p.date), 'dd MMM yyyy')}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button variant="ghost" size="sm" onClick={() => handleEdit(idx)} aria-label="Edit purchase"><Pencil className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleDelete(idx)} aria-label="Delete purchase"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                          </div>
+                        </TableCell>
                       </TableRow>
                     ))
                   )}
                 </TableBody>
               </Table>
             </div>
+
+            {formOpen && (
+              <div className="mt-4 p-4 border rounded-md">
+                <ContactPurchaseForm
+                  initial={editingIndex !== null ? contact.purchaseHistory[editingIndex] : undefined}
+                  onSubmit={submit}
+                  onCancel={() => setFormOpen(false)}
+                />
+              </div>
+            )}
           </section>
         </div>
       </DialogContent>
