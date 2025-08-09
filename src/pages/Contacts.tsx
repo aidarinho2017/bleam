@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import CatalogueTable from "@/components/catalogue/CatalogueTable";
 import PurchasesTable from "@/components/purchases/PurchasesTable";
 import { mockContacts, mockCatalogue, mockSales } from "@/components/contacts/mockData";
+import ContactsMetrics from "@/components/contacts/ContactsMetrics";
 
 // mock data moved to separate module
 
@@ -180,6 +181,9 @@ const ContactsPage = () => {
       </header>
 
       <main className="container mx-auto px-4 py-6">
+        <section className="mb-6">
+          <ContactsMetrics contacts={contacts} sales={sales} catalogue={catalogue} />
+        </section>
         <section className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <SearchBar value={search} onChange={setSearch} />
           <div className="text-sm text-muted-foreground">{contacts.length} total contacts</div>
