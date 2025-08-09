@@ -28,12 +28,11 @@ interface Props {
 }
 
 const palette = [
-  "hsl(var(--primary))",
-  "hsl(var(--accent))",
-  "hsl(var(--secondary))",
-  "hsl(var(--primary) / 0.7)",
-  "hsl(var(--accent) / 0.7)",
-  "hsl(var(--secondary) / 0.7)",
+  "hsl(var(--chart-red))",
+  "hsl(var(--chart-blue))",
+  "hsl(var(--chart-green))",
+  "hsl(var(--chart-yellow))",
+  "hsl(var(--chart-pink))",
 ];
 
 export default function ContactsMetrics({ contacts, sales }: Props) {
@@ -115,7 +114,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
           <CardContent>
             <div className="h-28">
               <ChartContainer
-                config={{ conv: { label: "Conversion", color: "hsl(var(--accent))" } }}
+                config={{ conv: { label: "Conversion", color: "hsl(var(--chart-pink))" } }}
               >
                 <RadialBarChart data={[{ name: "conv", value: conversionRate }]} innerRadius={40} outerRadius={60} startAngle={90} endAngle={-270}>
                   <RadialBar dataKey="value" cornerRadius={10} fill="var(--color-conv)" />
@@ -186,8 +185,8 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
           <div className="h-72">
             <ChartContainer
               config={{
-                WhatsApp: { label: "WhatsApp", color: "hsl(var(--primary))" },
-                Telegram: { label: "Telegram", color: "hsl(var(--accent))" },
+                WhatsApp: { label: "WhatsApp", color: "hsl(var(--chart-green))" },
+                Telegram: { label: "Telegram", color: "hsl(var(--chart-blue))" },
               }}
             >
               <BarChart data={messagesByDay}>
