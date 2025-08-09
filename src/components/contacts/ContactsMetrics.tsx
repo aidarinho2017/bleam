@@ -139,12 +139,16 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
               <ChartContainer
                 config={{ revenue: { label: "Revenue", color: "hsl(var(--primary))" } }}
               >
-                <BarChart data={salesByPerson}>
+                <BarChart data={salesByPerson} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                   <CartesianGrid vertical={false} strokeDasharray="3 3" />
                   <XAxis dataKey="name" tickLine={false} axisLine={false} />
                   <YAxis tickLine={false} axisLine={false} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="revenue" fill="var(--color-revenue)" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="revenue" radius={[6, 6, 0, 0]}>
+                    {salesByPerson.map((_, idx) => (
+                      <Cell key={`rev-${idx}`} fill={palette[idx % palette.length]} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ChartContainer>
             </div>
