@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [whatsappCreated, setWhatsappCreated] = useState(false);
   const [whatsappRunning, setWhatsappRunning] = useState(false);
   const [qrCode, setQrCode] = useState<string>('');
+  const [qrTick, setQrTick] = useState(0);
   const [waStatus, setWaStatus] = useState<'CONNECTED' | 'DISCONNECTED' | ''>('');
   const stompClientRef = useRef<Client | null>(null);
 
@@ -96,6 +97,7 @@ const Dashboard = () => {
           const qr = message.body;
           console.log('Received QR code:', qr);
           setQrCode(qr);
+          setQrTick((prev) => prev + 1);
         });
         // WhatsApp bot status updates
         stompClient.subscribe('/user/queue/wa-status', (message) => {
@@ -321,6 +323,7 @@ const Dashboard = () => {
               whatsappRunning={whatsappRunning}
               setWhatsappRunning={setWhatsappRunning}
               qrCode={qrCode}
+              qrTick={qrTick}
               setQrCode={setQrCode}
               onCreateWhatsApp={handleCreateWhatsApp}
               onToggleBot={handleToggleBot}

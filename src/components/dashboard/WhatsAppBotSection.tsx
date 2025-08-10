@@ -11,6 +11,7 @@ interface WhatsAppBotSectionProps {
   whatsappRunning: boolean;
   setWhatsappRunning: (running: boolean) => void;
   qrCode: string;
+  qrTick: number;
   setQrCode: (qr: string) => void;
   onCreateWhatsApp: () => Promise<void>;
   onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
@@ -23,6 +24,7 @@ export const WhatsAppBotSection = ({
   whatsappRunning,
   setWhatsappRunning,
   qrCode,
+  qrTick,
   setQrCode,
   onCreateWhatsApp,
   onToggleBot,
@@ -41,25 +43,24 @@ export const WhatsAppBotSection = ({
       <div className="bg-card/30 rounded-lg p-4 mb-6">
         <h3 className="text-sm font-medium text-foreground mb-3">WhatsApp Bot Management</h3>
         
-        {/* Create WhatsApp Bot - Always visible */}
-        {waStatus === 'DISCONNECTED' && (
-          <Button 
-            onClick={onCreateWhatsApp}
-            disabled={loading}
-            className="btn-primary mb-4"
-          >
-            <MessageSquare className="w-4 h-4 mr-2" />
-            {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
-          </Button>
-        )}
+          {/* Create WhatsApp Bot or Created Text */}
+          {(!Array.isArray(whatsappSessions) || whatsappSessions.length === 0) ? (
+            <Button 
+              onClick={onCreateWhatsApp}
+              disabled={loading}
+              className="btn-primary mb-4"
+            >
+              <MessageSquare className="w-4 h-4 mr-2" />
+              {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
+            </Button>
+          ) : (
+            <p className="text-sm text-muted-foreground mb-4">WhatsApp bot is created</p>
+          )}
         
         {/* Bot Status Switch - Always visible */}
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center space-x-3">
             <span className="text-sm font-medium text-foreground">Bot Status</span>
-            <Badge variant={waStatus === 'CONNECTED' ? 'default' : 'secondary'} className="text-xs">
-              {waStatus || 'UNKNOWN'}
-            </Badge>
             <Switch
               checked={whatsappRunning}
               onCheckedChange={async (checked) => {
@@ -71,9 +72,6 @@ export const WhatsAppBotSection = ({
                 }
               }}
             />
-            <span className="text-sm text-muted-foreground">
-              {whatsappRunning ? 'Running' : 'Stopped'}
-            </span>
           </div>
         </div>
 
@@ -83,9 +81,10 @@ export const WhatsAppBotSection = ({
             <h4 className="text-sm font-medium text-foreground mb-3">Scan QR Code to Connect WhatsApp</h4>
             <div className="flex justify-center">
               <QRCodeCanvas
+                key={`${qrTick}-${qrCode}`}
                 value={qrCode}
                 size={100}
-                style={{ height: 'auto', maxWidth: '300', width: '300px' }}
+                style={{ height: 'auto', maxWidth: '300px', width: '300px' }}
               />
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
