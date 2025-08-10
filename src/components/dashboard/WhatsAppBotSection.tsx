@@ -42,7 +42,7 @@ export const WhatsAppBotSection = ({
         <h3 className="text-sm font-medium text-foreground mb-3">WhatsApp Bot Management</h3>
         
         {/* Create WhatsApp Bot - Always visible */}
-        {waStatus !== 'CONNECTED' && (
+        {waStatus === 'DISCONNECTED' && (
           <Button 
             onClick={onCreateWhatsApp}
             disabled={loading}

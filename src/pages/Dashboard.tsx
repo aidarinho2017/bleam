@@ -45,10 +45,7 @@ const Dashboard = () => {
     if (storedRunning !== null) {
       setWhatsappRunning(storedRunning === 'true');
     }
-    const storedQr = localStorage.getItem('wa_qr');
-    if (storedQr) {
-      setQrCode(storedQr);
-    }
+    // QR code is not persisted; it updates frequently via WebSocket
 
     // Load connected bots
     loadBots();
@@ -69,9 +66,6 @@ const Dashboard = () => {
     try {
       localStorage.setItem('wa_running', String(whatsappRunning));
     } catch {}
-    if (!whatsappRunning) {
-      try { localStorage.removeItem('wa_qr'); } catch {}
-    }
   }, [whatsappRunning]);
 
   const initializeWebSocket = () => {
@@ -102,10 +96,9 @@ const Dashboard = () => {
           const qr = message.body;
           console.log('Received QR code:', qr);
           setQrCode(qr);
-          try { localStorage.setItem('wa_qr', qr); } catch {}
         });
         // WhatsApp bot status updates
-        stompClient.subscribe('/queue/wa-status', (message) => {
+        stompClient.subscribe('/user/queue/wa-status', (message) => {
           const status = (message.body || '').toUpperCase();
           console.log('WhatsApp status:', status);
           if (status === 'CONNECTED' || status === 'DISCONNECTED') {
