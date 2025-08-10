@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [whatsappCreated, setWhatsappCreated] = useState(false);
   const [whatsappRunning, setWhatsappRunning] = useState(false);
   const [qrCode, setQrCode] = useState<string>('');
+  const [waStatus, setWaStatus] = useState<'CONNECTED' | 'DISCONNECTED' | ''>('');
   const stompClientRef = useRef<Client | null>(null);
 
   useEffect(() => {
@@ -38,6 +39,16 @@ const Dashboard = () => {
     // For now, we'll extract username from token or use placeholder
     // In a real app, you'd decode the JWT or make an API call
     setUsername('User');
+
+    // Restore persisted WhatsApp state
+    const storedRunning = localStorage.getItem('wa_running');
+    if (storedRunning !== null) {
+      setWhatsappRunning(storedRunning === 'true');
+    }
+    const storedQr = localStorage.getItem('wa_qr');
+    if (storedQr) {
+      setQrCode(storedQr);
+    }
 
     // Load connected bots
     loadBots();
@@ -52,6 +63,16 @@ const Dashboard = () => {
       }
     };
   }, [navigate]);
+
+  // Persist WhatsApp running state across reloads
+  useEffect(() => {
+    try {
+      localStorage.setItem('wa_running', String(whatsappRunning));
+    } catch {}
+    if (!whatsappRunning) {
+      try { localStorage.removeItem('wa_qr'); } catch {}
+    }
+  }, [whatsappRunning]);
 
   const initializeWebSocket = () => {
     const token = localStorage.getItem('auth_token');
@@ -78,9 +99,19 @@ const Dashboard = () => {
       onConnect: () => {
         console.log('Connected to WebSocket');
         stompClient.subscribe('/user/queue/qr', (message) => {
-          const qrCode = message.body;
-          console.log('Received QR code:', qrCode);
-          setQrCode(qrCode);
+          const qr = message.body;
+          console.log('Received QR code:', qr);
+          setQrCode(qr);
+          try { localStorage.setItem('wa_qr', qr); } catch {}
+        });
+        // WhatsApp bot status updates
+        stompClient.subscribe('/queue/wa-status', (message) => {
+          const status = (message.body || '').toUpperCase();
+          console.log('WhatsApp status:', status);
+          if (status === 'CONNECTED' || status === 'DISCONNECTED') {
+            // @ts-ignore
+            setWaStatus(status);
+          }
         });
       },
       onStompError: (frame) => {
@@ -300,6 +331,7 @@ const Dashboard = () => {
               setQrCode={setQrCode}
               onCreateWhatsApp={handleCreateWhatsApp}
               onToggleBot={handleToggleBot}
+              waStatus={waStatus}
             />
           </div>
         </div>

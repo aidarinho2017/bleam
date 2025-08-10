@@ -14,6 +14,7 @@ interface WhatsAppBotSectionProps {
   setQrCode: (qr: string) => void;
   onCreateWhatsApp: () => Promise<void>;
   onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
+  waStatus: 'CONNECTED' | 'DISCONNECTED' | '';
 }
 
 export const WhatsAppBotSection = ({
@@ -24,7 +25,8 @@ export const WhatsAppBotSection = ({
   qrCode,
   setQrCode,
   onCreateWhatsApp,
-  onToggleBot
+  onToggleBot,
+  waStatus
 }: WhatsAppBotSectionProps) => {
   return (
     <div className="card-glass p-6">
@@ -40,19 +42,24 @@ export const WhatsAppBotSection = ({
         <h3 className="text-sm font-medium text-foreground mb-3">WhatsApp Bot Management</h3>
         
         {/* Create WhatsApp Bot - Always visible */}
-        <Button 
-          onClick={onCreateWhatsApp}
-          disabled={loading}
-          className="btn-primary mb-4"
-        >
-          <MessageSquare className="w-4 h-4 mr-2" />
-          {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
-        </Button>
+        {waStatus !== 'CONNECTED' && (
+          <Button 
+            onClick={onCreateWhatsApp}
+            disabled={loading}
+            className="btn-primary mb-4"
+          >
+            <MessageSquare className="w-4 h-4 mr-2" />
+            {loading ? 'Creating Bot...' : 'Create WhatsApp Bot'}
+          </Button>
+        )}
         
         {/* Bot Status Switch - Always visible */}
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center space-x-3">
             <span className="text-sm font-medium text-foreground">Bot Status</span>
+            <Badge variant={waStatus === 'CONNECTED' ? 'default' : 'secondary'} className="text-xs">
+              {waStatus || 'UNKNOWN'}
+            </Badge>
             <Switch
               checked={whatsappRunning}
               onCheckedChange={async (checked) => {
@@ -93,8 +100,8 @@ export const WhatsAppBotSection = ({
         <div>
           <h3 className="text-sm font-medium text-foreground mb-3">Connected Sessions</h3>
           <div className="grid gap-3">
-            {whatsappSessions.map((session) => (
-              <div key={session.id} className="bg-card/20 rounded-lg p-4 flex items-center justify-between">
+            {whatsappSessions.map((session, idx) => (
+              <div key={session.id || `${session.nickname || 'session'}-${idx}`} className="bg-card/20 rounded-lg p-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <MessageSquare className="w-4 h-4 text-green-400 mr-3" />
                   <div>
