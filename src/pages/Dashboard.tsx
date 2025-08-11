@@ -131,7 +131,7 @@ const Dashboard = () => {
         botPlatformsAPI.getTelegramBots(),
         botPlatformsAPI.getWhatsAppSessions()
       ]);
-      
+
       // Ensure we always set arrays, even if API returns null/undefined
       setTelegramBots(Array.isArray(telegramData) ? telegramData : []);
       setWhatsAppSessions(Array.isArray(whatsappData) ? whatsappData : []);
@@ -140,29 +140,6 @@ const Dashboard = () => {
       // Reset to empty arrays on error
       setTelegramBots([]);
       setWhatsAppSessions([]);
-    }
-  };
-
-  const handleCreateWhatsApp = async () => {
-    setLoading(true);
-    try {
-      await botPlatformsAPI.connectWhatsApp();
-
-      toast({
-        title: 'WhatsApp Bot Created',
-        description: 'WhatsApp bot has been created successfully!'
-      });
-
-      setWhatsappCreated(true);
-      loadBots();
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive'
-      });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -240,100 +217,99 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/50 bg-card/20">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-accent">
-                <Bot className="w-6 h-6 text-white" />
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="border-b border-border/50 bg-card/20">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-accent">
+                  <Bot className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-foreground">Bleam Dashboard</h1>
+                  <p className="text-sm text-muted-foreground">Welcome back, {username}!</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">Bleam Dashboard</h1>
-                <p className="text-sm text-muted-foreground">Welcome back, {username}!</p>
-              </div>
-            </div>
 
-            <div className="flex items-center space-x-2">
-              <ThemeToggle />
-              <Button onClick={handleLogout} variant="outline" className="btn-secondary">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-
-        {/* Main Dashboard Content */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Quick Actions */}
-          <div className="lg:col-span-1">
-            <div className="card-glass p-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h2>
-              <div className="space-y-3">
-                <Link to="/bot-knowledge">
-                  <Button className="w-full btn-primary justify-start">
-                    <Brain className="w-4 h-4 mr-2" />
-                    Manage Bot Knowledge
-                  </Button>
-                </Link>
-                <Link to="/session-viewer">
-                  <Button variant="outline" className="w-full btn-secondary justify-start">
-                    <BarChart3 className="w-4 h-4 mr-2" />
-                    View Analytics
-                  </Button>
-                </Link>
-                <Link to="/contacts">
-                  <Button variant="outline" className="w-full btn-secondary justify-start">
-                    <Users className="w-4 h-4 mr-2" />
-                    Contacts CRM
-                  </Button>
-                </Link>
-                <Button variant="outline" className="w-full btn-secondary justify-start">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
+              <div className="flex items-center space-x-2">
+                <ThemeToggle />
+                <Button onClick={handleLogout} variant="outline" className="btn-secondary">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
                 </Button>
               </div>
             </div>
           </div>
+        </header>
 
-          {/* Bot Management */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Telegram Section */}
-            <TelegramBotSection
-              telegramBots={telegramBots}
-              telegramToken={telegramToken}
-              setTelegramToken={setTelegramToken}
-              webhookUrl={webhookUrl}
-              setWebhookUrl={setWebhookUrl}
-              loading={loading}
-              onConnectTelegram={handleConnectTelegram}
-              onToggleBot={handleToggleBot}
-            />
+        {/* Main Content */}
+        <main className="container mx-auto px-4 py-8">
 
-            {/* WhatsApp Section */}
-            <WhatsAppBotSection
-              whatsappSessions={whatsappSessions}
-              loading={loading}
-              whatsappRunning={whatsappRunning}
-              setWhatsappRunning={setWhatsappRunning}
-              qrCode={qrCode}
-              qrTick={qrTick}
-              setQrCode={setQrCode}
-              onCreateWhatsApp={handleCreateWhatsApp}
-              onToggleBot={handleToggleBot}
-              waStatus={waStatus}
-            />
+          {/* Main Dashboard Content */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Quick Actions */}
+            <div className="lg:col-span-1">
+              <div className="card-glass p-6">
+                <h2 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h2>
+                <div className="space-y-3">
+                  <Link to="/bot-knowledge">
+                    <Button className="w-full btn-primary justify-start">
+                      <Brain className="w-4 h-4 mr-2" />
+                      Manage Bot Knowledge
+                    </Button>
+                  </Link>
+                  <Link to="/session-viewer">
+                    <Button variant="outline" className="w-full btn-secondary justify-start">
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      View Analytics
+                    </Button>
+                  </Link>
+                  <Link to="/contacts">
+                    <Button variant="outline" className="w-full btn-secondary justify-start">
+                      <Users className="w-4 h-4 mr-2" />
+                      Contacts CRM
+                    </Button>
+                  </Link>
+                  <Button variant="outline" className="w-full btn-secondary justify-start">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Settings
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Bot Management */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Telegram Section */}
+              <TelegramBotSection
+                  telegramBots={telegramBots}
+                  telegramToken={telegramToken}
+                  setTelegramToken={setTelegramToken}
+                  webhookUrl={webhookUrl}
+                  setWebhookUrl={setWebhookUrl}
+                  loading={loading}
+                  onConnectTelegram={handleConnectTelegram}
+                  onToggleBot={handleToggleBot}
+              />
+
+              {/* WhatsApp Section */}
+              <WhatsAppBotSection
+                  whatsappSessions={whatsappSessions}
+                  loading={loading}
+                  whatsappRunning={whatsappRunning}
+                  setWhatsappRunning={setWhatsappRunning}
+                  qrCode={qrCode}
+                  qrTick={qrTick}
+                  setQrCode={setQrCode}
+                  onToggleBot={handleToggleBot}
+                  waStatus={waStatus}
+              />
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-    </div>
+      </div>
   );
 };
 

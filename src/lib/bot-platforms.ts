@@ -54,17 +54,6 @@ export const botPlatformsAPI = {
     }
   },
 
-  // WhatsApp APIs
-  connectWhatsApp: async () => {
-    try {
-      const api = createAuthenticatedRequest();
-      const response = await api.post(`${API_BASE_URL}/whatsapp`);
-      return { success: true, qrCode: response.data };
-    } catch (error: any) {
-      throw new Error(error.response?.data || 'Failed to connect WhatsApp bot');
-    }
-  },
-
   getWhatsAppSessions: async (): Promise<WhatsAppSession[]> => {
     try {
       const api = createAuthenticatedRequest();
