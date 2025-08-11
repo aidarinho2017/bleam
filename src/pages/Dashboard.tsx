@@ -254,7 +254,7 @@ const Dashboard = () => {
                 <h2 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h2>
                 <div className="space-y-3">
                   <Link to="/bot-knowledge">
-                    <Button className="w-full btn-primary justify-start">
+                    <Button variant="outline" className="w-full btn-secondary justify-start">
                       <Brain className="w-4 h-4 mr-2" />
                       Manage Bot Knowledge
                     </Button>
