@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [telegramBots, setTelegramBots] = useState<TelegramBot[]>([]);
   const [whatsappSessions, setWhatsAppSessions] = useState<WhatsAppSession[]>([]);
   const [telegramRunning, setTelegramRunning] = useState(false);
+  const [telegramToken, setTelegramToken] = useState('');
+  const [webhookUrl, setWebhookUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [whatsappCreated, setWhatsappCreated] = useState(false);
   const [whatsappRunning, setWhatsappRunning] = useState(false);
@@ -260,6 +262,10 @@ const Dashboard = () => {
                   telegramRunning={telegramRunning}
                   setTelegramRunning={setTelegramRunning}
                   onToggleBot={handleToggleBot}
+                  telegramToken={telegramToken}
+                  setTelegramToken={setTelegramToken}
+                  webhookUrl={webhookUrl}
+                  setWebhookUrl={setWebhookUrl}
               />
 
               {/* WhatsApp Section */}

@@ -3,19 +3,29 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Bot, Send, Play, Square } from 'lucide-react';
 import { TelegramBot } from '@/lib/bot-platforms';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 interface TelegramBotSectionProps {
   telegramBots: TelegramBot[];
   telegramRunning: boolean;
   setTelegramRunning: (running: boolean) => void;
   onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
+  telegramToken: string;
+  setTelegramToken: (value: string) => void;
+  webhookUrl: string;
+  setWebhookUrl: (value: string) => void;
 }
 
 export const TelegramBotSection = ({
   telegramBots,
   telegramRunning,
   setTelegramRunning,
-  onToggleBot
+  onToggleBot,
+  telegramToken,
+  setTelegramToken,
+  webhookUrl,
+  setWebhookUrl,
 }: TelegramBotSectionProps) => {
   return (
     <div className="card-glass p-6">
@@ -38,6 +48,31 @@ export const TelegramBotSection = ({
                 setTelegramRunning(checked);
                 await onToggleBot('telegram', checked ? 'start' : 'stop');
               }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Telegram Bot Settings */}
+      <div className="bg-card/30 rounded-lg p-4 mb-6">
+        <h3 className="text-sm font-medium text-foreground mb-3">Bot Settings</h3>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="telegram-token">Telegram Bot Token</Label>
+            <Input
+              id="telegram-token"
+              placeholder="Enter bot token"
+              value={telegramToken}
+              onChange={(e) => setTelegramToken(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="telegram-webhook">Webhook URL</Label>
+            <Input
+              id="telegram-webhook"
+              placeholder="https://your-domain.com/webhook"
+              value={webhookUrl}
+              onChange={(e) => setWebhookUrl(e.target.value)}
             />
           </div>
         </div>
