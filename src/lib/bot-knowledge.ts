@@ -19,9 +19,7 @@ export const botKnowledgeAPI = {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
-    } catch (error: any) {
-      throw new Error(error.response?.data || 'Failed to fetch knowledge');
-    }
+    } catch (error: any) { /* empty */ }
   },
 
   createKnowledge: async (data: BotKnowledgeData) => {
