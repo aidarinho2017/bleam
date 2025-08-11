@@ -20,8 +20,7 @@ const Dashboard = () => {
   // Bot management state
   const [telegramBots, setTelegramBots] = useState<TelegramBot[]>([]);
   const [whatsappSessions, setWhatsAppSessions] = useState<WhatsAppSession[]>([]);
-  const [telegramToken, setTelegramToken] = useState('');
-  const [webhookUrl, setWebhookUrl] = useState('');
+  const [telegramRunning, setTelegramRunning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [whatsappCreated, setWhatsappCreated] = useState(false);
   const [whatsappRunning, setWhatsappRunning] = useState(false);
