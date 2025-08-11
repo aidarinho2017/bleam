@@ -1,28 +1,20 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
 import { Bot, Send, Play, Square } from 'lucide-react';
 import { TelegramBot } from '@/lib/bot-platforms';
 
 interface TelegramBotSectionProps {
   telegramBots: TelegramBot[];
-  telegramToken: string;
-  setTelegramToken: (token: string) => void;
-  webhookUrl: string;
-  setWebhookUrl: (url: string) => void;
-  loading: boolean;
-  onConnectTelegram: () => Promise<void>;
+  telegramRunning: boolean;
+  setTelegramRunning: (running: boolean) => void;
   onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
 }
 
 export const TelegramBotSection = ({
   telegramBots,
-  telegramToken,
-  setTelegramToken,
-  webhookUrl,
-  setWebhookUrl,
-  loading,
-  onConnectTelegram,
+  telegramRunning,
+  setTelegramRunning,
   onToggleBot
 }: TelegramBotSectionProps) => {
   return (
@@ -34,30 +26,21 @@ export const TelegramBotSection = ({
         <h2 className="text-xl font-semibold text-foreground">Telegram Bots</h2>
       </div>
 
-      {/* Telegram Connection Form */}
+      {/* Telegram Bot Control */}
       <div className="bg-card/30 rounded-lg p-4 mb-6">
-        <h3 className="text-sm font-medium text-foreground mb-3">Connect New Telegram Bot</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <Input
-            placeholder="Bot Token"
-            value={telegramToken}
-            onChange={(e) => setTelegramToken(e.target.value)}
-            className="input-field"
-          />
-          <Input
-            placeholder="Webhook URL"
-            value={webhookUrl}
-            onChange={(e) => setWebhookUrl(e.target.value)}
-            className="input-field"
-          />
+        <h3 className="text-sm font-medium text-foreground mb-3">Bot Control</h3>
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center space-x-3">
+            <span className="text-sm font-medium text-foreground">Bot Status</span>
+            <Switch
+              checked={telegramRunning}
+              onCheckedChange={async (checked) => {
+                setTelegramRunning(checked);
+                await onToggleBot('telegram', checked ? 'start' : 'stop');
+              }}
+            />
+          </div>
         </div>
-        <Button 
-          onClick={onConnectTelegram}
-          disabled={loading}
-          className="btn-primary"
-        >
-          {loading ? 'Connecting...' : 'Connect Telegram Bot'}
-        </Button>
       </div>
 
       {/* Connected Telegram Bots */}

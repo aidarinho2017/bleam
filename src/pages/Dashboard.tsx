@@ -41,10 +41,14 @@ const Dashboard = () => {
     // In a real app, you'd decode the JWT or make an API call
     setUsername('User');
 
-    // Restore persisted WhatsApp state
+    // Restore persisted WhatsApp and Telegram state
     const storedRunning = localStorage.getItem('wa_running');
     if (storedRunning !== null) {
       setWhatsappRunning(storedRunning === 'true');
+    }
+    const storedTgRunning = localStorage.getItem('tg_running');
+    if (storedTgRunning !== null) {
+      setTelegramRunning(storedTgRunning === 'true');
     }
     // QR code is not persisted; it updates frequently via WebSocket
 
@@ -68,6 +72,12 @@ const Dashboard = () => {
       localStorage.setItem('wa_running', String(whatsappRunning));
     } catch {}
   }, [whatsappRunning]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('tg_running', String(telegramRunning));
+    } catch {}
+  }, [telegramRunning]);
 
   const initializeWebSocket = () => {
     const token = localStorage.getItem('auth_token');
@@ -150,42 +160,6 @@ const Dashboard = () => {
       description: 'You have been safely logged out.',
     });
     navigate('/');
-  };
-
-  const handleConnectTelegram = async () => {
-    if (!telegramToken || !webhookUrl) {
-      toast({
-        title: 'Error',
-        description: 'Please fill in both Bot Token and Webhook URL',
-        variant: 'destructive'
-      });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await botPlatformsAPI.connectTelegram({
-        apiToken: telegramToken,
-        webhookUrl: webhookUrl
-      });
-
-      toast({
-        title: 'Success',
-        description: 'Telegram bot connected successfully!'
-      });
-
-      setTelegramToken('');
-      setWebhookUrl('');
-      loadBots();
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive'
-      });
-    } finally {
-      setLoading(false);
-    }
   };
 
 
@@ -284,12 +258,8 @@ const Dashboard = () => {
               {/* Telegram Section */}
               <TelegramBotSection
                   telegramBots={telegramBots}
-                  telegramToken={telegramToken}
-                  setTelegramToken={setTelegramToken}
-                  webhookUrl={webhookUrl}
-                  setWebhookUrl={setWebhookUrl}
-                  loading={loading}
-                  onConnectTelegram={handleConnectTelegram}
+                  telegramRunning={telegramRunning}
+                  setTelegramRunning={setTelegramRunning}
                   onToggleBot={handleToggleBot}
               />
 
