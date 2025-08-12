@@ -22,6 +22,18 @@ const HowItWorks = () => {
     }
   ];
 
+  const stepColors = [
+    { grad: 'from-[hsl(var(--chart-pink))] to-[hsl(var(--bleam-purple))]', soft: 'bg-[hsl(var(--chart-pink)/0.1)]' },
+    { grad: 'from-[hsl(var(--chart-yellow))] to-[hsl(var(--chart-red))]', soft: 'bg-[hsl(var(--chart-yellow)/0.12)]' },
+    { grad: 'from-[hsl(var(--chart-green))] to-[hsl(var(--bleam-blue))]', soft: 'bg-[hsl(var(--chart-green)/0.12)]' },
+  ];
+
+  const crmColors = [
+    { grad: 'from-[hsl(var(--chart-green))] to-[hsl(var(--bleam-blue))]' },
+    { grad: 'from-[hsl(var(--chart-yellow))] to-[hsl(var(--chart-red))]' },
+    { grad: 'from-[hsl(var(--chart-pink))] to-[hsl(var(--bleam-purple))]' },
+  ];
+
   return (
     <section className="py-12 md:py-20 bg-card/20">
       <div className="container mx-auto px-4">
@@ -52,12 +64,12 @@ const HowItWorks = () => {
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   {/* Number badge */}
-                  <div className="mx-auto mb-6 w-10 h-10 rounded-full bg-gradient-to-r from-primary to-accent text-white flex items-center justify-center font-semibold shadow-[var(--shadow-glow)]">
+                  <div className={`mx-auto mb-6 w-10 h-10 rounded-full bg-gradient-to-r ${stepColors[index % stepColors.length].grad} text-white flex items-center justify-center font-semibold shadow-[var(--shadow-glow)]`}>
                     {s.step}
                   </div>
                   {/* Icon card */}
-                  <div className="inline-flex p-6 rounded-2xl bg-background/70 backdrop-blur-sm border border-border/50 group-hover:shadow-[var(--shadow-glow)] group-hover:scale-105 transition-all duration-300">
-                    <Icon className="w-8 h-8 text-primary group-hover:text-accent transition-colors duration-300" />
+                  <div className={`inline-flex p-6 rounded-2xl bg-gradient-to-r ${stepColors[index % stepColors.length].grad} text-white group-hover:shadow-[var(--shadow-glow)] group-hover:scale-105 transition-all duration-300`}>
+                    <Icon className="w-8 h-8 text-white transition-colors duration-300" />
                   </div>
                   <h3 className="text-xl font-semibold mt-4 mb-2 group-hover:text-gradient transition-all duration-300">
                     {s.title}
@@ -96,13 +108,13 @@ const HowItWorks = () => {
                 style={{ animationDelay: `${index * 0.25}s` }}
               >
                 {/* Timeline node */}
-                <div className="absolute left-0 top-4 w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent text-white flex items-center justify-center font-bold shadow-[var(--shadow-glow)]">
+                <div className={`absolute left-0 top-4 w-12 h-12 rounded-full bg-gradient-to-r ${crmColors[index % crmColors.length].grad} text-white flex items-center justify-center font-bold shadow-[var(--shadow-glow)]`}>
                   {s.step}
                 </div>
 
                 <div className="card-glass p-6 border border-border/60 bg-background/70 backdrop-blur-sm">
                   <div className="flex items-start gap-4">
-                    <div className="inline-flex p-3 rounded-xl bg-gradient-to-r from-primary to-accent">
+                    <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${crmColors[index % crmColors.length].grad}`}>
                       <Icon className="w-5 h-5 text-white" />
                     </div>
                     <div>
