@@ -18,10 +18,6 @@ const FAQ = () => {
       answer: 'Currently we support Telegram and WhatsApp, with more platforms coming soon including Discord, Facebook Messenger, and custom web chat widgets.'
     },
     {
-      question: 'Is my data secure?',
-      answer: 'Absolutely. We use enterprise-grade encryption, comply with GDPR and CCPA, and never share your data with third parties. Your conversations and customer data are completely private.'
-    },
-    {
       question: 'Can I customize the bot\'s responses?',
       answer: 'Yes! You can fully customize your bot\'s personality, responses, and behavior. Train it with your specific business knowledge and adjust its tone to match your brand.'
     }

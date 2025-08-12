@@ -2,12 +2,10 @@ import Navigation from '@/components/ui/navigation';
 import Seo from '@/components/seo/Seo';
 import Hero from '@/components/sections/Hero';
 import WhyChatBots from '@/components/sections/WhyChatBots';
-import SocialProof from '@/components/sections/SocialProof';
 import Features from '@/components/sections/Features';
 import AdvantagesCRM from '@/components/sections/AdvantagesCRM';
 import HowItWorks from '@/components/sections/HowItWorks';
 import UseCases from '@/components/sections/UseCases';
-import Testimonials from '@/components/sections/Testimonials';
 import Pricing from '@/components/sections/Pricing';
 import FAQ from '@/components/sections/FAQ';
 import FinalCTA from '@/components/sections/FinalCTA';
@@ -25,12 +23,10 @@ const Index = () => {
         />
         <Hero />
         <WhyChatBots />
-        <SocialProof />
         <Features />
         <AdvantagesCRM />
         <HowItWorks />
         <UseCases />
-        <Testimonials />
         <Pricing />
         <FAQ />
         <FinalCTA />

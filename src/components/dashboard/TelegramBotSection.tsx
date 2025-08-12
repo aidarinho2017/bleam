@@ -36,9 +36,32 @@ export const TelegramBotSection = ({
         <h2 className="text-xl font-semibold text-foreground">Telegram Bots</h2>
       </div>
 
+      <div className="bg-card/30 rounded-lg p-4 ">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="telegram-token">Telegram Bot Token</Label>
+            <Input
+                id="telegram-token"
+                placeholder="Enter bot token"
+                value={telegramToken}
+                onChange={(e) => setTelegramToken(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="telegram-webhook">Webhook URL</Label>
+            <Input
+                id="telegram-webhook"
+                placeholder="https://your-domain.com/webhook"
+                value={webhookUrl}
+                onChange={(e) => setWebhookUrl(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+
       {/* Telegram Bot Control */}
       <div className="bg-card/30 rounded-lg p-4 mb-6">
-        <h3 className="text-sm font-medium text-foreground mb-3">Bot Control</h3>
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center space-x-3">
             <span className="text-sm font-medium text-foreground">Bot Status</span>
@@ -52,36 +75,10 @@ export const TelegramBotSection = ({
           </div>
         </div>
       </div>
-
-      {/* Telegram Bot Settings */}
-      <div className="bg-card/30 rounded-lg p-4 mb-6">
-        <h3 className="text-sm font-medium text-foreground mb-3">Bot Settings</h3>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="telegram-token">Telegram Bot Token</Label>
-            <Input
-              id="telegram-token"
-              placeholder="Enter bot token"
-              value={telegramToken}
-              onChange={(e) => setTelegramToken(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="telegram-webhook">Webhook URL</Label>
-            <Input
-              id="telegram-webhook"
-              placeholder="https://your-domain.com/webhook"
-              value={webhookUrl}
-              onChange={(e) => setWebhookUrl(e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-
       {/* Connected Telegram Bots */}
       {Array.isArray(telegramBots) && telegramBots.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium text-foreground mb-3">Connected Bots</h3>
+          <h3 className="text-sm font-medium text-foreground mb-1">Connected Bots</h3>
           <div className="grid gap-3">
             {telegramBots.map((bot) => (
               <div key={bot.id} className="bg-card/20 rounded-lg p-4 flex items-center justify-between">
@@ -98,22 +95,22 @@ export const TelegramBotSection = ({
                 </div>
                 <div className="flex gap-2">
                   {bot.status === 'INACTIVE' ? (
-                    <Button
-                      size="sm"
-                      onClick={() => onToggleBot('telegram', 'start')}
-                      className="btn-primary"
-                    >
-                      <Play className="w-3 h-3" />
-                    </Button>
+                      <Button
+                          size="sm"
+                          onClick={() => onToggleBot('telegram', 'start')}
+                          className="btn-primary"
+                      >
+                        <Play className="w-3 h-3" />
+                      </Button>
                   ) : (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => onToggleBot('telegram', 'stop')}
-                      className="btn-secondary"
-                    >
-                      <Square className="w-3 h-3" />
-                    </Button>
+                      <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => onToggleBot('telegram', 'stop')}
+                          className="btn-secondary"
+                      >
+                        <Square className="w-3 h-3" />
+                      </Button>
                   )}
                 </div>
               </div>
