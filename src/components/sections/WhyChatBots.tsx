@@ -39,7 +39,7 @@ const WhyChatBots = () => {
     { stripe: 'bg-[hsl(var(--brand-blue))]', iconBg: 'bg-[hsl(var(--brand-blue))]', blob: 'bg-[hsl(var(--brand-blue)/0.14)]' },
     { stripe: 'bg-[hsl(var(--brand-violet))]', iconBg: 'bg-[hsl(var(--brand-violet))]', blob: 'bg-[hsl(var(--brand-violet)/0.14)]' },
     { stripe: 'bg-[hsl(var(--brand-orange))]', iconBg: 'bg-[hsl(var(--brand-orange))]', blob: 'bg-[hsl(var(--brand-orange)/0.14)]' },
-    { stripe: 'bg-[hsl(var(--brand-blue))]', iconBg: 'bg-[hsl(var(--brand-blue))]', blob: 'bg-[hsl(var(--brand-blue)/0.14)]' },
+    { stripe: 'bg-[hsl(var(--brand-violet))]', iconBg: 'bg-[hsl(var(--brand-violet))]', blob: 'bg-[hsl(var(--brand-violet)/0.14)]' },
     { stripe: 'bg-[hsl(var(--brand-green))]', iconBg: 'bg-[hsl(var(--brand-green))]', blob: 'bg-[hsl(var(--brand-green)/0.14)]' },
   ];
 
