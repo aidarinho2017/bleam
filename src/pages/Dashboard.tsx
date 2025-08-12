@@ -11,6 +11,7 @@ import SockJS from 'sockjs-client';
 import { TelegramBotSection } from '@/components/dashboard/TelegramBotSection';
 import { WhatsAppBotSection } from '@/components/dashboard/WhatsAppBotSection';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup, SelectLabel } from '@/components/ui/select';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ const Dashboard = () => {
   const [qrTick, setQrTick] = useState(0);
   const [waStatus, setWaStatus] = useState<'CONNECTED' | 'DISCONNECTED' | ''>('');
   const stompClientRef = useRef<Client | null>(null);
+
+  // AI model selection state
+  const [aiModel, setAiModel] = useState<'GEMINI' | 'GPT' | ''>('');
+  const [aiSaving, setAiSaving] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -79,6 +84,16 @@ const Dashboard = () => {
       localStorage.setItem('tg_running', String(telegramRunning));
     } catch {}
   }, [telegramRunning]);
+
+  // Load saved AI model from local storage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('ai_model_type');
+      if (saved === 'GEMINI' || saved === 'GPT') {
+        setAiModel(saved);
+      }
+    } catch {}
+  }, []);
 
   const initializeWebSocket = () => {
     const token = localStorage.getItem('auth_token');
@@ -191,6 +206,21 @@ const Dashboard = () => {
     }
   };
 
+  // Handle AI model selection
+  const handleSelectAiModel = async (value: 'GEMINI' | 'GPT') => {
+    setAiSaving(true);
+    try {
+      await botPlatformsAPI.selectAiModel(value);
+      setAiModel(value);
+      localStorage.setItem('ai_model_type', value);
+      toast({ title: 'AI model updated', description: `Selected ${value}` });
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+    } finally {
+      setAiSaving(false);
+    }
+  };
+
   return (
       <div className="min-h-screen bg-background">
         {/* Header */}
@@ -250,6 +280,27 @@ const Dashboard = () => {
                     <Settings className="w-4 h-4 mr-2" />
                     Settings
                   </Button>
+                </div>
+              </div>
+
+              {/* Settings */}
+              <div className="card-glass p-6 mt-6">
+                <h2 className="text-lg font-semibold text-foreground mb-4">Settings</h2>
+                <div className="space-y-2">
+                  <label className="text-sm text-muted-foreground">AI Model</label>
+                  <Select value={aiModel} onValueChange={(v) => handleSelectAiModel(v as 'GEMINI' | 'GPT')} disabled={aiSaving}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select model" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Models</SelectLabel>
+                        <SelectItem value="GEMINI">Gemini</SelectItem>
+                        <SelectItem value="GPT">GPT</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">This applies to your bots.</p>
                 </div>
               </div>
             </div>

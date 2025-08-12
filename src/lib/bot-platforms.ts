@@ -83,5 +83,16 @@ export const botPlatformsAPI = {
     } catch (error: any) {
       throw new Error(error.response?.data || `Failed to stop ${platformType} bot`);
     }
+  },
+
+  // AI Model selection API
+  selectAiModel: async (aiModelType: 'GEMINI' | 'GPT') => {
+    try {
+      const api = createAuthenticatedRequest();
+      const response = await api.post(`${API_BASE_URL}/${aiModelType}`);
+      return { success: true, data: response.data };
+    } catch (error: any) {
+      throw new Error(error.response?.data || 'Failed to select AI model');
+    }
   }
 };
