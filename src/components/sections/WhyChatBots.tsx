@@ -35,12 +35,12 @@ const WhyChatBots = () => {
   ];
 
   const colorVariants = [
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]', blob: 'from-[hsl(var(--brand-green)/0.2)] to-[hsl(var(--brand-blue)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]', blob: 'from-[hsl(var(--brand-blue)/0.2)] to-[hsl(var(--brand-violet)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]', blob: 'from-[hsl(var(--brand-orange)/0.2)] to-[hsl(var(--brand-violet)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-violet))] to-[hsl(var(--brand-green))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-violet))] to-[hsl(var(--brand-green))]', blob: 'from-[hsl(var(--brand-violet)/0.2)] to-[hsl(var(--brand-green)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-blue))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-blue))]', blob: 'from-[hsl(var(--brand-orange)/0.2)] to-[hsl(var(--brand-blue)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-orange))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-orange))]', blob: 'from-[hsl(var(--brand-green)/0.2)] to-[hsl(var(--brand-orange)/0.2)]' },
+    { stripe: 'bg-[hsl(var(--brand-green))]', iconBg: 'bg-[hsl(var(--brand-green))]', blob: 'bg-[hsl(var(--brand-green)/0.14)]' },
+    { stripe: 'bg-[hsl(var(--brand-blue))]', iconBg: 'bg-[hsl(var(--brand-blue))]', blob: 'bg-[hsl(var(--brand-blue)/0.14)]' },
+    { stripe: 'bg-[hsl(var(--brand-violet))]', iconBg: 'bg-[hsl(var(--brand-violet))]', blob: 'bg-[hsl(var(--brand-violet)/0.14)]' },
+    { stripe: 'bg-[hsl(var(--brand-orange))]', iconBg: 'bg-[hsl(var(--brand-orange))]', blob: 'bg-[hsl(var(--brand-orange)/0.14)]' },
+    { stripe: 'bg-[hsl(var(--brand-blue))]', iconBg: 'bg-[hsl(var(--brand-blue))]', blob: 'bg-[hsl(var(--brand-blue)/0.14)]' },
+    { stripe: 'bg-[hsl(var(--brand-green))]', iconBg: 'bg-[hsl(var(--brand-green))]', blob: 'bg-[hsl(var(--brand-green)/0.14)]' },
   ];
 
   return (
@@ -71,13 +71,13 @@ const WhyChatBots = () => {
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-1 group-hover:text-gradient transition-all">{item.title}</h3>
+                    <h3 className="text-lg font-semibold mb-1 transition-colors">{item.title}</h3>
                     <p className="text-sm text-muted-foreground">{item.description}</p>
                   </div>
                 </div>
 
                 {/* Decorative gradient blob */}
-                <div className={`pointer-events-none absolute -bottom-16 -right-16 w-40 h-40 rounded-full bg-gradient-to-br ${c.blob} blur-2xl`} />
+                <div className={`pointer-events-none absolute -bottom-16 -right-16 w-40 h-40 rounded-full ${c.blob} blur-2xl`} />
               </article>
             );
           })}
