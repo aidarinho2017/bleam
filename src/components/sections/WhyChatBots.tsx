@@ -35,12 +35,12 @@ const WhyChatBots = () => {
   ];
 
   const colorVariants = [
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--chart-pink))] to-[hsl(var(--bleam-purple))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--chart-pink))] to-[hsl(var(--bleam-purple))]', blob: 'from-[hsl(var(--chart-pink)/0.2)] to-[hsl(var(--bleam-purple)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--chart-yellow))] to-[hsl(var(--chart-red))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--chart-yellow))] to-[hsl(var(--chart-red))]', blob: 'from-[hsl(var(--chart-yellow)/0.2)] to-[hsl(var(--chart-red)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--chart-green))] to-[hsl(var(--bleam-blue))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--chart-green))] to-[hsl(var(--bleam-blue))]', blob: 'from-[hsl(var(--chart-green)/0.2)] to-[hsl(var(--bleam-blue)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--bleam-purple))] to-[hsl(var(--chart-yellow))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--bleam-purple))] to-[hsl(var(--chart-yellow))]', blob: 'from-[hsl(var(--bleam-purple)/0.2)] to-[hsl(var(--chart-yellow)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--chart-red))] to-[hsl(var(--chart-pink))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--chart-red))] to-[hsl(var(--chart-pink))]', blob: 'from-[hsl(var(--chart-red)/0.2)] to-[hsl(var(--chart-pink)/0.2)]' },
-    { stripe: 'bg-gradient-to-r from-[hsl(var(--bleam-blue))] to-[hsl(var(--chart-green))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--bleam-blue))] to-[hsl(var(--chart-green))]', blob: 'from-[hsl(var(--bleam-blue)/0.2)] to-[hsl(var(--chart-green)/0.2)]' },
+    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]', blob: 'from-[hsl(var(--brand-green)/0.2)] to-[hsl(var(--brand-blue)/0.2)]' },
+    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]', blob: 'from-[hsl(var(--brand-blue)/0.2)] to-[hsl(var(--brand-violet)/0.2)]' },
+    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]', blob: 'from-[hsl(var(--brand-orange)/0.2)] to-[hsl(var(--brand-violet)/0.2)]' },
+    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-violet))] to-[hsl(var(--brand-green))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-violet))] to-[hsl(var(--brand-green))]', blob: 'from-[hsl(var(--brand-violet)/0.2)] to-[hsl(var(--brand-green)/0.2)]' },
+    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-blue))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-blue))]', blob: 'from-[hsl(var(--brand-orange)/0.2)] to-[hsl(var(--brand-blue)/0.2)]' },
+    { stripe: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-orange))]', iconBg: 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--brand-orange))]', blob: 'from-[hsl(var(--brand-green)/0.2)] to-[hsl(var(--brand-orange)/0.2)]' },
   ];
 
   return (

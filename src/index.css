@@ -78,6 +78,12 @@
     --chart-green: 142 71% 45%;
     --chart-yellow: 48 100% 50%;
     --chart-pink: 330 81% 75%;
+
+    /* Brand palette tokens (Light) */
+    --brand-green: 142 71% 45%;   /* vibrant green */
+    --brand-blue: 217 91% 60%;    /* bright blue */
+    --brand-violet: 268 84% 60%;  /* rich violet */
+    --brand-orange: 24 95% 55%;   /* energetic orange */
   }
 
   .dark {
@@ -142,6 +148,12 @@
     --chart-green: 142 69% 45%;
     --chart-yellow: 48 96% 55%;
     --chart-pink: 330 75% 72%;
+
+    /* Brand palette tokens (Dark) */
+    --brand-green: 142 69% 45%;
+    --brand-blue: 217 91% 60%;
+    --brand-violet: 268 80% 60%;
+    --brand-orange: 24 90% 56%;
   }
 }
 

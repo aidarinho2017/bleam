@@ -7,21 +7,24 @@ const UseCases = () => {
       title: 'E-commerce',
       description: 'From clothing stores to gadget shops',
       features: ['Product recommendations', 'Order tracking', 'Payment processing', 'Inventory alerts'],
-      gradient: 'from-blue-500 to-cyan-500'
+      gradient: 'from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]',
+      dotColor: 'bg-[hsl(var(--brand-orange))]'
     },
     {
       icon: Headphones,
       title: 'Customer Support',
       description: 'Reduce wait times and increase satisfaction',
       features: ['24/7 availability', 'Issue resolution', 'Ticket creation', 'Knowledge base'],
-      gradient: 'from-purple-500 to-pink-500'
+      gradient: 'from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]',
+      dotColor: 'bg-[hsl(var(--brand-blue))]'
     },
     {
       icon: UserCheck,
       title: 'Lead Generation',
       description: 'Capture more potential buyers automatically',
       features: ['Lead scoring', 'Appointment booking', 'Follow-up campaigns', 'CRM integration'],
-      gradient: 'from-green-500 to-emerald-500'
+      gradient: 'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]',
+      dotColor: 'bg-[hsl(var(--brand-green))]'
     }
   ];
 
@@ -62,7 +65,7 @@ const UseCases = () => {
                 <ul className="space-y-2">
                   {useCase.features.map((feature) => (
                     <li key={feature} className="flex items-center text-sm text-muted-foreground">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3" />
+                      <div className={`w-1.5 h-1.5 ${useCase.dotColor} rounded-full mr-3`} />
                       {feature}
                     </li>
                   ))}

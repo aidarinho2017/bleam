@@ -23,15 +23,15 @@ const HowItWorks = () => {
   ];
 
   const stepColors = [
-    { grad: 'from-[hsl(var(--chart-pink))] to-[hsl(var(--bleam-purple))]', soft: 'bg-[hsl(var(--chart-pink)/0.1)]' },
-    { grad: 'from-[hsl(var(--chart-yellow))] to-[hsl(var(--chart-red))]', soft: 'bg-[hsl(var(--chart-yellow)/0.12)]' },
-    { grad: 'from-[hsl(var(--chart-green))] to-[hsl(var(--bleam-blue))]', soft: 'bg-[hsl(var(--chart-green)/0.12)]' },
+    { grad: 'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]', soft: 'bg-[hsl(var(--brand-green)/0.12)]' },
+    { grad: 'from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]', soft: 'bg-[hsl(var(--brand-orange)/0.12)]' },
+    { grad: 'from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]', soft: 'bg-[hsl(var(--brand-blue)/0.12)]' },
   ];
 
   const crmColors = [
-    { grad: 'from-[hsl(var(--chart-green))] to-[hsl(var(--bleam-blue))]' },
-    { grad: 'from-[hsl(var(--chart-yellow))] to-[hsl(var(--chart-red))]' },
-    { grad: 'from-[hsl(var(--chart-pink))] to-[hsl(var(--bleam-purple))]' },
+    { grad: 'from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]' },
+    { grad: 'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]' },
+    { grad: 'from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]' },
   ];
 
   return (

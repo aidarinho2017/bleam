@@ -31,13 +31,18 @@ const AdvantagesCRM = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {items.map((item, idx) => {
             const Icon = item.icon;
+            const gradients = [
+              'from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]',
+              'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]',
+              'from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]'
+            ];
             return (
               <article
                 key={item.title}
                 className="card-glass p-8 group hover:scale-105 transition-all duration-300 animate-slide-up"
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
-                <div className="inline-flex p-3 rounded-xl bg-gradient-to-r from-primary to-accent mb-6">
+                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${gradients[idx % gradients.length]} mb-6`}>
                   <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3 group-hover:text-gradient transition-all">{item.title}</h3>
