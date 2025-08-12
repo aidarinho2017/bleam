@@ -5,54 +5,48 @@ import { Link } from 'react-router-dom';
 const Pricing = () => {
   const plans = [
     {
-      name: 'Starter',
+      name: 'Free Trial',
       price: 'Free',
-      description: 'Perfect for trying out Bleam',
+      description: 'Try core features. No credit card required.',
       features: [
-        '100 messages/month',
-        '1 bot',
-        'Basic templates',
-        'Email support',
-        'Community access'
+        'Quick start in minutes',
+        'Sample templates',
+        'Cancel anytime'
       ],
       icon: Zap,
       popular: false,
-      cta: 'Start Free'
+      cta: 'Start',
+      link: '/login'
     },
     {
-      name: 'Pro',
-      price: '$29',
-      period: '/month',
-      description: 'Best for growing businesses',
+      name: 'Bot',
+      price: 'from 10,000 тг',
+      description: 'Telegram/WhatsApp bot for your business',
       features: [
-        '10,000 messages/month',
-        'Unlimited bots',
-        'Custom templates',
-        'Priority support',
-        'Advanced analytics',
-        'WhatsApp & Telegram',
-        'API access'
+        'AI responses 24/7',
+        'Connect to your data',
+        'Bookings & lead capture',
+        'Basic analytics'
       ],
       icon: Crown,
-      popular: true,
-      cta: 'Start Pro Trial'
+      popular: false,
+      cta: 'Leave a Request',
+      link: '/contacts'
     },
     {
-      name: 'Enterprise',
-      price: 'Custom',
-      description: 'For large organizations',
+      name: 'Bot + CRM',
+      price: 'from 30,000 тг',
+      description: 'Full automation: chat + CRM insights',
       features: [
-        'Unlimited messages',
-        'Unlimited bots',
-        'Custom integrations',
-        'Dedicated support',
-        'SLA guarantee',
-        'On-premise option',
-        'Training & onboarding'
+        'Sales & inventory analytics',
+        'Loyalty programs & promos',
+        'Templates or custom build',
+        'Priority support'
       ],
       icon: Building,
-      popular: false,
-      cta: 'Contact Sales'
+      popular: true,
+      cta: 'Leave a Request',
+      link: '/contacts'
     }
   ];
 
@@ -98,7 +92,6 @@ const Pricing = () => {
                   
                   <div className="mb-4">
                     <span className="text-4xl font-bold text-gradient">{plan.price}</span>
-                    {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
                   </div>
                 </div>
                 
@@ -113,7 +106,7 @@ const Pricing = () => {
                 </ul>
                 
                 {/* CTA */}
-                <Link to="/register" className="block">
+                <Link to={plan.link} className="block">
                   <Button 
                     className={`w-full ${
                       plan.popular ? 'btn-primary' : 'btn-secondary'

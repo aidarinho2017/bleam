@@ -11,29 +11,28 @@ const Hero = () => {
           {/* Left Content */}
           <div className="text-center lg:text-left animate-slide-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Create Your Own{' '}
-              <span className="text-gradient">AI Bot</span> for{' '}
-              <span className="text-gradient">Telegram & WhatsApp</span>
+              <span className="text-gradient">CRM + AI ChatBots</span> — Sales automation, available 24/7.
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
-              Automate customer conversations, boost sales, and stay available 24/7 
-              with intelligent chatbots that convert visitors into customers
+              Instant customer communication, higher conversions, and stronger loyalty — all in one simple tool.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
-              <Link to="/register">
+              <Link to="/login">
                 <Button className="btn-primary text-lg px-8 py-4 glow-effect">
-                  Create Your Bot Now
+                  Start
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
               
-              <Button variant="outline" className="btn-secondary text-lg px-8 py-4">
-                <Play className="mr-2 w-5 h-5" />
-                Watch Demo
-              </Button>
+              <Link to="/#features">
+                <Button variant="outline" className="btn-secondary text-lg px-8 py-4">
+                  <Play className="mr-2 w-5 h-5" />
+                  Watch Demo
+                </Button>
+              </Link>
             </div>
 
             {/* Social Proof */}

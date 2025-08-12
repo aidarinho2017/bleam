@@ -13,19 +13,17 @@ const FinalCTA = () => {
           
           <div className="relative card-glass p-8 md:p-12 text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Ready to Automate Your{' '}
-              <span className="text-gradient">Customer Communications?</span>
+              Ready to increase your revenue and improve relationships with customers?
             </h2>
             
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join thousands of businesses already using Bleam to grow their sales 
-              and provide amazing customer experiences
+              Let’s get started today.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link to="/register">
+              <Link to="/login">
                 <Button className="btn-primary text-lg px-8 py-4 glow-effect">
-                  Create Your Bot Now
+                  Start Using
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>

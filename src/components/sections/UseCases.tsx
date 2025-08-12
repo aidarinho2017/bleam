@@ -5,21 +5,21 @@ const UseCases = () => {
     {
       icon: ShoppingCart,
       title: 'E-commerce',
-      description: 'Handle product inquiries, process orders, send shipping updates',
+      description: 'From clothing stores to gadget shops',
       features: ['Product recommendations', 'Order tracking', 'Payment processing', 'Inventory alerts'],
       gradient: 'from-blue-500 to-cyan-500'
     },
     {
       icon: Headphones,
       title: 'Customer Support',
-      description: 'Provide instant help, troubleshoot issues, escalate to humans when needed',
+      description: 'Reduce wait times and increase satisfaction',
       features: ['24/7 availability', 'Issue resolution', 'Ticket creation', 'Knowledge base'],
       gradient: 'from-purple-500 to-pink-500'
     },
     {
       icon: UserCheck,
       title: 'Lead Generation',
-      description: 'Qualify prospects, book appointments, nurture leads through sales funnel',
+      description: 'Capture more potential buyers automatically',
       features: ['Lead scoring', 'Appointment booking', 'Follow-up campaigns', 'CRM integration'],
       gradient: 'from-green-500 to-emerald-500'
     }
