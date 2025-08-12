@@ -43,20 +43,39 @@ const WhyChatBots = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Mosaic layout with colorful accents */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
           {items.map((item, idx) => {
             const Icon = item.icon;
+            const spans = [
+              'lg:col-span-3',
+              'lg:col-span-3',
+              'lg:col-span-2',
+              'lg:col-span-2',
+              'lg:col-span-2',
+              'lg:col-span-3',
+            ];
             return (
               <article
                 key={item.title}
-                className="card-glass p-6 group hover:scale-105 transition-all duration-300 animate-slide-up"
+                className={`relative group overflow-hidden rounded-2xl border border-border/60 bg-background/70 backdrop-blur-sm p-6 ${spans[idx % spans.length]} hover:shadow-[var(--shadow-glow)] hover-scale animate-slide-up`}
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
-                <div className="inline-flex p-3 rounded-xl bg-gradient-to-r from-primary to-accent mb-4">
-                  <Icon className="w-6 h-6 text-white" />
+                {/* Gradient top stripe */}
+                <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-accent to-primary" />
+
+                <div className="flex items-start gap-4">
+                  <div className="inline-flex p-3 rounded-xl bg-gradient-to-r from-primary to-accent">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold mb-1 group-hover:text-gradient transition-all">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-gradient transition-all">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.description}</p>
+
+                {/* Decorative gradient blob */}
+                <div className="pointer-events-none absolute -bottom-16 -right-16 w-40 h-40 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl" />
               </article>
             );
           })}

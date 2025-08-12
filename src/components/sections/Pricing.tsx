@@ -29,7 +29,7 @@ const Pricing = () => {
         'Basic analytics'
       ],
       icon: Crown,
-      popular: false,
+      popular: true,
       cta: 'Leave a Request',
       link: '/contacts'
     },
@@ -44,7 +44,7 @@ const Pricing = () => {
         'Priority support'
       ],
       icon: Building,
-      popular: true,
+      popular: false,
       cta: 'Leave a Request',
       link: '/contacts'
     }
