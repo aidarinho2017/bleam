@@ -285,7 +285,6 @@ const Dashboard = () => {
 
               {/* Settings */}
               <div className="card-glass p-6 mt-6">
-                <h2 className="text-lg font-semibold text-foreground mb-4">Settings</h2>
                 <div className="space-y-2">
                   <label className="text-sm text-muted-foreground">AI Model</label>
                   <Select value={aiModel} onValueChange={(v) => handleSelectAiModel(v as 'GEMINI' | 'GPT')} disabled={aiSaving}>
@@ -300,7 +299,6 @@ const Dashboard = () => {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-muted-foreground">This applies to your bots.</p>
                 </div>
               </div>
             </div>

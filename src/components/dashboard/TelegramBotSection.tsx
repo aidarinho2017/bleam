@@ -13,8 +13,6 @@ interface TelegramBotSectionProps {
   onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
   telegramToken: string;
   setTelegramToken: (value: string) => void;
-  webhookUrl: string;
-  setWebhookUrl: (value: string) => void;
 }
 
 export const TelegramBotSection = ({
@@ -24,8 +22,6 @@ export const TelegramBotSection = ({
   onToggleBot,
   telegramToken,
   setTelegramToken,
-  webhookUrl,
-  setWebhookUrl,
 }: TelegramBotSectionProps) => {
   return (
     <div className="card-glass p-6">
@@ -45,15 +41,6 @@ export const TelegramBotSection = ({
                 placeholder="Enter bot token"
                 value={telegramToken}
                 onChange={(e) => setTelegramToken(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="telegram-webhook">Webhook URL</Label>
-            <Input
-                id="telegram-webhook"
-                placeholder="https://your-domain.com/webhook"
-                value={webhookUrl}
-                onChange={(e) => setWebhookUrl(e.target.value)}
             />
           </div>
         </div>
