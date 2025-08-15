@@ -65,10 +65,10 @@ export const botPlatformsAPI = {
   },
 
   // Bot control APIs
-  startBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP') => {
+  startBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP', data?: any) => {
     try {
       const api = createAuthenticatedRequest();
-      const response = await api.post(`${API_BASE_URL}/${platformType}/start`);
+      const response = await api.post(`${API_BASE_URL}/${platformType}/start`, data);
       return { success: true, data: response.data };
     } catch (error: any) {
       throw new Error(error.response?.data || `Failed to start ${platformType} bot`);

@@ -183,7 +183,19 @@ const Dashboard = () => {
     try {
       const platformType = type === 'whatsapp' ? 'WHATSAPP' : type;
       if (action === 'start') {
-        await botPlatformsAPI.startBot(platformType);
+        let data = undefined;
+        if (type === 'telegram') {
+          if (!telegramToken.trim()) {
+            toast({
+              title: 'Error',
+              description: 'Please enter a Telegram bot token first',
+              variant: 'destructive'
+            });
+            return;
+          }
+          data = { apiToken: telegramToken };
+        }
+        await botPlatformsAPI.startBot(platformType, data);
       } else {
         await botPlatformsAPI.stopBot(platformType);
       }
