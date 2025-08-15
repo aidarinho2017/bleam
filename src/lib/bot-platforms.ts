@@ -37,7 +37,7 @@ export const botPlatformsAPI = {
   connectTelegram: async (data: TelegramBotData) => {
     try {
       const api = createAuthenticatedRequest();
-      const response = await api.post(`${API_BASE_URL}/telegram`, data);
+      const response = await api.post(`${API_BASE_URL}/TELEGRAM`, data);
       return { success: true, data: response.data };
     } catch (error: any) {
       throw new Error(error.response?.data || 'Failed to connect Telegram bot');
@@ -65,7 +65,7 @@ export const botPlatformsAPI = {
   },
 
   // Bot control APIs
-  startBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP', data?: any) => {
+  startBot: async (platformType: 'TELEGRAM' | 'WHATSAPP', data?: any) => {
     try {
       const api = createAuthenticatedRequest();
       const response = await api.post(`${API_BASE_URL}/${platformType}/start`, data);
@@ -75,7 +75,7 @@ export const botPlatformsAPI = {
     }
   },
 
-  stopBot: async (platformType: 'telegram' | 'whatsapp' | 'WHATSAPP') => {
+  stopBot: async (platformType: 'TELEGRAM' | 'WHATSAPP') => {
     try {
       const api = createAuthenticatedRequest();
       const response = await api.post(`${API_BASE_URL}/${platformType}/stop`);

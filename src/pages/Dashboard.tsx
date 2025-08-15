@@ -23,9 +23,7 @@ const Dashboard = () => {
   const [whatsappSessions, setWhatsAppSessions] = useState<WhatsAppSession[]>([]);
   const [telegramRunning, setTelegramRunning] = useState(false);
   const [telegramToken, setTelegramToken] = useState('');
-  const [webhookUrl, setWebhookUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [whatsappCreated, setWhatsappCreated] = useState(false);
   const [whatsappRunning, setWhatsappRunning] = useState(false);
   const [qrCode, setQrCode] = useState<string>('');
   const [qrTick, setQrTick] = useState(0);
@@ -179,12 +177,12 @@ const Dashboard = () => {
   };
 
 
-  const handleToggleBot = async (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => {
+  const handleToggleBot = async (type: 'TELEGRAM' | 'whatsapp', action: 'start' | 'stop') => {
     try {
       const platformType = type === 'whatsapp' ? 'WHATSAPP' : type;
       if (action === 'start') {
         let data = undefined;
-        if (type === 'telegram') {
+        if (type === 'TELEGRAM') {
           if (!telegramToken.trim()) {
             toast({
               title: 'Error',
