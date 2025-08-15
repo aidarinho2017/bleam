@@ -10,7 +10,7 @@ interface TelegramBotSectionProps {
   telegramBots: TelegramBot[];
   telegramRunning: boolean;
   setTelegramRunning: (running: boolean) => void;
-  onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
+  onToggleBot: (type: 'TELEGRAM' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
   telegramToken: string;
   setTelegramToken: (value: string) => void;
 }
@@ -56,7 +56,7 @@ export const TelegramBotSection = ({
               checked={telegramRunning}
               onCheckedChange={async (checked) => {
                 setTelegramRunning(checked);
-                await onToggleBot('telegram', checked ? 'start' : 'stop');
+                await onToggleBot('TELEGRAM', checked ? 'start' : 'stop');
               }}
             />
           </div>
@@ -84,7 +84,7 @@ export const TelegramBotSection = ({
                   {bot.status === 'INACTIVE' ? (
                       <Button
                           size="sm"
-                          onClick={() => onToggleBot('telegram', 'start')}
+                          onClick={() => onToggleBot('TELEGRAM', 'start')}
                           className="btn-primary"
                       >
                         <Play className="w-3 h-3" />
@@ -93,7 +93,7 @@ export const TelegramBotSection = ({
                       <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => onToggleBot('telegram', 'stop')}
+                          onClick={() => onToggleBot('TELEGRAM', 'stop')}
                           className="btn-secondary"
                       >
                         <Square className="w-3 h-3" />

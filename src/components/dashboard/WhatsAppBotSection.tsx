@@ -13,7 +13,7 @@ interface WhatsAppBotSectionProps {
   qrCode: string;
   qrTick: number;
   setQrCode: (qr: string) => void;
-  onToggleBot: (type: 'telegram' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
+  onToggleBot: (type: 'TELEGRAM' | 'whatsapp', action: 'start' | 'stop') => Promise<void>;
   waStatus: 'CONNECTED' | 'DISCONNECTED' | '';
 }
 
