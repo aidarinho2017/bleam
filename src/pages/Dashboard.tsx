@@ -313,8 +313,6 @@ const Dashboard = () => {
                   onToggleBot={handleToggleBot}
                   telegramToken={telegramToken}
                   setTelegramToken={setTelegramToken}
-                  webhookUrl={webhookUrl}
-                  setWebhookUrl={setWebhookUrl}
               />
 
               {/* WhatsApp Section */}
