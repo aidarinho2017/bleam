@@ -75,7 +75,12 @@ export const botPlatformsAPI = {
       if (error.response) {
         // Server responded with error status
         const status = error.response.status;
-        const message = error.response.data || error.message || `Failed to start ${platformType} bot`;
+        let message = error.response.data || error.message || `Failed to start ${platformType} bot`;
+        
+        // Handle JSON error responses
+        if (typeof message === 'object' && message.error) {
+          message = message.error;
+        }
         
         if (status === 500) {
           throw new Error(`Server error: ${message}`);
