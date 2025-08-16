@@ -77,50 +77,6 @@ export const WhatsAppBotSection = ({
               </div>
           )}
         </div>
-
-        {/* Connected WhatsApp Sessions */}
-        {Array.isArray(whatsappSessions) && whatsappSessions.length > 0 && (
-            <div>
-              <h3 className="text-sm font-medium text-foreground mb-3">Connected Sessions</h3>
-              <div className="grid gap-3">
-                {whatsappSessions.map((session, idx) => (
-                    <div key={session.id || `${session.nickname || 'session'}-${idx}`} className="bg-card/20 rounded-lg p-4 flex items-center justify-between">
-                      <div className="flex items-center">
-                        <MessageSquare className="w-4 h-4 text-green-400 mr-3" />
-                        <div>
-                          <p className="text-sm font-medium text-foreground">
-                            {session.nickname || `Session ${session.id?.slice(0, 8) || 'Unknown'}...`}
-                          </p>
-                          <Badge variant={session.status === 'ACTIVE' ? 'default' : 'secondary'} className="text-xs">
-                            {session.status}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        {session.status === 'INACTIVE' ? (
-                            <Button
-                                size="sm"
-                                onClick={() => onToggleBot('whatsapp', 'start')}
-                                className="btn-primary"
-                            >
-                              <Play className="w-3 h-3" />
-                            </Button>
-                        ) : (
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => onToggleBot('whatsapp', 'stop')}
-                                className="btn-secondary"
-                            >
-                              <Square className="w-3 h-3" />
-                            </Button>
-                        )}
-                      </div>
-                    </div>
-                ))}
-              </div>
-            </div>
-        )}
       </div>
   );
 };

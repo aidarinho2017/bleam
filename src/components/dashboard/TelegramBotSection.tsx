@@ -68,49 +68,6 @@ export const TelegramBotSection = ({
           </div>
         </div>
       </div>
-      {/* Connected Telegram Bots */}
-      {Array.isArray(telegramBots) && telegramBots.length > 0 && (
-        <div>
-          <h3 className="text-sm font-medium text-foreground mb-1">Connected Bots</h3>
-          <div className="grid gap-3">
-            {telegramBots.map((bot) => (
-              <div key={bot.id} className="bg-card/20 rounded-lg p-4 flex items-center justify-between">
-                <div className="flex items-center">
-                  <Bot className="w-4 h-4 text-blue-400 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {bot.name || `Bot ${bot.token?.slice(0, 10) || 'Unknown'}...`}
-                    </p>
-                    <Badge variant={bot.status === 'ACTIVE' ? 'default' : 'secondary'} className="text-xs">
-                      {bot.status}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  {bot.status === 'INACTIVE' ? (
-                      <Button
-                          size="sm"
-                          onClick={() => onToggleBot('TELEGRAM', 'start')}
-                          className="btn-primary"
-                      >
-                        <Play className="w-3 h-3" />
-                      </Button>
-                  ) : (
-                      <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => onToggleBot('TELEGRAM', 'stop')}
-                          className="btn-secondary"
-                      >
-                        <Square className="w-3 h-3" />
-                      </Button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
