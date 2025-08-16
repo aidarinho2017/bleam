@@ -54,6 +54,12 @@ const Dashboard = () => {
     if (storedTgRunning !== null) {
       setTelegramRunning(storedTgRunning === 'true');
     }
+    
+    // Restore persisted Telegram token
+    const storedTgToken = localStorage.getItem('tg_token');
+    if (storedTgToken) {
+      setTelegramToken(storedTgToken);
+    }
     // QR code is not persisted; it updates frequently via WebSocket
 
     // Load connected bots
@@ -82,6 +88,15 @@ const Dashboard = () => {
       localStorage.setItem('tg_running', String(telegramRunning));
     } catch {}
   }, [telegramRunning]);
+
+  // Persist Telegram token across reloads
+  useEffect(() => {
+    try {
+      if (telegramToken) {
+        localStorage.setItem('tg_token', telegramToken);
+      }
+    } catch {}
+  }, [telegramToken]);
 
   // Load saved AI model from local storage
   useEffect(() => {

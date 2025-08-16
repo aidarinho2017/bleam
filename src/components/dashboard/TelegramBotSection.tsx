@@ -33,16 +33,22 @@ export const TelegramBotSection = ({
       </div>
 
       <div className="bg-card/30 rounded-lg p-4 ">
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="telegram-token">Telegram Bot Token</Label>
-            <Input
-                id="telegram-token"
-                placeholder="Enter bot token"
-                value={telegramToken}
-                onChange={(e) => setTelegramToken(e.target.value)}
-            />
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="telegram-token">Telegram Bot Token</Label>
+          <Input
+              id="telegram-token"
+              placeholder="Enter bot token (45 characters)"
+              value={telegramToken}
+              onChange={(e) => setTelegramToken(e.target.value)}
+              disabled={telegramRunning}
+              className="font-mono text-sm"
+              style={{ fontSize: '13px', letterSpacing: '0.025em' }}
+          />
+          {telegramRunning && (
+            <p className="text-xs text-muted-foreground">
+              Token cannot be changed while bot is running
+            </p>
+          )}
         </div>
       </div>
 
