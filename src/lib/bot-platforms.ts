@@ -71,7 +71,26 @@ export const botPlatformsAPI = {
       const response = await api.post(`${API_BASE_URL}/${platformType}/start`, data);
       return { success: true, data: response.data };
     } catch (error: any) {
-      throw new Error(error.response?.data || `Failed to start ${platformType} bot`);
+      // Handle different error types
+      if (error.response) {
+        // Server responded with error status
+        const status = error.response.status;
+        const message = error.response.data || error.message || `Failed to start ${platformType} bot`;
+        
+        if (status === 500) {
+          throw new Error(`Server error: ${message}`);
+        } else if (status === 409) {
+          throw new Error(`Platform already running: ${message}`);
+        } else {
+          throw new Error(`HTTP ${status}: ${message}`);
+        }
+      } else if (error.request) {
+        // Request made but no response received
+        throw new Error(`Network error: Unable to reach server`);
+      } else {
+        // Something else happened
+        throw new Error(error.message || `Failed to start ${platformType} bot`);
+      }
     }
   },
 

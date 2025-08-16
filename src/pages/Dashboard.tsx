@@ -212,7 +212,9 @@ const Dashboard = () => {
       } else {
         await botPlatformsAPI.stopBot(platformType);
       }
-      if (type === 'whatsapp') {
+      
+      // Only initialize WebSocket for WhatsApp if start was successful
+      if (type === 'whatsapp' && action === 'start') {
         initializeWebSocket();
       }
 
@@ -223,22 +225,30 @@ const Dashboard = () => {
 
       loadBots();
     } catch (error: any) {
-      // Handle specific error cases
-      if (error.response && error.response.status === 500 && type === 'TELEGRAM' && action === 'start') {
-        // Reset telegram running state on error
+      // Reset bot state on any error
+      if (type === 'TELEGRAM') {
         setTelegramRunning(false);
-        toast({
-          title: 'Invalid Bot Token',
-          description: 'The Telegram bot token is invalid. Please check your token and try again.',
-          variant: 'destructive'
-        });
-      } else {
-        toast({
-          title: 'Error',
-          description: error.message || 'An error occurred',
-          variant: 'destructive'
-        });
+      } else if (type === 'whatsapp') {
+        setWhatsappRunning(false);
+        setQrCode(''); // Clear QR code on error
       }
+      
+      // Handle specific error messages
+      let errorMessage = error.message || 'An error occurred';
+      
+      if (errorMessage.includes('Connection prematurely closed') || errorMessage.includes('Server error')) {
+        if (type === 'TELEGRAM') {
+          errorMessage = 'Invalid Telegram bot token. Please check your token and try again.';
+        } else {
+          errorMessage = 'Failed to start bot. Please try again.';
+        }
+      }
+      
+      toast({
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive'
+      });
     }
   };
 
