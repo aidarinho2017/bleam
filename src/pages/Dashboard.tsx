@@ -172,13 +172,31 @@ const Dashboard = () => {
       ]);
 
       // Ensure we always set arrays, even if API returns null/undefined
-      setTelegramBots(Array.isArray(telegramData) ? telegramData : []);
-      setWhatsAppSessions(Array.isArray(whatsappData) ? whatsappData : []);
+      const telegramBots = Array.isArray(telegramData) ? telegramData : [];
+      const whatsappSessions = Array.isArray(whatsappData) ? whatsappData : [];
+      
+      setTelegramBots(telegramBots);
+      setWhatsAppSessions(whatsappSessions);
+
+      // Update switch states based on backend status
+      const isTelegramActive = telegramBots.some(bot => bot.status === 'ACTIVE');
+      const isWhatsappActive = whatsappSessions.some(session => session.status === 'ACTIVE');
+      
+      setTelegramRunning(isTelegramActive);
+      setWhatsappRunning(isWhatsappActive);
+
+      // Update localStorage to reflect backend state
+      try {
+        localStorage.setItem('tg_running', String(isTelegramActive));
+        localStorage.setItem('wa_running', String(isWhatsappActive));
+      } catch {}
     } catch (error) {
       console.error('Failed to load bots:', error);
       // Reset to empty arrays on error
       setTelegramBots([]);
       setWhatsAppSessions([]);
+      setTelegramRunning(false);
+      setWhatsappRunning(false);
     }
   };
 
