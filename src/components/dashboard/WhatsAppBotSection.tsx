@@ -59,21 +59,43 @@ export const WhatsAppBotSection = ({
             </div>
           </div>
 
-          {/* QR Code Display - Show when bot is running and QR is available */}
-          {whatsappRunning && qrCode && (
+          {/* WhatsApp Status Display */}
+          {whatsappRunning && (
               <div className="mt-6 p-4 bg-background rounded-lg border border-border">
-                <h4 className="text-sm font-medium text-foreground mb-3">Scan QR Code to Connect WhatsApp</h4>
-                <div className="flex justify-center">
-                  <QRCodeCanvas
-                      key={`${qrTick}-${qrCode}`}
-                      value={qrCode}
-                      size={100}
-                      style={{ height: 'auto', maxWidth: '300px', width: '300px' }}
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground mt-2 text-center">
-                  Open WhatsApp on your phone and scan this QR code to connect your account
-                </p>
+                {waStatus === 'CONNECTED' ? (
+                    <div className="text-center">
+                      <h4 className="text-sm font-medium text-foreground mb-3">WhatsApp Status</h4>
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-green-600 font-medium">Connected</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Your WhatsApp account is successfully connected
+                      </p>
+                    </div>
+                ) : qrCode ? (
+                    <div>
+                      <h4 className="text-sm font-medium text-foreground mb-3">Scan QR Code to Connect WhatsApp</h4>
+                      <div className="flex justify-center">
+                        <QRCodeCanvas
+                            key={`${qrTick}-${qrCode}`}
+                            value={qrCode}
+                            size={100}
+                            style={{ height: 'auto', maxWidth: '300px', width: '300px' }}
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-2 text-center">
+                        Open WhatsApp on your phone and scan this QR code to connect your account
+                      </p>
+                    </div>
+                ) : (
+                    <div className="text-center">
+                      <h4 className="text-sm font-medium text-foreground mb-3">Connecting...</h4>
+                      <p className="text-xs text-muted-foreground">
+                        Waiting for QR code...
+                      </p>
+                    </div>
+                )}
               </div>
           )}
         </div>

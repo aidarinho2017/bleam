@@ -223,11 +223,22 @@ const Dashboard = () => {
 
       loadBots();
     } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive'
-      });
+      // Handle specific error cases
+      if (error.response && error.response.status === 500 && type === 'TELEGRAM' && action === 'start') {
+        // Reset telegram running state on error
+        setTelegramRunning(false);
+        toast({
+          title: 'Invalid Bot Token',
+          description: 'The Telegram bot token is invalid. Please check your token and try again.',
+          variant: 'destructive'
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: error.message || 'An error occurred',
+          variant: 'destructive'
+        });
+      }
     }
   };
 
