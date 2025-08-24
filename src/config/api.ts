@@ -1,6 +1,6 @@
 // Centralized API configuration
 // Change this URL to point to your backend server
-export const API_BASE_URL = 'http://209.38.242.245:8080';
+export const API_BASE_URL = 'http://https://167.71.58.0:8080';
 
 // Derived URLs for different API endpoints
 export const API_ENDPOINTS = {
