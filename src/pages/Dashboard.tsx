@@ -45,16 +45,6 @@ const Dashboard = () => {
     // In a real app, you'd decode the JWT or make an API call
     setUsername('User');
 
-    // Restore persisted WhatsApp and Telegram state
-    const storedRunning = localStorage.getItem('wa_running');
-    if (storedRunning !== null) {
-      setWhatsappRunning(storedRunning === 'true');
-    }
-    const storedTgRunning = localStorage.getItem('tg_running');
-    if (storedTgRunning !== null) {
-      setTelegramRunning(storedTgRunning === 'true');
-    }
-    
     // Restore persisted Telegram token
     const storedTgToken = localStorage.getItem('tg_token');
     if (storedTgToken) {
@@ -62,8 +52,10 @@ const Dashboard = () => {
     }
     // QR code is not persisted; it updates frequently via WebSocket
 
-    // Load connected bots
+    // Load data from backend
     loadBots();
+    loadCurrentAiModel();
+    loadPlatformStatuses();
 
     // Initialize WebSocket connection
     initializeWebSocket();
@@ -98,15 +90,6 @@ const Dashboard = () => {
     } catch {}
   }, [telegramToken]);
 
-  // Load saved AI model from local storage
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('ai_model_type');
-      if (saved === 'GEMINI' || saved === 'GPT') {
-        setAiModel(saved);
-      }
-    } catch {}
-  }, []);
 
   const initializeWebSocket = () => {
     const token = localStorage.getItem('auth_token');
@@ -179,6 +162,29 @@ const Dashboard = () => {
       // Reset to empty arrays on error
       setTelegramBots([]);
       setWhatsAppSessions([]);
+    }
+  };
+
+  const loadCurrentAiModel = async () => {
+    try {
+      const currentModel = await botPlatformsAPI.getAiModel();
+      setAiModel(currentModel);
+    } catch (error) {
+      console.error('Failed to load current AI model:', error);
+    }
+  };
+
+  const loadPlatformStatuses = async () => {
+    try {
+      const [telegramStatus, whatsappStatus] = await Promise.all([
+        botPlatformsAPI.getPlatformStatus('TELEGRAM'),
+        botPlatformsAPI.getPlatformStatus('WHATSAPP')
+      ]);
+      
+      setTelegramRunning(telegramStatus === 'ACTIVE');
+      setWhatsappRunning(whatsappStatus === 'ACTIVE');
+    } catch (error) {
+      console.error('Failed to load platform statuses:', error);
     }
   };
 

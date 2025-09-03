@@ -134,5 +134,25 @@ export const botPlatformsAPI = {
     } catch (error: any) {
       throw new Error(error.response?.data || 'Failed to select AI model');
     }
+  },
+
+  getAiModel: async (): Promise<'GEMINI' | 'GPT'> => {
+    try {
+      const api = createAuthenticatedRequest();
+      const response = await api.get(`${API_BASE_URL}/aiModelType`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data || 'Failed to get AI model');
+    }
+  },
+
+  getPlatformStatus: async (platformType: 'TELEGRAM' | 'WHATSAPP'): Promise<'ACTIVE' | 'INACTIVE' | null> => {
+    try {
+      const api = createAuthenticatedRequest();
+      const response = await api.get(`${API_BASE_URL}/${platformType}/status`);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data || 'Failed to get platform status');
+    }
   }
 };

@@ -15,6 +15,7 @@ import OAuth2Success from "./pages/OAuth2Success";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Contacts from "./pages/Contacts";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/qr-test" element={<QrTestPage />} />
           <Route path="/oauth2/success" element={<OAuth2Success />} />
           <Route path="/contacts" element={<Contacts />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
 
           <Route path="*" element={<NotFound />} />
