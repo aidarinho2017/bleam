@@ -13,6 +13,7 @@ import { Contact, Purchase } from "./types";
 import { format } from "date-fns";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import ContactPurchaseForm from "./ContactPurchaseForm";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   open: boolean;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const ContactDetailsDialog = ({ open, onOpenChange, contact, onUpdateContact }: Props) => {
+  const { t } = useLanguage();
   const [formOpen, setFormOpen] = React.useState(false);
   const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
 
@@ -47,62 +49,62 @@ const ContactDetailsDialog = ({ open, onOpenChange, contact, onUpdateContact }: 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Contact Details</DialogTitle>
-          <DialogDescription>Full profile and purchase history</DialogDescription>
+          <DialogTitle>{t('contactDetails')}</DialogTitle>
+          <DialogDescription>{t('fullProfile')}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-6">
           <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-muted-foreground">Name</p>
+              <p className="text-sm text-muted-foreground">{t('name')}</p>
               <p className="font-medium">{contact.name}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Phone</p>
+              <p className="text-sm text-muted-foreground">{t('phone')}</p>
               <p className="font-medium">{contact.phone}</p>
             </div>
             {contact.email && (
               <div>
-                <p className="text-sm text-muted-foreground">Email</p>
+                <p className="text-sm text-muted-foreground">{t('email')}</p>
                 <p className="font-medium">{contact.email}</p>
               </div>
             )}
             <div>
-              <p className="text-sm text-muted-foreground">Last Activity</p>
+              <p className="text-sm text-muted-foreground">{t('lastActivity')}</p>
               <p className="font-medium">{format(new Date(contact.lastActivity), 'dd MMM yyyy')}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Total Purchases</p>
+              <p className="text-sm text-muted-foreground">{t('totalPurchases')}</p>
               <Badge variant="secondary">{totalPurchases}</Badge>
             </div>
           </section>
 
           {contact.notes && (
             <section>
-              <p className="text-sm text-muted-foreground mb-1">Notes</p>
+              <p className="text-sm text-muted-foreground mb-1">{t('notes')}</p>
               <p className="text-sm">{contact.notes}</p>
             </section>
           )}
 
           <section>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-semibold">Purchase History</h4>
-              <Button size="sm" onClick={handleAdd}><Plus className="h-4 w-4 mr-2" />Add Purchase</Button>
+              <h4 className="text-sm font-semibold">{t('purchaseHistory')}</h4>
+              <Button size="sm" onClick={handleAdd}><Plus className="h-4 w-4 mr-2" />{t('addPurchase')}</Button>
             </div>
             <div className="rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Product</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead>{t('product')}</TableHead>
+                    <TableHead>{t('quantity')}</TableHead>
+                    <TableHead>{t('date')}</TableHead>
+                    <TableHead className="text-right">{t('actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {contact.purchaseHistory.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={4} className="text-center text-muted-foreground">
-                        No purchases yet.
+                        {t('noPurchases')}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -113,8 +115,8 @@ const ContactDetailsDialog = ({ open, onOpenChange, contact, onUpdateContact }: 
                         <TableCell>{format(new Date(p.date), 'dd MMM yyyy')}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="sm" onClick={() => handleEdit(idx)} aria-label="Edit purchase"><Pencil className="h-4 w-4" /></Button>
-                            <Button variant="ghost" size="sm" onClick={() => handleDelete(idx)} aria-label="Delete purchase"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleEdit(idx)} aria-label={t('editPurchase')}><Pencil className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="sm" onClick={() => handleDelete(idx)} aria-label={t('deletePurchase')}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                           </div>
                         </TableCell>
                       </TableRow>

@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { CatalogueItem } from "@/components/contacts/types";
 import CatalogueForm from "./CatalogueForm";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   items: CatalogueItem[];
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const CatalogueTable = ({ items, onCreate, onUpdate, onDelete }: Props) => {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<CatalogueItem | null>(null);
 
@@ -41,24 +43,24 @@ const CatalogueTable = ({ items, onCreate, onUpdate, onDelete }: Props) => {
   return (
     <div className="rounded-md border">
       <div className="flex items-center justify-between px-4 py-3">
-        <h3 className="font-semibold">Каталог (киім)</h3>
-        <Button onClick={handleAdd} className="btn-primary"><Plus className="h-4 w-4 mr-2" />Тауар қосу</Button>
+        <h3 className="font-semibold">{t('catalogue')}</h3>
+        <Button onClick={handleAdd} className="btn-primary"><Plus className="h-4 w-4 mr-2" />{t('addProduct')}</Button>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Атауы</TableHead>
-            <TableHead>Өлшемдер</TableHead>
-            <TableHead>Жалпы қалдық</TableHead>
-            <TableHead>Бағасы (₸)</TableHead>
-            <TableHead className="text-right">Әрекет</TableHead>
+            <TableHead>{t('id')}</TableHead>
+            <TableHead>{t('name')}</TableHead>
+            <TableHead>{t('sizes')}</TableHead>
+            <TableHead>{t('totalStock')}</TableHead>
+            <TableHead>{t('price')} (₸)</TableHead>
+            <TableHead className="text-right">{t('actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {items.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="text-center text-muted-foreground">Тауар жоқ</TableCell>
+              <TableCell colSpan={6} className="text-center text-muted-foreground">{t('noProducts')}</TableCell>
             </TableRow>
           ) : (
             items.map((it) => (
@@ -89,7 +91,7 @@ const CatalogueTable = ({ items, onCreate, onUpdate, onDelete }: Props) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editing ? "Тауарды өңдеу" : "Жаңа тауар"}</DialogTitle>
+            <DialogTitle>{editing ? t('editProduct') : t('newProduct')}</DialogTitle>
           </DialogHeader>
           <CatalogueForm initial={editing ?? undefined} onSubmit={submit} onCancel={() => setOpen(false)} />
         </DialogContent>

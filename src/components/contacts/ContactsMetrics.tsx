@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { CatalogueItem, Contact, PurchaseRecord } from "@/components/contacts/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   ChartContainer,
   ChartTooltip,
@@ -36,6 +37,7 @@ const palette = [
 ];
 
 export default function ContactsMetrics({ contacts, sales }: Props) {
+  const { t } = useLanguage();
   const totalIncome = useMemo(() => sales.reduce((s, r) => s + r.price, 0), [sales]);
   const converted = useMemo(
     () => contacts.filter((c) => c.purchaseHistory.length > 0).length,
@@ -85,7 +87,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-card border">
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Total Income</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('totalIncome')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">₸ {totalIncome.toLocaleString("kk-KZ")}</div>
@@ -93,7 +95,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
         </Card>
         <Card className="bg-card border">
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Total Sales</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('totalSales')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{sales.length}</div>
@@ -101,7 +103,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
         </Card>
         <Card className="bg-card border">
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Contacts</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('contacts')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{contacts.length}</div>
@@ -109,7 +111,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
         </Card>
         <Card className="bg-card border">
           <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">Conversion</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('conversion')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-28">
@@ -121,7 +123,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
                 </RadialBarChart>
               </ChartContainer>
             </div>
-            <div className="mt-2 text-sm text-muted-foreground">{conversionRate}% of contacts purchased</div>
+            <div className="mt-2 text-sm text-muted-foreground">{conversionRate}% {t('ofContactsPurchased')}</div>
           </CardContent>
         </Card>
       </div>
@@ -131,7 +133,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
         {/* Top Salespeople by revenue */}
         <Card className="bg-card border lg:col-span-2">
           <CardHeader>
-            <CardTitle className="text-base">Top sales revenue</CardTitle>
+            <CardTitle className="text-base">{t('topSalesRevenue')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64">
@@ -157,7 +159,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
         {/* Popular items (pie) */}
         <Card className="bg-card border">
           <CardHeader>
-            <CardTitle className="text-base">Most popular items</CardTitle>
+            <CardTitle className="text-base">{t('mostPopularItems')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64">
@@ -179,7 +181,7 @@ export default function ContactsMetrics({ contacts, sales }: Props) {
       {/* Chatbot messages by day (stacked bars) */}
       <Card className="bg-card border">
         <CardHeader>
-          <CardTitle className="text-base">Chatbot messages (last 7 days)</CardTitle>
+          <CardTitle className="text-base">{t('chatbotMessages')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-72">

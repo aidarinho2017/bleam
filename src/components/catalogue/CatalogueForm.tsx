@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CatalogueItem, SizeStock } from "@/components/contacts/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   initial?: CatalogueItem;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const CatalogueForm = ({ initial, onSubmit, onCancel }: Props) => {
+  const { t } = useLanguage();
   const [name, setName] = useState(initial?.name ?? "");
   const [price, setPrice] = useState(initial?.price ?? 0);
   const [sizes, setSizes] = useState<SizeStock[]>(
@@ -38,24 +40,24 @@ const CatalogueForm = ({ initial, onSubmit, onCancel }: Props) => {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label>Атауы</Label>
+        <Label>{t('name')}</Label>
         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Мыс: Ерлер жейде" />
       </div>
       <div className="space-y-2">
-        <Label>Бағасы (₸)</Label>
+        <Label>{t('price')} (₸)</Label>
         <Input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {sizes.map((s, idx) => (
           <div key={s.size} className="space-y-1">
-            <Label>{s.size} қолда</Label>
+            <Label>{s.size} {t('available')}</Label>
             <Input type="number" value={s.available} onChange={(e) => updateSize(idx, Number(e.target.value))} />
           </div>
         ))}
       </div>
       <div className="flex justify-end gap-2">
-        <Button variant="outline" onClick={onCancel}>Болдырмау</Button>
-        <Button onClick={submit}>{initial ? "Сақтау" : "Қосу"}</Button>
+        <Button variant="outline" onClick={onCancel}>{t('cancel')}</Button>
+        <Button onClick={submit}>{initial ? t('save') : t('add')}</Button>
       </div>
     </div>
   );

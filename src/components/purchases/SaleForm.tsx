@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CatalogueItem, PurchaseItem, PurchaseRecord } from "@/components/contacts/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   initial?: PurchaseRecord;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const SaleForm = ({ initial, catalogue, onSubmit, onCancel }: Props) => {
+  const { t } = useLanguage();
   const [salesperson, setSalesperson] = useState(initial?.salesperson ?? "");
   const [price, setPrice] = useState(initial?.price ?? 0);
   const [date, setDate] = useState(initial?.date ?? new Date().toISOString().slice(0, 10));
@@ -37,30 +39,30 @@ const SaleForm = ({ initial, catalogue, onSubmit, onCancel }: Props) => {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label>Сатушы</Label>
+        <Label>{t('salesperson')}</Label>
         <Input value={salesperson} onChange={(e) => setSalesperson(e.target.value)} placeholder="Мыс: Айару" />
       </div>
       <div className="space-y-2">
-        <Label>Жалпы баға (₸)</Label>
+        <Label>{t('totalPrice')} (₸)</Label>
         <Input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
       </div>
       <div className="space-y-2">
-        <Label>Күні</Label>
+        <Label>{t('date')}</Label>
         <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </div>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <Label>Сатылған заттар</Label>
-          <Button variant="outline" size="sm" onClick={addItem}>Қосу</Button>
+          <Label>{t('soldProducts')}</Label>
+          <Button variant="outline" size="sm" onClick={addItem}>{t('add')}</Button>
         </div>
-        {items.length === 0 && <p className="text-sm text-muted-foreground">Бос</p>}
+        {items.length === 0 && <p className="text-sm text-muted-foreground">{t('empty')}</p>}
         <div className="space-y-3">
           {items.map((it, idx) => (
             <div key={idx} className="grid grid-cols-12 gap-2 items-center">
               <div className="col-span-7">
                 <Select value={it.itemId} onValueChange={(v) => updateItemId(idx, v)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Тауарды таңдаңыз" />
+                    <SelectValue placeholder={t('selectProduct')} />
                   </SelectTrigger>
                   <SelectContent>
                     {catalogue.map((c) => (
@@ -73,15 +75,15 @@ const SaleForm = ({ initial, catalogue, onSubmit, onCancel }: Props) => {
                 <Input type="number" min={1} value={it.quantity} onChange={(e) => updateQty(idx, Number(e.target.value))} />
               </div>
               <div className="col-span-2 flex justify-end">
-                <Button variant="ghost" size="sm" onClick={() => removeItem(idx)}>Өшіру</Button>
+                <Button variant="ghost" size="sm" onClick={() => removeItem(idx)}>{t('delete')}</Button>
               </div>
             </div>
           ))}
         </div>
       </div>
       <div className="flex justify-end gap-2">
-        <Button variant="outline" onClick={onCancel}>Болдырмау</Button>
-        <Button onClick={submit}>{initial ? "Сақтау" : "Қосу"}</Button>
+        <Button variant="outline" onClick={onCancel}>{t('cancel')}</Button>
+        <Button onClick={submit}>{initial ? t('save') : t('add')}</Button>
       </div>
     </div>
   );

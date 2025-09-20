@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Contact } from "./types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ContactFormProps {
   initial?: Partial<Contact>;
@@ -11,6 +12,7 @@ interface ContactFormProps {
 }
 
 const ContactForm = ({ initial, onSubmit, onCancel }: ContactFormProps) => {
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -37,31 +39,31 @@ const ContactForm = ({ initial, onSubmit, onCancel }: ContactFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="text-sm font-medium">Name</label>
+          <label className="text-sm font-medium">{t('name')} <span className="text-destructive">{t('required')}</span></label>
           <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Aidos Bek" />
         </div>
         <div>
-          <label className="text-sm font-medium">Phone</label>
+          <label className="text-sm font-medium">{t('phone')} <span className="text-destructive">{t('required')}</span></label>
           <Input value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="+7 701 123 4567" />
         </div>
         <div>
-          <label className="text-sm font-medium">Email</label>
+          <label className="text-sm font-medium">{t('email')}</label>
           <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="aidos@example.kz" />
         </div>
         <div>
-          <label className="text-sm font-medium">Last Activity</label>
+          <label className="text-sm font-medium">{t('lastActivity')}</label>
           <Input type="date" value={lastActivity} onChange={(e) => setLastActivity(e.target.value)} />
         </div>
       </div>
       <div>
-        <label className="text-sm font-medium">Notes</label>
+        <label className="text-sm font-medium">{t('notes')}</label>
         <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="VIP customer, prefers WhatsApp." />
       </div>
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
+          {t('cancel')}
         </Button>
-        <Button type="submit">Save</Button>
+        <Button type="submit">{t('save')}</Button>
       </div>
     </form>
   );

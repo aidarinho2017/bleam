@@ -4,6 +4,7 @@ import { Switch } from '@/components/ui/switch';
 import { MessageSquare, Play, Square } from 'lucide-react';
 import { WhatsAppSession } from '@/lib/bot-platforms';
 import { QRCodeCanvas } from 'qrcode.react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WhatsAppBotSectionProps {
   whatsappSessions: WhatsAppSession[];
@@ -28,23 +29,25 @@ export const WhatsAppBotSection = ({
                                      onToggleBot,
                                      waStatus
                                    }: WhatsAppBotSectionProps) => {
+  const { t } = useLanguage();
+  
   return (
       <div className="card-glass p-6">
         <div className="flex items-center mb-6">
           <div className="p-2 rounded-lg bg-green-500/20 mr-3">
             <MessageSquare className="w-5 h-5 text-green-400" />
           </div>
-          <h2 className="text-xl font-semibold text-foreground">WhatsApp Bots</h2>
+          <h2 className="text-xl font-semibold text-foreground">{t('whatsappBots')}</h2>
         </div>
 
         {/* WhatsApp Connection */}
         <div className="bg-card/30 rounded-lg p-4 mb-6">
-          <h3 className="text-sm font-medium text-foreground mb-3">If QR is not shown, wait for 20-30 seconds</h3>
+          <h3 className="text-sm font-medium text-foreground mb-3">{t('qrNotShown')}</h3>
 
           {/* Bot Status Switch - Always visible */}
           <div className="flex items-center justify-between mt-4">
             <div className="flex items-center space-x-3">
-              <span className="text-sm font-medium text-foreground">Bot Status</span>
+              <span className="text-sm font-medium text-foreground">{t('botStatus')}</span>
               <Switch
                   checked={whatsappRunning}
                   onCheckedChange={async (checked) => {
@@ -64,18 +67,18 @@ export const WhatsAppBotSection = ({
               <div className="mt-6 p-4 bg-background rounded-lg border border-border">
                 {waStatus === 'CONNECTED' ? (
                     <div className="text-center">
-                      <h4 className="text-sm font-medium text-foreground mb-3">WhatsApp Status</h4>
+                      <h4 className="text-sm font-medium text-foreground mb-3">{t('whatsappStatus')}</h4>
                       <div className="flex items-center justify-center space-x-2">
                         <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-green-600 font-medium">Connected</span>
+                        <span className="text-green-600 font-medium">{t('connected')}</span>
                       </div>
                       <p className="text-xs text-muted-foreground mt-2">
-                        Your WhatsApp account is successfully connected
+                        {t('whatsappConnected')}
                       </p>
                     </div>
                 ) : qrCode ? (
                     <div>
-                      <h4 className="text-sm font-medium text-foreground mb-3">Scan QR Code to Connect WhatsApp</h4>
+                      <h4 className="text-sm font-medium text-foreground mb-3">{t('scanQrCode')}</h4>
                       <div className="flex justify-center">
                         <QRCodeCanvas
                             key={`${qrTick}-${qrCode}`}
@@ -85,14 +88,14 @@ export const WhatsAppBotSection = ({
                         />
                       </div>
                       <p className="text-xs text-muted-foreground mt-2 text-center">
-                        Open WhatsApp on your phone and scan this QR code to connect your account
+                        {t('openWhatsapp')}
                       </p>
                     </div>
                 ) : (
                     <div className="text-center">
-                      <h4 className="text-sm font-medium text-foreground mb-3">Connecting...</h4>
+                      <h4 className="text-sm font-medium text-foreground mb-3">{t('connecting')}</h4>
                       <p className="text-xs text-muted-foreground">
-                        Waiting for QR code...
+                        {t('waitingQr')}
                       </p>
                     </div>
                 )}

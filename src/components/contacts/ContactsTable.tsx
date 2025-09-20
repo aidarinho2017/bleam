@@ -5,6 +5,7 @@ import { ArrowUpDown, Eye, Pencil, Trash2 } from "lucide-react";
 import { Contact } from "./types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export type SortKey = "name" | "numPurchases" | "lastActivity";
 export type SortDir = "asc" | "desc";
@@ -36,6 +37,7 @@ const ContactsTable = ({
   onDelete,
   deletingId,
 }: ContactsTableProps) => {
+  const { t } = useLanguage();
   const totalPages = Math.max(1, Math.ceil(contacts.length / pageSize));
 
   const paged = useMemo(() => {
@@ -55,23 +57,23 @@ const ContactsTable = ({
         <TableHeader>
           <TableRow>
             <TableHead className="cursor-pointer select-none" onClick={() => onSortChange("name")}>
-              <div className="flex items-center gap-1">Name {getSortIndicator("name")}</div>
+              <div className="flex items-center gap-1">{t('name')} {getSortIndicator("name")}</div>
             </TableHead>
-            <TableHead>Phone Number</TableHead>
+            <TableHead>{t('phoneNumber')}</TableHead>
             <TableHead className="cursor-pointer select-none" onClick={() => onSortChange("lastActivity")}>
-              <div className="flex items-center gap-1">Last Activity {getSortIndicator("lastActivity")}</div>
+              <div className="flex items-center gap-1">{t('lastActivity')} {getSortIndicator("lastActivity")}</div>
             </TableHead>
-            <TableHead>Purchase History</TableHead>
+            <TableHead>{t('purchaseHistory')}</TableHead>
             <TableHead className="cursor-pointer select-none" onClick={() => onSortChange("numPurchases")}>
-              <div className="flex items-center gap-1"># Purchases {getSortIndicator("numPurchases")}</div>
+              <div className="flex items-center gap-1"># {t('purchases')} {getSortIndicator("numPurchases")}</div>
             </TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="text-right">{t('actions')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {paged.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="text-center text-muted-foreground">No contacts found.</TableCell>
+              <TableCell colSpan={6} className="text-center text-muted-foreground">{t('noContactsFound')}</TableCell>
             </TableRow>
           ) : (
             paged.map((c) => (
@@ -121,14 +123,14 @@ const ContactsTable = ({
       {contacts.length > pageSize && (
         <div className="flex items-center justify-between px-4 py-3">
           <p className="text-sm text-muted-foreground">
-            Page {page} of {totalPages} • {contacts.length} contacts
+            {t('page')} {page} {t('of')} {totalPages} • {contacts.length} {t('contacts')}
           </p>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => onPageChange(Math.max(1, page - 1))} disabled={page === 1}>
-              Prev
+              {t('prev')}
             </Button>
             <Button variant="outline" size="sm" onClick={() => onPageChange(Math.min(totalPages, page + 1))} disabled={page === totalPages}>
-              Next
+              {t('next')}
             </Button>
           </div>
         </div>
