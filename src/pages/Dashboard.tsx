@@ -11,6 +11,7 @@ import SockJS from 'sockjs-client';
 import { TelegramBotSection } from '@/components/dashboard/TelegramBotSection';
 import { WhatsAppBotSection } from '@/components/dashboard/WhatsAppBotSection';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import LanguageSelector from '@/components/ui/language-selector';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -228,7 +229,7 @@ const Dashboard = () => {
 
             toast({
                 title: t('success'),
-                description: t('botActionSuccess', { type, action })
+                description: t('botActionSuccess')
             });
 
             loadBots();
@@ -267,7 +268,7 @@ const Dashboard = () => {
             await botPlatformsAPI.selectAiModel(value);
             setAiModel(value);
             localStorage.setItem('ai_model_type', value);
-            toast({ title: t('aiModelUpdated'), description: t('selectedModel', { model: value }) });
+            toast({ title: t('aiModelUpdated'), description: t('selectedModel') });
         } catch (error: any) {
             toast({ title: t('error'), description: error.message, variant: 'destructive' });
         } finally {
@@ -287,11 +288,12 @@ const Dashboard = () => {
                             </div>
                             <div>
                                 <h1 className="text-xl font-bold text-foreground">{t('dashboardTitle')}</h1>
-                                <p className="text-sm text-muted-foreground">{t('welcome!')}</p>
+                                <p className="text-sm text-muted-foreground">{t('welcomeUser')}</p>
                             </div>
                         </div>
 
                         <div className="flex items-center space-x-2">
+                            <LanguageSelector />
                             <ThemeToggle />
                             <Button onClick={handleLogout} variant="outline" className="btn-secondary">
                                 <LogOut className="w-4 h-4 mr-2" />

@@ -1,28 +1,31 @@
 import { ShoppingCart, Headphones, UserCheck } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const UseCases = () => {
+  const { t } = useLanguage();
+
   const useCases = [
     {
       icon: ShoppingCart,
-      title: 'E-commerce',
-      description: 'From clothing stores to gadget shops',
-      features: ['Product recommendations', 'Order tracking', 'Payment processing', 'Inventory alerts'],
+      title: t('ecommerce'),
+      description: t('ecommerceDesc'),
+      features: [t('productRecommendations'), t('orderTracking'), t('paymentProcessing'), t('inventoryAlerts')],
       gradient: 'from-[hsl(var(--brand-orange))] to-[hsl(var(--brand-violet))]',
       dotColor: 'bg-[hsl(var(--brand-orange))]'
     },
     {
       icon: Headphones,
-      title: 'Customer Support',
-      description: 'Reduce wait times and increase satisfaction',
-      features: ['24/7 availability', 'Issue resolution', 'Ticket creation', 'Knowledge base'],
+      title: t('customerSupport'),
+      description: t('customerSupportDesc'),
+      features: [t('availability247'), t('issueResolution'), t('ticketCreation'), t('knowledgeBase')],
       gradient: 'from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-violet))]',
       dotColor: 'bg-[hsl(var(--brand-blue))]'
     },
     {
       icon: UserCheck,
-      title: 'Lead Generation',
-      description: 'Capture more potential buyers automatically',
-      features: ['Lead scoring', 'Appointment booking', 'Follow-up campaigns', 'CRM integration'],
+      title: t('leadGeneration'),
+      description: t('leadGenerationDesc'),
+      features: [t('leadScoring'), t('appointmentBooking'), t('followUpCampaigns'), t('crmIntegration')],
       gradient: 'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-blue))]',
       dotColor: 'bg-[hsl(var(--brand-green))]'
     }
@@ -33,11 +36,10 @@ const UseCases = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Perfect for <span className="text-gradient">Every Business</span>
+            {t('useCasesTitle')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Whether you're selling products, providing support, or generating leads, 
-            Bleam adapts to your business needs
+            {t('useCasesSubtitle')}
           </p>
         </div>
 

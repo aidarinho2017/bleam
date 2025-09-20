@@ -1,51 +1,54 @@
 import { Button } from '@/components/ui/button';
 import { Check, Zap, Crown, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Pricing = () => {
+  const { t } = useLanguage();
+
   const plans = [
     {
-      name: 'Free Trial',
+      name: t('freeTrialPlan'),
       price: 'Free',
-      description: 'Try core features. No credit card required.',
+      description: t('freeTrialDesc'),
       features: [
-        'Quick start in minutes',
-        'Sample templates',
-        'Cancel anytime'
+        t('quickStart'),
+        t('sampleTemplates'),
+        t('cancelAnytimePricing')
       ],
       icon: Zap,
       popular: false,
-      cta: 'Start',
+      cta: t('startPricing'),
       link: '/login'
     },
     {
-      name: 'Bot',
+      name: t('botPlan'),
       price: 'from 10,000 тг',
-      description: 'Telegram/WhatsApp bot for your business',
+      description: t('botPlanDesc'),
       features: [
-        'AI responses 24/7',
-        'Connect to your data',
-        'Bookings & lead capture',
-        'Basic analytics'
+        t('aiResponses247'),
+        t('connectData'),
+        t('bookingsLeads'),
+        t('basicAnalytics')
       ],
       icon: Crown,
       popular: true,
-      cta: 'Leave a Request',
+      cta: t('leaveRequest'),
       link: '/contacts'
     },
     {
-      name: 'Bot + CRM',
+      name: t('botCrmPlan'),
       price: 'from 30,000 тг',
-      description: 'Full automation: chat + CRM insights',
+      description: t('botCrmDesc'),
       features: [
-        'Sales & inventory analytics',
-        'Loyalty programs & promos',
-        'Templates or custom build',
-        'Priority support'
+        t('salesInventory'),
+        t('loyaltyPrograms'),
+        t('templatesCustom'),
+        t('prioritySupport')
       ],
       icon: Building,
       popular: false,
-      cta: 'Leave a Request',
+      cta: t('leaveRequest'),
       link: '/contacts'
     }
   ];
@@ -55,10 +58,10 @@ const Pricing = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Simple, <span className="text-gradient">Transparent Pricing</span>
+            {t('pricingTitle')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the perfect plan for your business. Start free and upgrade as you grow.
+            {t('pricingSubtitle')}
           </p>
         </div>
 
@@ -75,9 +78,9 @@ const Pricing = () => {
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-gradient-to-r from-primary to-accent text-white px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
-                    </div>
+                  <div className="bg-gradient-to-r from-primary to-accent text-white px-4 py-1 rounded-full text-sm font-medium">
+                    {t('mostPopular')}
+                  </div>
                   </div>
                 )}
                 
@@ -123,7 +126,7 @@ const Pricing = () => {
         {/* Additional info */}
         <div className="text-center mt-12">
           <p className="text-sm text-muted-foreground">
-            All plans include free SSL, 99.9% uptime SLA, and no setup fees
+            {t('planFooter')}
           </p>
         </div>
       </div>

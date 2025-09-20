@@ -1,31 +1,34 @@
 import { Bot, Twitter, Linkedin, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   const footerLinks = {
     product: [
-      { label: 'Features', href: '#features' },
-      { label: 'Pricing', href: '#pricing' },
-      { label: 'Templates', href: '#' },
-      { label: 'Integrations', href: '#' }
+      { label: t('featuresFooter'), href: '#features' },
+      { label: t('pricingFooter'), href: '#pricing' },
+      { label: t('templates'), href: '#' },
+      { label: t('integrations'), href: '#' }
     ],
     company: [
-      { label: 'About Us', href: '#' },
-      { label: 'Blog', href: '#' },
-      { label: 'Careers', href: '#' },
-      { label: 'Contact', href: '#' }
+      { label: t('aboutUs'), href: '#' },
+      { label: t('blog'), href: '#' },
+      { label: t('careers'), href: '#' },
+      { label: t('contactFooter'), href: '#' }
     ],
     legal: [
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms of Service', href: '#' },
-      { label: 'Cookie Policy', href: '#' },
-      { label: 'GDPR', href: '#' }
+      { label: t('privacyPolicyFooter'), href: '#' },
+      { label: t('termsOfServiceFooter'), href: '#' },
+      { label: t('cookiePolicy'), href: '#' },
+      { label: t('gdpr'), href: '#' }
     ],
     support: [
-      { label: 'Help Center', href: '#' },
-      { label: 'API Docs', href: '#' },
-      { label: 'Status', href: '#' },
-      { label: 'Community', href: '#' }
+      { label: t('helpCenter'), href: '#' },
+      { label: t('apiDocs'), href: '#' },
+      { label: t('status'), href: '#' },
+      { label: t('community'), href: '#' }
     ]
   };
 
@@ -49,8 +52,7 @@ const Footer = () => {
             </Link>
             
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Create intelligent chatbots for Telegram and WhatsApp that automate 
-              customer communication and boost sales 24/7.
+              {t('footerDescription')}
             </p>
             
             <div className="flex space-x-4">
@@ -72,7 +74,7 @@ const Footer = () => {
 
           {/* Links sections */}
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Product</h3>
+            <h3 className="font-semibold text-foreground mb-4">{t('productSection')}</h3>
             <ul className="space-y-2">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
@@ -88,7 +90,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Company</h3>
+            <h3 className="font-semibold text-foreground mb-4">{t('companySection')}</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
@@ -104,7 +106,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Legal</h3>
+            <h3 className="font-semibold text-foreground mb-4">{t('legalSection')}</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
@@ -120,7 +122,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Support</h3>
+            <h3 className="font-semibold text-foreground mb-4">{t('supportSection')}</h3>
             <ul className="space-y-2">
               {footerLinks.support.map((link) => (
                 <li key={link.label}>
@@ -139,11 +141,11 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm">
-            © 2024 Bleam. All rights reserved.
+            {t('allRightsReserved')}
           </p>
           
           <p className="text-muted-foreground text-sm mt-4 md:mt-0">
-            Made with ❤️ for better customer communication
+            {t('madeWithLove')}
           </p>
         </div>
       </div>

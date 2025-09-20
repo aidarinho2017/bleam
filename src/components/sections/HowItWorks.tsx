@@ -1,6 +1,8 @@
 import { UserPlus, Settings, Rocket } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const HowItWorks = () => {
+  const { t } = useLanguage();
   const steps = [
     {
       icon: UserPlus,
@@ -39,10 +41,10 @@ const HowItWorks = () => {
         {/* CRM Flow - vertical timeline style (different from ChatBot) */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            How it Works — <span className="text-gradient">CRM</span>
+            {t('howItWorksTitle')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Build relationships and make smarter decisions.
+            {t('howItWorksSubtitle')}
           </p>
         </div>
 
@@ -51,9 +53,9 @@ const HowItWorks = () => {
           <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-accent opacity-40" />
 
           {[
-            { icon: UserPlus, title: 'Choose a template or request a custom one', description: 'Get started fast', step: '01' },
-            { icon: Settings, title: 'Build customer relationships and analyze sales data', description: 'Everything in one place', step: '02' },
-            { icon: Rocket, title: 'Earn more with better decisions and repeat clients', description: 'Grow revenue sustainably', step: '03' }
+            { icon: UserPlus, title: t('step1Title'), description: t('step1Description'), step: '01' },
+            { icon: Settings, title: t('step2Title'), description: t('step2Description'), step: '02' },
+            { icon: Rocket, title: t('step3Title'), description: t('step3Description'), step: '03' }
           ].map((s, index) => {
             const Icon = s.icon;
             return (

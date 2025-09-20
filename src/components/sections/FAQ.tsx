@@ -1,25 +1,27 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(0);
+    const { t } = useLanguage();
 
     const faqs = [
         {
-            question: 'How long does setup take?',
-            answer: 'Most users have their first bot running within 5 minutes. Our intuitive interface guides you through each step, and pre-built templates make it even faster.'
+            question: t('faqQuestion1'),
+            answer: t('faqAnswer1')
         },
         {
-            question: 'Do I need coding experience?',
-            answer: 'Not at all! Bleam is designed for everyone. Our drag-and-drop interface and pre-built templates mean you can create sophisticated bots without writing a single line of code.'
+            question: t('faqQuestion2'),
+            answer: t('faqAnswer2')
         },
         {
-            question: 'Which platforms do you support?',
-            answer: 'Currently we support Telegram and WhatsApp, with more platforms coming soon including Discord, Facebook Messenger, and custom web chat widgets.'
+            question: t('faqQuestion3'),
+            answer: t('faqAnswer3')
         },
         {
-            question: 'Can I customize the bot\'s responses?',
-            answer: 'Yes! You can fully customize your bot\'s personality, responses, and behavior. Train it with your specific business knowledge and adjust its tone to match your brand.'
+            question: t('faqQuestion4'),
+            answer: t('faqAnswer4')
         }
     ];
 
@@ -28,11 +30,10 @@ const FAQ = () => {
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                        Frequently Asked <span className="text-gradient">Questions</span>
+                        {t('faqTitle')}
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to know about Bleam. Can't find what you're looking for?
-                        Feel free to contact our support team.
+                        {t('faqSubtitle')}
                     </p>
                 </div>
 
