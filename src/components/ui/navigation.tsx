@@ -4,15 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Bot, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSelector from '@/components/ui/language-selector';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navItems = [
-    { href: '#features', label: 'Features' },
-    { href: '#pricing', label: 'Pricing' },
-    { href: '#about', label: 'About' },
+    { href: '#features', label: t('features') },
+    { href: '#pricing', label: t('pricing') },
+    { href: '#about', label: t('about') },
   ];
 
   const isHomePage = location.pathname === '/';
@@ -26,7 +29,7 @@ const Navigation = () => {
             <div className="p-2 rounded-lg bg-gradient-to-r from-primary to-accent group-hover:shadow-[var(--shadow-glow)] transition-all duration-300">
               <Bot className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-gradient">Bleam</span>
+            <span className="text-xl font-bold text-gradient">{t('company')}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -46,15 +49,16 @@ const Navigation = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSelector />
             <ThemeToggle />
             <Link to="/login">
               <Button variant="ghost" className="btn-ghost">
-                Login
+                {t('login')}
               </Button>
             </Link>
             <Link to="/register">
               <Button className="btn-primary">
-                Get Started
+                {t('getStarted')}
               </Button>
             </Link>
           </div>
@@ -86,17 +90,18 @@ const Navigation = () => {
               </div>
             )}
             <div className="flex flex-col space-y-2 px-4 pt-4 border-t border-border/50">
-              <div className="flex justify-center mb-2">
+              <div className="flex justify-center gap-2 mb-2">
+                <LanguageSelector />
                 <ThemeToggle />
               </div>
               <Link to="/login" onClick={() => setIsOpen(false)}>
                 <Button variant="ghost" className="w-full btn-ghost">
-                  Login
+                  {t('login')}
                 </Button>
               </Link>
               <Link to="/register" onClick={() => setIsOpen(false)}>
                 <Button className="w-full btn-primary">
-                  Get Started
+                  {t('getStarted')}
                 </Button>
               </Link>
             </div>

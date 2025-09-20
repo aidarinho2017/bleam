@@ -1,29 +1,32 @@
 import { Bot, DollarSign, BarChart3, Zap } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Features = () => {
+  const { t } = useLanguage();
+  
   const features = [
     {
       icon: Bot,
-      title: 'Instant AI Responses',
-      description: 'Answer customer questions instantly — even while you sleep. Our AI learns from your business to provide accurate, helpful responses 24/7',
+      title: t('instantAiResponses'),
+      description: t('instantAiDesc'),
       gradient: 'from-blue-500 to-cyan-500'
     },
     {
       icon: DollarSign,
-      title: 'Smart Sales Automation',
-      description: 'Increase sales with intelligent upselling bots that recommend products, handle objections, and close deals automatically',
+      title: t('smartSalesAutomation'),
+      description: t('smartSalesDesc'),
       gradient: 'from-green-500 to-emerald-500'
     },
     {
       icon: BarChart3,
-      title: 'Advanced Analytics',
-      description: 'Track conversations, monitor performance, and optimize your bots with detailed insights and conversion metrics',
+      title: t('advancedAnalytics'),
+      description: t('advancedAnalyticsDesc'),
       gradient: 'from-purple-500 to-pink-500'
     },
     {
       icon: Zap,
-      title: 'Easy Integration',
-      description: 'Connect to Telegram and WhatsApp in minutes. No coding required — just drag, drop, and deploy your bot',
+      title: t('easyIntegration'),
+      description: t('easyIntegrationDesc'),
       gradient: 'from-orange-500 to-red-500'
     }
   ];
@@ -33,11 +36,10 @@ const Features = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Why Choose <span className="text-gradient">Bleam?</span>
+            {t('whyChoose')} <span className="text-gradient">{t('company')}?</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to create, deploy, and scale intelligent chatbots 
-            that work around the clock
+            {t('whyChooseSubtitle')}
           </p>
         </div>
 
