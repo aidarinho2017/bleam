@@ -22,7 +22,6 @@ const Index = () => {
           canonical={window.location.href}
         />
         <Hero />
-        <WhyChatBots />
         <Features />
         <AdvantagesCRM />
         <HowItWorks />

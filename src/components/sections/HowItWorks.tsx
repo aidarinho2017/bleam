@@ -35,52 +35,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-12 md:py-20 bg-card/20">
-      <div className="container mx-auto px-4">
-        {/* ChatBot Flow - colorful card steps */}
-        <div className="relative overflow-hidden rounded-3xl border border-border/50 p-8 mb-20 bg-gradient-to-br from-primary/5 to-accent/5">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              How it Works — <span className="text-gradient">ChatBot</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Launch your assistant in three simple steps.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connection line */}
-            <div className="hidden md:block absolute top-20 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-primary to-accent opacity-30" />
-            {[
-              { icon: UserPlus, title: 'Create your account', description: 'Sign up in minutes', step: '01' },
-              { icon: Settings, title: 'Customize your bot in a simple interface', description: 'No tech skills needed', step: '02' },
-              { icon: Rocket, title: 'Launch — and let it work for you 24/7', description: 'Go live on Telegram & WhatsApp', step: '03' }
-            ].map((s, index) => {
-              const Icon = s.icon;
-              return (
-                <div
-                  key={s.title}
-                  className="relative text-center group animate-slide-up"
-                  style={{ animationDelay: `${index * 0.2}s` }}
-                >
-                  {/* Number badge */}
-                  <div className={`mx-auto mb-6 w-10 h-10 rounded-full bg-gradient-to-r ${stepColors[index % stepColors.length].grad} text-white flex items-center justify-center font-semibold shadow-[var(--shadow-glow)]`}>
-                    {s.step}
-                  </div>
-                  {/* Icon card */}
-                  <div className={`inline-flex p-6 rounded-2xl bg-gradient-to-r ${stepColors[index % stepColors.length].grad} text-white group-hover:shadow-[var(--shadow-glow)] group-hover:scale-105 transition-all duration-300`}>
-                    <Icon className="w-8 h-8 text-white transition-colors duration-300" />
-                  </div>
-                  <h3 className="text-xl font-semibold mt-4 mb-2 group-hover:text-gradient transition-all duration-300">
-                    {s.title}
-                  </h3>
-                  <p className="text-muted-foreground">{s.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
+    <div>
         {/* CRM Flow - vertical timeline style (different from ChatBot) */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -128,7 +83,6 @@ const HowItWorks = () => {
           })}
         </div>
       </div>
-    </section>
   );
 };
 
