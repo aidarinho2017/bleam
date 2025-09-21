@@ -532,7 +532,7 @@ export const translations = {
         aiModelUpdated: 'AI моделі жаңартылды',
         selectedModel: '{model} таңдалды',
         //Advantages
-        advantage: "артықшылықтары",
+        advantage: "Артықшылықтары",
         advantage1: 'Толық сату және тауар талдауы',
         advantage2: 'Тұтынушылармен жақсы қарым-қатынас',
         advantage3: 'Дайын және жеке шешімдер',
