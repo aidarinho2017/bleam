@@ -13,9 +13,9 @@ const LanguageSelector = () => {
   const { language, setLanguage, t } = useLanguage();
 
   const languages: { code: Language; name: string }[] = [
-    { code: 'en', name: t('english') },
-    { code: 'kk', name: t('kazakh') },
-    { code: 'ru', name: t('russian') },
+    { code: 'en', name: t('english')},
+    { code: 'kk', name: t('kazakh')},
+    { code: 'ru', name: t('russian')},
   ];
 
   const currentLanguage = languages.find(lang => lang.code === language);

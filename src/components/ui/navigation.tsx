@@ -13,9 +13,9 @@ const Navigation = () => {
   const { t } = useLanguage();
 
   const navItems = [
-    { href: '#features', label: t('features') },
-    { href: '#pricing', label: t('pricing') },
-    { href: '#about', label: t('about') },
+    { href: '#features', label: t('features')},
+    { href: '#pricing', label: t('pricing')},
+    { href: '#about', label: t('about')},
   ];
 
   const isHomePage = location.pathname === '/';

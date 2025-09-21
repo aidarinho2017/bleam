@@ -268,7 +268,7 @@ const Dashboard = () => {
             await botPlatformsAPI.selectAiModel(value);
             setAiModel(value);
             localStorage.setItem('ai_model_type', value);
-            toast({ title: t('aiModelUpdated'), description: t('selectedModel') });
+            toast({ title: t('aiModelUpdated'), description: t('selectedModel')});
         } catch (error: any) {
             toast({ title: t('error'), description: error.message, variant: 'destructive' });
         } finally {

@@ -84,12 +84,12 @@ const Register = () => {
     const passwordStrength = () => {
         const password = formData.password;
         if (password.length === 0) return { strength: 0, label: '' };
-        if (password.length < 6) return { strength: 1, label: t('passwordStrengthWeak') };
-        if (password.length < 8) return { strength: 2, label: t('passwordStrengthFair') };
+        if (password.length < 6) return { strength: 1, label: t('passwordStrengthWeak')};
+        if (password.length < 8) return { strength: 2, label: t('passwordStrengthFair')};
         if (password.length >= 8 && /[A-Z]/.test(password) && /[0-9]/.test(password)) {
-            return { strength: 3, label: t('passwordStrengthStrong') };
+            return { strength: 3, label: t('passwordStrengthStrong')};
         }
-        return { strength: 2, label: t('passwordStrengthFair') };
+        return { strength: 2, label: t('passwordStrengthFair')};
     };
 
     const { strength, label } = passwordStrength();

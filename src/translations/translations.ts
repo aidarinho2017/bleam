@@ -205,6 +205,16 @@ export const translations = {
         failedToStartBot: 'Failed to start bot. Please try again.',
         aiModelUpdated: 'AI model updated',
         selectedModel: 'Selected {model}',
+
+        //Advantages
+        advantage: "Advantages",
+        advantage1: 'Full sales & goods analytics',
+        advantage2: 'Better customer relationships',
+        advantage3: 'Ready-made custom solutions',
+        advantageDescription1: 'Track your stock, money flow, and sales in real-time.',
+        advantageDescription2: 'Run promotions, give bonuses, and build loyalty programs.',
+        advantageDescription3: 'Start fast with pre-made templates or get one tailored for your business.',
+
         // FAQ
         faqTitle: 'Frequently Asked Questions',
         faqSubtitle: 'Everything you need to know before getting started',
@@ -521,6 +531,15 @@ export const translations = {
         failedToStartBot: 'Ботты іске қосу сәтсіз аяқталды. Қайталап көріңіз.',
         aiModelUpdated: 'AI моделі жаңартылды',
         selectedModel: '{model} таңдалды',
+        //Advantages
+        advantage: "артықшылықтары",
+        advantage1: 'Толық сату және тауар талдауы',
+        advantage2: 'Тұтынушылармен жақсы қарым-қатынас',
+        advantage3: 'Дайын және жеке шешімдер',
+        advantageDescription1: 'Қоймаңызды, қаржы айналымыңызды және сатылымды нақты уақыт режимінде бақылаңыз.',
+        advantageDescription2: 'Акциялар жүргізіңіз, бонустар беріңіз және адалдық бағдарламаларын құрыңыз.',
+        advantageDescription3: 'Дайын үлгілермен тез бастаңыз немесе бизнесіңізге бейімделген шешім алыңыз.',
+
 
         // FAQ
         faqTitle: 'Жиі қойылатын сұрақтар',
@@ -840,11 +859,21 @@ export const translations = {
         aiModelUpdated: 'Модель ИИ обновлена',
         selectedModel: 'Выбрана {model}',
 
+        //Advantages
+        advantage: 'Преимущества',
+        advantage1: 'Полная аналитика продаж и товаров',
+        advantage2: 'Улучшенные отношения с клиентами',
+        advantage3: 'Готовые и индивидуальные решения',
+        advantageDescription1: 'Отслеживайте склад, денежный поток и продажи в режиме реального времени.',
+        advantageDescription2: 'Проводите акции, дарите бонусы и стройте программы лояльности.',
+        advantageDescription3: 'Начните быстро с готовых шаблонов или получите решение под ваш бизнес.',
+
+
         // FAQ
         faqTitle: 'Часто задаваемые вопросы',
         faqSubtitle: 'Все, что нужно знать перед началом работы',
         faqQuestion1: 'Сколько времени занимает настройка бота?',
-        faqAnswer1: 'Вы можете создать и запустить бота менее чем за 1 минуту — без программирования.',
+        faqAnswer1: 'Вы можете создать и запустить бота за 5 минут — без знаний программирования.',
         faqQuestion2: 'Могу ли я обучить бота своими данными?',
         faqAnswer2: 'Да, вы можете загрузить FAQ, документы или текстовые файлы, чтобы персонализировать знания бота.',
         faqQuestion3: 'Бот работает и в WhatsApp, и в Telegram?',

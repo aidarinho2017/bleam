@@ -1,22 +1,27 @@
 import { BarChart3, HeartHandshake, Layers } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const AdvantagesCRM = () => {
+    const { t } = useLanguage();
+    const header = {
+        main: t('advantage'),
+    }
   const items = [
     {
       icon: BarChart3,
-      title: 'Full sales & goods analytics',
-      description: 'Track your stock, money flow, and sales in real-time.',
+      title: t('advantage1'),
+      description: t('advantageDescription1'),
     },
     {
       icon: HeartHandshake,
-      title: 'Better customer relationships',
-      description: 'Run promotions, give bonuses, and build loyalty programs.',
+        title: t('advantage2'),
+      description: t('advantageDescription2'),
     },
     {
       icon: Layers,
-      title: 'Ready-made templates or custom solutions',
-      description: 'Start fast with pre-made templates or get one tailored for your business.',
-    },
+        title: t('advantage3'),
+      description: t('advantageDescription3'),
+    }
   ];
 
   return (
@@ -24,7 +29,7 @@ const AdvantagesCRM = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 id="advantages-crm-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Advantages — <span className="text-gradient">CRM</span>
+              {header.main} — <span className="text-gradient">CRM</span>
           </h2>
         </div>
 
