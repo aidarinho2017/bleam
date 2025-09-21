@@ -22,8 +22,8 @@ const Index = () => {
           canonical={window.location.href}
         />
         <Hero />
-        <Features />
         <AdvantagesCRM />
+          <Features />
         <HowItWorks />
         <UseCases />
         <Pricing />

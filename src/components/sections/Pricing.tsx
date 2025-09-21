@@ -9,7 +9,7 @@ const Pricing = () => {
   const plans = [
     {
       name: t('freeTrialPlan'),
-      price: 'Free',
+      price: t('freePrice'),
       description: t('freeTrialDesc'),
       features: [
         t('quickStart'),
@@ -23,7 +23,7 @@ const Pricing = () => {
     },
     {
       name: t('botPlan'),
-      price: 'from 10,000 тг',
+      price: t('basePrice'),
       description: t('botPlanDesc'),
       features: [
         t('aiResponses247'),
@@ -38,7 +38,7 @@ const Pricing = () => {
     },
     {
       name: t('botCrmPlan'),
-      price: 'from 30,000 тг',
+      price: t('premiumPrice'),
       description: t('botCrmDesc'),
       features: [
         t('salesInventory'),
